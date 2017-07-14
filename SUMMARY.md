@@ -5,4 +5,4 @@
   - [Write Ops](docs/api.md#write)
   - [Read Ops](docs/api.md#read)
 - [Examples](docs/examples.md)
-- [Related Dependencies](docs/api.md)
+- [Related Projects](docs/related.md)
