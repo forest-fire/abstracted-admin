@@ -8,7 +8,7 @@
 ## Basic Usage 
 Meant for backend nodejs micro-services which interact with Firebase's Admin API using a "service policy" to authenticate.
 
-```typescript
+```ts
 import DB from 'abstracted-admin';
 const db = new DB();
 // Get a list of records
