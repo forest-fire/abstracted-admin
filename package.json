@@ -1,0 +1,67 @@
+{
+  "name": "fireadmin",
+  "version": "0.5.0",
+  "description": "Helpful abstraction on the firebase admin API",
+  "license": "MIT",
+  "repository": "https://github.com/forest-fire/fireadmin",
+  "author": "Ken Snyder <ken@ken.net>",
+  "keywords": [
+    "firebase",
+    "typescript",
+    "nodejs",
+    "utility",
+    "admin"
+  ],
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "clean": "rimraf lib",
+    "lint": "tslint --force --format verbose \"src/**/*.ts\"",
+    "build": "npm run clean && npm run lint && echo Using TypeScript && tsc --version && tsc --pretty",
+    "test": "npm run build && mocha --compilers ts:ts-node/register --recursive 'test/**/*-spec.ts'",
+    "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
+    "watch": "npm run build -- --watch",
+    "watch:test": "npm run test -- --watch"
+  },
+  "dependencies": {
+    "common-types": "^1.1.0",
+    "firebase-admin": "^5.0.0",
+    "moment": "^2.18.1",
+    "typed-conversions": "^0.5.0"
+  },
+  "devDependencies": {
+    "@types/chai": "^3.0.0",
+    "@types/mocha": "^2.0.0",
+    "@types/node": "^6.0.0",
+    "chai": "^3.0.0",
+    "coveralls": "^2.0.0",
+    "mocha": "^3.0.0",
+    "nyc": "^10.0.0",
+    "rimraf": "^2.0.0",
+    "ts-node": "^3.0.0",
+    "tslint": "^5.0.0",
+    "typescript": "^2.0.0"
+  },
+  "engines": {
+    "node": ">=4.0.0"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "lib"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
+    "reporter": [],
+    "all": true
+  }
+}
