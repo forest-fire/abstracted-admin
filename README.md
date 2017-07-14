@@ -8,7 +8,7 @@
 ## Basic Usage 
 Meant for backend nodejs micro-services which interact with Firebase's Admin API using a "service policy" to authenticate.
 
-````typescript
+```typescript
 import DB from 'abstracted-admin';
 const db = new DB();
 // Get a list of records
@@ -19,7 +19,7 @@ const company: ICompany = {
   employees: 500
 }
 db.push<ICompany>('/companies', company);
-````
+```
 
 ### Authentication
 All of the Authentication is done transparently as soon as requests are made to the database. In order for this library to achieve this it will need the following environment variables set:
