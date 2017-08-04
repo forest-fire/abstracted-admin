@@ -41,6 +41,8 @@ export default class DB {
   private static isAuthorized: boolean = false;
   private static connection: firebase.database.Database;
   public auth: firebase.auth.Auth;
+  private mocking: boolean = false;
+  private _waitingForConnection: Array<() => void> = [];
 
   constructor(debugging = false) {
     this.connect(debugging);
@@ -49,12 +51,30 @@ export default class DB {
     firebase.database().goOnline();
     firebase.database().ref('.info/connected').on('value', (snap) => {
       DB.isConnected = snap.val();
+      this._waitingForConnection.forEach(cb => cb());
+      this._waitingForConnection = [];
     });
   }
 
   /** Get a DB reference for a given path in Firebase */
   public ref(path: string): firebase.database.Reference {
     return DB.connection.ref(path);
+  }
+
+  public async waitForConnection() {
+    if (DB.isConnected) {
+      return Promise.resolve();
+    }
+    return new Promise((resolve) => {
+      const cb = () => {
+        resolve();
+      };
+      this._waitingForConnection.push(cb);
+    });
+  }
+
+  public get isConnected() {
+    return DB.isConnected;
   }
 
   /** set a "value" in the database at a given path */
@@ -132,12 +152,12 @@ export default class DB {
   private connect(debugging: boolean = false): void {
     
     if (!DB.isAuthorized) {
-      if (!process.env['AWS_STAGE']) {
-        throw new Error('The AWS_STAGE variable was not set!');
-      }
+      // if (!process.env['AWS_STAGE']) {
+      //   throw new Error('The AWS_STAGE variable was not set!');
+      // }
       const serviceAcctEncoded = process.env['FIREBASE_SERVICE_ACCOUNT'];      
       if (!serviceAcctEncoded) {
-        throw new Error('Problem loading the credientials for Firebase admin API');
+        throw new Error('Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key.');
       }
       
       const serviceAccount: firebase.ServiceAccount = JSON.parse(
