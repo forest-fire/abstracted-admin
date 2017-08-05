@@ -27,6 +27,9 @@ All of the Authentication is done transparently as soon as requests are made to 
 - `FIREBASE_SERVICE_ACCOUNT` - this should be a URI-Encoded string of the JSON data which you exported at the time you created a Service Account on Google.
 - `FIREBASE_DATA_ROOT_URL` - comes from the Firebase console and dictates which DB to connect to
 
+### Mocking
+This library supports simple redirecting of all operations to the `firemock` (see related projects) mocking library and the "Mocking" section of the docs here to see usage examples. In cases where mocking is being used, authentication (and security rights for paths) are not supported.
+
 ## Documentation
 
 [Gitbook](https://forest-fire.gitbooks.io/abstracted-admin/content/)

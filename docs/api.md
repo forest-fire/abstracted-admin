@@ -23,6 +23,18 @@ const db = firebase.database();
 db.ref('/users').push(newUser);
 ```
 
+Of course because the library is using Typescript and the write operations are all _Generic Types_ we can be more explicit about the data we're setting:
+```js
+interface INameAndAge {
+    name: string;
+    age: number;
+}
+const db = firebase.database();
+db.push<INameAndAge>('/users', newUser);
+```
+
+Of course the return type of all the write operaitons is _void_ but by stating the type of the data you writing you'll get type-checking on the `newUser` variable that it conforms to the interface structure it expects. 
+
 ## Read Operations {#read}
 
 - `getSnapshot` - a shorthand for _ref(path)_ and _once('value')_ which returns a Firebase snapshot:

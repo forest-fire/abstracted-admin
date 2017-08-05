@@ -16,6 +16,10 @@
   dependencies:
     "@types/node" "*"
 
+"@types/lodash@^4.14.71":
+  version "4.14.71"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.71.tgz#0dc383f78981216ac76e2f2c3afd998e0450e4c1"
+
 "@types/mocha@^2.0.0":
   version "2.2.41"
   resolved "https://registry.yarnpkg.com/@types/mocha/-/mocha-2.2.41.tgz#e27cf0817153eb9f2713b2d3f6c68f1e1c3ca608"
@@ -524,7 +528,7 @@ find-up@^1.0.0, find-up@^1.1.2:
     path-exists "^2.0.0"
     pinkie-promise "^2.0.0"
 
-firebase-admin@^5.1.0:
+firebase-admin@^5.0.0, firebase-admin@^5.1.0:
   version "5.1.0"
   resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-5.1.0.tgz#48c8a67844d2319a2a49582bcd3c35534ab4f178"
   dependencies:
@@ -532,6 +536,19 @@ firebase-admin@^5.1.0:
     faye-websocket "0.9.3"
     jsonwebtoken "7.1.9"
     node-forge "0.7.1"
+
+firebase-key@^1.0.4:
+  version "1.0.4"
+  resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-1.0.4.tgz#d192aa1db38c612ea2d385351423d552a9569794"
+
+firemock@^0.9.1:
+  version "0.9.1"
+  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.9.1.tgz#f9fcecc3e11ea162f9c0587999e8b971673a3ba4"
+  dependencies:
+    common-types "^1.1.0"
+    firebase-admin "^5.0.0"
+    firebase-key "^1.0.4"
+    moment "^2.0.0"
 
 for-in@^1.0.1:
   version "1.0.2"
@@ -1043,7 +1060,7 @@ lodash.once@^4.0.0:
   version "4.1.1"
   resolved "https://registry.yarnpkg.com/lodash.once/-/lodash.once-4.1.1.tgz#0dd3971213c7c56df880977d504c88fb471a97ac"
 
-lodash@^4.2.0:
+lodash@^4.17.4, lodash@^4.2.0:
   version "4.17.4"
   resolved "https://registry.yarnpkg.com/lodash/-/lodash-4.17.4.tgz#78203a4d1c328ae1d86dca6460e369b57f4055ae"
 
@@ -1152,7 +1169,7 @@ mocha@^3.0.0:
     mkdirp "0.5.1"
     supports-color "3.1.2"
 
-moment@2.x.x, moment@^2.18.1:
+moment@2.x.x, moment@^2.0.0, moment@^2.18.1:
   version "2.18.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.18.1.tgz#c36193dd3ce1c2eed2adb7c802dbbc77a81b1c0f"
 

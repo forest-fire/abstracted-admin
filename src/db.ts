@@ -78,13 +78,13 @@ export default class DB {
   }
 
   /** set a "value" in the database at a given path */
-  public async set(path: string, value: any): Promise<void> {
+  public async set<T = any>(path: string, value: T): Promise<void> {
     return this.ref(path).set(value)
       .catch(e => this.handleError(e, 'set', `setting value @ "${path}"`));
   }
 
-  public async update<T = IDictionary>(path: string, value: T) {
-    return this.ref(path).update(value);
+  public async update<T = IDictionary>(path: string, value: Partial<T>) {
+    return this.ref(path).update(value as any);
   }
 
   public async remove(path: string, ignoreMissing = false): Promise<void> {
