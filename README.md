@@ -28,7 +28,7 @@ All of the Authentication is done transparently as soon as requests are made to 
 - `FIREBASE_DATA_ROOT_URL` - comes from the Firebase console and dictates which DB to connect to
 
 ### Mocking
-This library supports simple redirecting of all operations to the `firemock` (see related projects) mocking library and the "Mocking" section of the docs here to see usage examples. In cases where mocking is being used, authentication (and security rights for paths) are not supported.
+This library supports simple redirecting of all operations to the `firemock` (see [related projects](docs/related.md)) mocking library and the ["Mocking" section](docs/mocking.md) of the docs here to see usage examples. In cases where mocking is being used, authentication (and security rights for paths) are not supported.
 
 ## Documentation
 

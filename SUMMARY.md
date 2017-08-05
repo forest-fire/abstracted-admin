@@ -4,5 +4,5 @@
 - [API Surface](docs/api.md)
   - [Write Ops](docs/api.md#write)
   - [Read Ops](docs/api.md#read)
-- [Examples](docs/examples.md)
+- [Debugging & Mocking](docs/mocking.md)
 - [Related Projects](docs/related.md)

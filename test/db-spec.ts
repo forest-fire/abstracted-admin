@@ -183,3 +183,12 @@ describe('Other Operations', () => {
   });
 
 });
+
+describe('Mocking', () => {
+
+  it.skip('ref() returns a mock reference');
+  it.skip('getSnapshot() returns a mock snapshot');
+  it.skip('getValue() returns a value from mock DB');
+  it.skip('getRecord() returns a record from mock DB');
+
+});
