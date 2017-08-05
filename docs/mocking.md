@@ -35,6 +35,7 @@ However, if you are writing tests and want to _mock_ all your connections to the
     npm install firemock --save-dev
     # with yarn
     yarn add --dev firemock
+    ```
 
 2. Configure **db** instance:
 

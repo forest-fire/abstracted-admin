@@ -12,29 +12,29 @@ export enum FirebaseBoolean {
 export type Snapshot = firebase.database.DataSnapshot;
 export type Reference = firebase.database.Reference;
 
-const findRecord = {
+// const findRecord = {
 
-  first: (hash: IDictionary) => {
-    const exists = Object.keys(hash).length > 0;
-    return exists
-      ? hash[Object.keys(hash)[0]]
-      : undefined;
-  },
+//   first: (hash: IDictionary) => {
+//     const exists = Object.keys(hash).length > 0;
+//     return exists
+//       ? hash[Object.keys(hash)[0]]
+//       : undefined;
+//   },
 
-  mostRecent: (hash: IDictionary) => {
-    const exists = Object.keys(hash).length > 0;
-    return exists
-      ? hash[Object.keys(hash).sort()[0]]
-      : undefined;
-  },
+//   mostRecent: (hash: IDictionary) => {
+//     const exists = Object.keys(hash).length > 0;
+//     return exists
+//       ? hash[Object.keys(hash).sort()[0]]
+//       : undefined;
+//   },
 
-  oldest: (hash: IDictionary) => {
-    const exists = Object.keys(hash).length > 0;
-    return exists
-      ? hash[Object.keys(hash).sort().reverse()[0]]
-      : undefined;
-  },
-};
+//   oldest: (hash: IDictionary) => {
+//     const exists = Object.keys(hash).length > 0;
+//     return exists
+//       ? hash[Object.keys(hash).sort().reverse()[0]]
+//       : undefined;
+//   },
+// };
 
 export default class DB {
   private static isConnected: boolean = false;
@@ -43,7 +43,9 @@ export default class DB {
   public auth: firebase.auth.Auth;
   private mocking: boolean = false;
   private _waitingForConnection: Array<() => void> = [];
-
+  private _onConnected: Array<() => void> = [];
+  private _onDisconnected: Array<() => void> = [];
+  
   constructor(debugging = false) {
     this.connect(debugging);
     this.auth = firebase.auth();
@@ -51,8 +53,15 @@ export default class DB {
     firebase.database().goOnline();
     firebase.database().ref('.info/connected').on('value', (snap) => {
       DB.isConnected = snap.val();
+      // cycle through temporary clients
       this._waitingForConnection.forEach(cb => cb());
       this._waitingForConnection = [];
+      // call active listeners
+      if (DB.isConnected) {
+        this._onConnected.forEach(cb => cb());
+      } else {
+        this._onDisconnected.forEach(cb => cb());
+      }
     });
   }
 

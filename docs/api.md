@@ -62,7 +62,16 @@ Of course the return type of all the write operaitons is _void_ but by stating t
     console.log(user); // => { id: "-Kp23423ddkf", name: "Bob Barker", ... }
     ```
 
-# Other Operations
+## Other Operations {#other}
 
 - `ref` - passes back a Firebase **ref** object at the path specified. This opens up doing any sort of query you may want to do.
 - `exists` - tests if a given path in the database exists (aka, is truthy)
+
+
+## Events
+
+When using **abstracted-admin** the following events are available for subscription:
+
+- `void waitingForConnnect(callback)` - For when you want a one-time notification when the Database's connection has been established. The callback function will only ever be called once.
+- `id:string onConnected(callback)` - If you want to be notified at ANY point that the database connects (initial and subsequent reconnects). This callback will remain active until _removeConnected( id );_ is called.
+- `id:string onDisconnected(callback)` - If you want to be notified at ANY point that the database connects (initial and subsequent reconnects). This callback will remain active until _removeDisconnected( id );_ is called.
