@@ -27,7 +27,6 @@ describe('Connecting to Database', () => {
     await db.waitForConnection();
     expect(db.isConnected).to.equal(true);
   });
-
 });
 
 describe('Read operations', () => {
@@ -84,7 +83,7 @@ describe('Read operations', () => {
 });
 
 describe('Write Operations', () => {
-  helpers.setupEnv();
+  helpers.setupEnv(); 
   const db = new DB();
   afterEach(async () => {
     await db.remove('scratch');
@@ -92,8 +91,8 @@ describe('Write Operations', () => {
 
   interface INameAndAge {
     name: string;
-    age: number;
-  } 
+    age: number; 
+  }
 
   it('push() variables into database', async () => {
     await db.push<INameAndAge>('scratch/pushed', {
@@ -181,14 +180,25 @@ describe('Other Operations', () => {
     exists = await db.exists('/scratch/existance');
     expect(exists).to.equal(false);
   });
+});
 
+describe('Debugging', () => {
+  it.skip('"debugging = true" results in logging to STDOUT');
+  it.skip('"debugging = callback" sends results to callback');
 });
 
 describe('Mocking', () => {
-
   it.skip('ref() returns a mock reference');
   it.skip('getSnapshot() returns a mock snapshot');
   it.skip('getValue() returns a value from mock DB');
   it.skip('getRecord() returns a record from mock DB');
+  it.skip('set() sets to the mock DB');
+  it.skip('update() updates the mock DB');
+  it.skip('push() pushes records into the mock DB');
+});
 
+describe('Events', () => {
+  it.skip('waitForConnection calls back on connect and cleans up after connection established');
+  it.skip('onConnect calls back on connection and continues to listen');
+  it.skip('onDisconnect calls back on disconnection and continues to listen');
 });

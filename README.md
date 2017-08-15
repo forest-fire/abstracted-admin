@@ -2,7 +2,7 @@
 [![Coverage Status](https://coveralls.io/repos/github/forest-fre/abstracted-admin/badge.svg?branch=master)](https://coveralls.io/github/forest-fre/abstracted-admin?branch=master)
 [![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
 
-# Abstracted Admin
+![ ](./docs/images/abstracted-admin.jpg)
 > A minimal abstraction over the Firebase ADMIN API
 
 ## Basic Usage 
@@ -28,7 +28,7 @@ All of the Authentication is done transparently as soon as requests are made to 
 - `FIREBASE_DATA_ROOT_URL` - comes from the Firebase console and dictates which DB to connect to
 
 ### Mocking
-This library supports simple redirecting of all operations to the `firemock` (see [related projects](docs/related.md)) mocking library and the ["Mocking" section](docs/mocking.md) of the docs here to see usage examples. In cases where mocking is being used, authentication (and security rights for paths) are not supported.
+This library supports simple redirecting of all operations to the `firemock` mocking library; see [related projects](docs/related.md)) and the ["Mocking" section](docs/mocking.md) of the docs here for more details. In cases where mocking is being used, authentication (and security rights for paths) are not supported and therefore the above ENV variables are not required.
 
 ## Documentation
 

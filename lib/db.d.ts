@@ -6,14 +6,27 @@ export declare enum FirebaseBoolean {
 }
 export declare type Snapshot = firebase.database.DataSnapshot;
 export declare type Reference = firebase.database.Reference;
+export interface IFirebaseConfig {
+    debugging?: boolean;
+    mocking?: boolean;
+}
+export interface IFirebaseListener {
+    id: string;
+    cb: (db: DB) => void;
+}
 export default class DB {
     private static isConnected;
     private static isAuthorized;
     private static connection;
     auth: firebase.auth.Auth;
     private mocking;
+    private _mock;
     private _waitingForConnection;
-    constructor(debugging?: boolean);
+    private _onConnected;
+    private _onDisconnected;
+    private _debugging;
+    private _mocking;
+    constructor(config?: IFirebaseConfig);
     ref(path: string): firebase.database.Reference;
     waitForConnection(): Promise<void | {}>;
     readonly isConnected: boolean;
@@ -27,4 +40,5 @@ export default class DB {
     exists(path: string): Promise<boolean>;
     private handleError(e, name, message?);
     private connect(debugging?);
+    private readonly mock;
 }

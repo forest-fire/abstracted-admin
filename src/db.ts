@@ -3,38 +3,25 @@ import { IDictionary } from 'common-types';
 import * as convert from 'typed-conversions';
 import moment = require('moment');
 import * as process from 'process';
+import { Mock, Reference } from 'firemock';
 
 export enum FirebaseBoolean {
-  true = 1, 
-  false = 0 
+  true = 1,
+  false = 0
 }
 
 export type Snapshot = firebase.database.DataSnapshot;
 export type Reference = firebase.database.Reference;
 
-// const findRecord = {
+export interface IFirebaseConfig {
+  debugging?: boolean;
+  mocking?: boolean;
+}
 
-//   first: (hash: IDictionary) => {
-//     const exists = Object.keys(hash).length > 0;
-//     return exists
-//       ? hash[Object.keys(hash)[0]]
-//       : undefined;
-//   },
-
-//   mostRecent: (hash: IDictionary) => {
-//     const exists = Object.keys(hash).length > 0;
-//     return exists
-//       ? hash[Object.keys(hash).sort()[0]]
-//       : undefined;
-//   },
-
-//   oldest: (hash: IDictionary) => {
-//     const exists = Object.keys(hash).length > 0;
-//     return exists
-//       ? hash[Object.keys(hash).sort().reverse()[0]]
-//       : undefined;
-//   },
-// };
+export interface IFirebaseListener {
+  id: string;
+  cb: (db: DB) => void;
+}
 
 export default class DB {
   private static isConnected: boolean = false;
@@ -42,32 +29,40 @@ export default class DB {
   private static connection: firebase.database.Database;
   public auth: firebase.auth.Auth;
   private mocking: boolean = false;
+  private _mock: Mock;
   private _waitingForConnection: Array<() => void> = [];
-  private _onConnected: Array<() => void> = [];
-  private _onDisconnected: Array<() => void> = [];
-  
-  constructor(debugging = false) {
-    this.connect(debugging);
-    this.auth = firebase.auth();
-    DB.connection = firebase.database();
-    firebase.database().goOnline();
-    firebase.database().ref('.info/connected').on('value', (snap) => {
-      DB.isConnected = snap.val();
-      // cycle through temporary clients
-      this._waitingForConnection.forEach(cb => cb());
-      this._waitingForConnection = [];
-      // call active listeners
-      if (DB.isConnected) {
-        this._onConnected.forEach(cb => cb());
-      } else {
-        this._onDisconnected.forEach(cb => cb());
-      }
-    });
+  private _onConnected: IFirebaseListener[] = [];
+  private _onDisconnected: IFirebaseListener[] = [];
+  private _debugging: boolean = false;
+  private _mocking: boolean = false;
+
+  constructor(config: IFirebaseConfig = {}) {
+    if (config.mocking) {
+      this.mocking = true;
+    } else {
+      this.connect(config.debugging);
+      DB.connection = firebase.database();
+      firebase.database().goOnline();
+      firebase.database().ref('.info/connected').on('value', (snap) => {
+        DB.isConnected = snap.val();
+        // cycle through temporary clients
+        this._waitingForConnection.forEach(cb => cb());
+        this._waitingForConnection = [];
+        // call active listeners
+        if (DB.isConnected) {
+          this._onConnected.forEach(listener => listener.cb(this));
+        } else {
+          this._onDisconnected.forEach(listener => listener.cb(this));
+        }
+      });
+    }
   }
 
   /** Get a DB reference for a given path in Firebase */
-  public ref(path: string): firebase.database.Reference {
-    return DB.connection.ref(path);
+  public ref(path: string) {
+    return this._mocking
+      ? this.mock.ref(path) as Reference
+      : DB.connection.ref(path) as firebase.database.Reference;
   }
 
   public async waitForConnection() {
@@ -97,17 +92,17 @@ export default class DB {
   }
 
   public async remove(path: string, ignoreMissing = false): Promise<void> {
-    const ref = this.ref(path); 
-    
+    const ref = this.ref(path);
+
     return ref.remove()
       .catch(e => {
         if (ignoreMissing && e.message.indexOf('key is not defined') !== -1) {
           return Promise.resolve();
         }
-         
+
         this.handleError(
-          e, 
-          'remove', 
+          e,
+          'remove',
           `attempt to remove ${path} failed: `
         );
       });
@@ -125,18 +120,18 @@ export default class DB {
 
   /**
    * Gets a snapshot from a given path in the DB
-   * and converts it to a JS object where the key 
-   * is converted to be the "id" property of the 
+   * and converts it to a JS object where the key
+   * is converted to be the "id" property of the
    * object.
    */
   public async getRecord<T = any>(path: string): Promise<T> {
     return this.getSnapshot(path)
-      .then(snap => convert.snapshotToHash(snap) as T);
+      .then(snap => convert.snapshotToHash<T>(snap, 'id'));
   }
 
-  /** 
-   * Pushes a value (typically a hash) under a given path in the 
-   * database but allowing Firebase to insert a unique "push key" 
+  /**
+   * Pushes a value (typically a hash) under a given path in the
+   * database but allowing Firebase to insert a unique "push key"
    * to ensure the value is placed into a Dictionary/Hash structure
    * of the form of "/{path}/{pushkey}/{value}"
    */
@@ -159,26 +154,23 @@ export default class DB {
   }
 
   private connect(debugging: boolean = false): void {
-    
+
     if (!DB.isAuthorized) {
-      // if (!process.env['AWS_STAGE']) {
-      //   throw new Error('The AWS_STAGE variable was not set!');
-      // }
-      const serviceAcctEncoded = process.env['FIREBASE_SERVICE_ACCOUNT'];      
+      const serviceAcctEncoded = process.env['FIREBASE_SERVICE_ACCOUNT'];
       if (!serviceAcctEncoded) {
         throw new Error('Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key.');
       }
-      
+
       const serviceAccount: firebase.ServiceAccount = JSON.parse(
         Buffer
           .from(process.env['FIREBASE_SERVICE_ACCOUNT'], 'base64')
           .toString()
       );
-        
+
       console.log(
         `Connecting to Firebase: [${process.env['FIREBASE_DATA_ROOT_URL']}]`
       );
-      try { 
+      try {
         firebase.initializeApp({
           credential: firebase.credential.cert(serviceAccount),
           databaseURL: process.env['FIREBASE_DATA_ROOT_URL']
@@ -194,14 +186,20 @@ export default class DB {
           throw new Error(err);
         }
       }
-    } 
+    }
 
     if (debugging) {
-      console.log('Firebase debugging enabled');
-      
       firebase.database.enableLogging((message) => {
         console.log("[FIREBASE]", message);
       });
     }
+  }
+
+  private get mock() {
+    if (!this._mock) {
+      this._mock = new Mock();
+    }
+
+    return this._mock;
   }
 }

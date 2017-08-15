@@ -88,3 +88,7 @@ export function valuesOf<T = any>(listOf: IDictionary<T>, property: string) {
     return item[property];
   });
 }
+
+export function length(listOf: IDictionary) {
+  return listOf ? Object.keys(listOf).length : 0;
+}
