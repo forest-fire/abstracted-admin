@@ -3,7 +3,7 @@ import { IDictionary } from 'common-types';
 import * as convert from 'typed-conversions';
 import moment = require('moment');
 import * as process from 'process';
-import { Mock, Reference } from 'firemock';
+import { Mock, Reference, resetDatabase } from 'firemock';
 
 export enum FirebaseBoolean {
   true = 1,
@@ -38,7 +38,7 @@ export default class DB {
 
   constructor(config: IFirebaseConfig = {}) {
     if (config.mocking) {
-      this.mocking = true;
+      this._mocking = true;
     } else {
       this.connect(config.debugging);
       DB.connection = firebase.database();
@@ -63,6 +63,19 @@ export default class DB {
     return this._mocking
       ? this.mock.ref(path) as Reference
       : DB.connection.ref(path) as firebase.database.Reference;
+  }
+
+  public get mock() {
+    if (!this._mocking) {
+      throw new Error('You can not mock the database without setting mocking in the constructor');
+    }
+
+    if (!this._mock) {
+      this._mock = new Mock();
+      resetDatabase();
+    }
+
+    return this._mock;
   }
 
   public async waitForConnection() {
@@ -120,13 +133,27 @@ export default class DB {
 
   /**
    * Gets a snapshot from a given path in the DB
-   * and converts it to a JS object where the key
-   * is converted to be the "id" property of the
-   * object.
+   * and converts it to a JS object where the snapshot's key
+   * is included as part of the record (as 'id' by default)
    */
-  public async getRecord<T = any>(path: string): Promise<T> {
+  public async getRecord<T = any>(path: string, idProp = 'id'): Promise<T> {
     return this.getSnapshot(path)
-      .then(snap => convert.snapshotToHash<T>(snap, 'id'));
+      .then(snap => {
+        let object = snap.val();
+
+        if (typeof object !== 'object') {
+          object = { value: snap.val() };
+        }
+
+        return { ...object, ...{ [idProp]: snap.key } };
+      });
+  }
+
+  public async getRecords<T = any[]>(path: string, idProp = 'id'): Promise<T[]> {
+    return this.getSnapshot(path)
+      .then(snap => {
+        return convert.snapshotToArray<T>(snap, idProp);
+      });
   }
 
   /**
@@ -193,13 +220,5 @@ export default class DB {
         console.log("[FIREBASE]", message);
       });
     }
-  }
-
-  private get mock() {
-    if (!this._mock) {
-      this._mock = new Mock();
-    }
-
-    return this._mock;
   }
 }

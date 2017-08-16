@@ -37,7 +37,7 @@ Of course the return type of all the write operaitons is _void_ but by stating t
 
 ## Read Operations {#read}
 
-- `getSnapshot` - a shorthand for _ref(path)_ and _once('value')_ which returns a Firebase snapshot:
+- `getSnapshot(path)` - a shorthand for _ref(path)_ and _once('value')_ which returns a Firebase snapshot:
 
     ```js
     const db = new DB();
@@ -46,7 +46,7 @@ Of course the return type of all the write operaitons is _void_ but by stating t
 
     Of course you can use the _async/await_ style syntax, or if you prefer just the more standards Promise-based _thenable_ syntax.
 
-- `getValue` - similar to _getSnapshot_ but the snapshot's value is returned:
+- `getValue(path)` - similar to _getSnapshot_ but the snapshot's value is returned:
 
     ```js
     const db = new DB();
@@ -54,13 +54,15 @@ Of course the return type of all the write operaitons is _void_ but by stating t
     const users = await db.getValue<IDictionary<IUser>>('/users');
     ```
 
-- `getRecord` - takes both the snapshot's `val()` and `key` and combines into a JS Object:
+- `getRecord(path, [idProp])` - takes both the snapshot's `val()` and `key` and combines into a JS Object:
 
     ```js
     const db = new DB();
     const user = await db.getRecord<IUser>('/users/-Kp23423ddkf');
     console.log(user); // => { id: "-Kp23423ddkf", name: "Bob Barker", ... }
     ```
+
+- `getRecords(path, [idProp])` - when pointed Firebase list of records (aka, a snapshot in form of a hash) it will return a JS array where each record's _key_ is by default "id".
 
 ## Other Operations {#other}
 
