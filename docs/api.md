@@ -33,7 +33,7 @@ const db = firebase.database();
 db.push<INameAndAge>('/users', newUser);
 ```
 
-Of course the return type of all the write operaitons is _void_ but by stating the type of the data you writing you'll get type-checking on the `newUser` variable that it conforms to the interface structure it expects. 
+Now the type of the data you writing will be type-checked statically. 
 
 ## Read Operations {#read}
 
@@ -46,7 +46,7 @@ Of course the return type of all the write operaitons is _void_ but by stating t
     const snapshot: DataSnapshot = await db.getSnapshot('/users/-Kp23423ddkf');
     ```
 
-    Of course you can use the _async/await_ style syntax, or if you prefer just the more standards Promise-based _thenable_ syntax.
+    You can use the _async/await_ style syntax, or if you prefer just the more traditional Promise-based _thenable_ syntax.
 
 - `getValue(path)` 
 

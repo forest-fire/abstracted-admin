@@ -4,45 +4,35 @@
 
 Firebase provides a debugging facility that can be turned on (it's off by default). When turned on it will log all connections and state changes to the firebase client. In order to get this information sent to STDOUT you need specify this when you instantiate an instance:
 
-```js
+```ts
 const db = new DB({ debugging: true });
 ```
 
-If you'd prefer to configure with a callback you can instead do what you like whenever this information is made available:
+If you'd prefer to configure a callback which is passed the debugging messages you can do that by:
 
-```js
-const callback = (info) => { /** */ };
+```ts
+const callback: DebuggingCallback = (message) => { /** */ };
 const db = new DB({ debugging: callback });
 ```
 
 ## Mocking
 
-All database _read_ and _write_ operations by default go against the configured Firebase database where the configuration is set by the following ENV variables:
+When you instantiate an instance of **abstracted-admin** you can choose to connect to a _mocked_ database instead of the real one. You do this by passing in the following configuration:
 
-- `FIREBASE_SERVICE_ACCOUNT` - this should be a URI-Encoded string of the JSON data which you exported at the time you created a Service Account on Google.
-- `FIREBASE_DATA_ROOT_URL` - comes from the Firebase console and dictates which DB to connect to
+```ts
+const db = new DB({ mocking: true });
+```
 
-However, if you are writing tests and want to _mock_ all your connections to the database, this is made very easy when using **abstracted-admin**:
+At this point you can leverage the API provided by the `firemock` library off of the `.mock` property. So for instance, if you wanted to setup 10 person records you could state:
 
-### Configuring Mocking
+```ts
+const db = new DB({ mocking: true });
+db.mock.addSchema('person', personMockGenerator);
+db.mock.queueSchema('person', 10).generate();
+```
 
-1. Install `firemock`:
+Now the mock database that **abstracted-admin** is pointing at has 10 people records. To query those records is no different than a non-mocked database:
 
-    In your project's root install the `firemock` library:
-
-    ```sh
-    # with npm
-    npm install firemock --save-dev
-    # with yarn
-    yarn add --dev firemock
-    ```
-
-2. Configure **db** instance:
-
-    When you instantiate your **db** instance you must pass in the configuration hash of `{ mocking: true }`:
-
-    ```js
-    const db = new DB({ mocking: true });
-    ```
-
-That's it ... your **db** instance will now call the mock database instead of using the real firebase connection.
+```ts
+const people = await db.getRecords('/people');
+``` 
