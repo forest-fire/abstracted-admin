@@ -7,8 +7,9 @@ export declare enum FirebaseBoolean {
 }
 export declare type Snapshot = firebase.database.DataSnapshot;
 export declare type Reference = firebase.database.Reference;
+export declare type DebuggingCallback = (message: string) => void;
 export interface IFirebaseConfig {
-    debugging?: boolean;
+    debugging?: boolean | DebuggingCallback;
     mocking?: boolean;
 }
 export interface IFirebaseListener {

@@ -12,9 +12,9 @@ export enum FirebaseBoolean {
 
 export type Snapshot = firebase.database.DataSnapshot;
 export type Reference = firebase.database.Reference;
-
+export type DebuggingCallback = (message: string) => void;
 export interface IFirebaseConfig {
-  debugging?: boolean;
+  debugging?: boolean | DebuggingCallback;
   mocking?: boolean;
 }
 
@@ -180,7 +180,7 @@ export default class DB {
       });
   }
 
-  private connect(debugging: boolean = false): void {
+  private connect(debugging: boolean | DebuggingCallback = false): void {
 
     if (!DB.isAuthorized) {
       const serviceAcctEncoded = process.env['FIREBASE_SERVICE_ACCOUNT'];
@@ -193,10 +193,10 @@ export default class DB {
           .from(process.env['FIREBASE_SERVICE_ACCOUNT'], 'base64')
           .toString()
       );
-
       console.log(
         `Connecting to Firebase: [${process.env['FIREBASE_DATA_ROOT_URL']}]`
       );
+
       try {
         firebase.initializeApp({
           credential: firebase.credential.cert(serviceAccount),
@@ -216,9 +216,10 @@ export default class DB {
     }
 
     if (debugging) {
-      firebase.database.enableLogging((message) => {
-        console.log("[FIREBASE]", message);
-      });
+      firebase.database.enableLogging(typeof debugging === 'function'
+        ? (message: string) => debugging(message)
+        : (message: string) => console.log("[FIREBASE]", message)
+      );
     }
   }
 }
