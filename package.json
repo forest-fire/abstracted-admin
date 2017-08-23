@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.0.2",
+  "version": "0.1.0",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/fireadmin",
@@ -15,8 +15,8 @@
   "files": [
     "lib"
   ],
-  "main": "lib/index.js",
-  "typings": "lib/index.d.ts",
+  "main": "lib/db.js",
+  "typings": "lib/db.d.ts",
   "scripts": {
     "clean": "rimraf lib",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
