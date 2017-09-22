@@ -149,7 +149,7 @@ export default class DB {
       });
   }
 
-  public async getRecords<T = any[]>(path: string, idProp = 'id'): Promise<T[]> {
+  public async getList<T = any[]>(path: string, idProp = 'id'): Promise<T[]> {
     return this.getSnapshot(path)
       .then(snap => {
         return convert.snapshotToArray<T>(snap, idProp);

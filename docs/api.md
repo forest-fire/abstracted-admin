@@ -68,13 +68,13 @@ Now the type of the data you writing will be type-checked statically.
     console.log(user); // => { id: "-Kp23423ddkf", name: "Bob Barker", ... }
     ```
 
-- `getRecords(path, [idProp])` 
+- `getList(path, [idProp])` 
 
-    when pointed Firebase list of records (aka, a snapshot in form of a hash) it will return a JS array where each record's _key_ is by default "id".
+    get a list of records (aka, a snapshot in form of a hash) it will return a JS array where each record's _key_ is by default "id".
 
     ```js
     const db = new DB();
-    const users = await db.getRecords<IUser>('/users');
+    const users = await db.getList<IUser>('/users');
     console.log(user); // => [ {id: '-Kp23423ddkf', name: 'John' }, {...}, {...} ]
     ```
 
