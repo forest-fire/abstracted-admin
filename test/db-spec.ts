@@ -1,5 +1,7 @@
 import DB from '../src/db';
 import * as chai from 'chai';
+import {Query} from '../src/query';
+import { SchemaCallback } from 'firemock';
 import * as helpers from './testing/helpers';
 
 const expect = chai.expect;
@@ -32,6 +34,12 @@ describe('Connecting to Database', () => {
 describe('Read operations: ', () => {
   helpers.setupEnv();
   const db = new DB();
+  const dbMock = new DB({mocking: true});
+  const personMockGenerator: SchemaCallback = (h) => () => ({
+    name: h.faker.name.firstName() + ' ' + h.faker.name.lastName(),
+    age: h.faker.random.number({min: 10, max: 99})
+  });
+  dbMock.mock.addSchema('person', personMockGenerator);
   before(async () => {
     await db.set('test-data', {
       one: 'foo',
@@ -48,6 +56,7 @@ describe('Read operations: ', () => {
         age: 68
       }
     });
+    await dbMock.mock.queueSchema('person', 20);
   });
 
   it('getSnapshot() gets statically set data in test DB', async () => {

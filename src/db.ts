@@ -1,6 +1,7 @@
 import * as firebase from 'firebase-admin';
 import { IDictionary } from 'common-types';
 import * as convert from 'typed-conversions';
+import { Query as SerializedQuery } from './query';
 import moment = require('moment');
 import * as process from 'process';
 import { Mock, Reference, resetDatabase } from 'firemock';
@@ -11,6 +12,7 @@ export enum FirebaseBoolean {
 }
 
 export type Snapshot = firebase.database.DataSnapshot;
+export type Query = firebase.database.Query;
 export type Reference = firebase.database.Reference;
 export type DebuggingCallback = (message: string) => void;
 export interface IFirebaseConfig {
@@ -35,6 +37,7 @@ export default class DB {
   private _onDisconnected: IFirebaseListener[] = [];
   private _debugging: boolean = false;
   private _mocking: boolean = false;
+  private _allowMocking: boolean = false;
 
   constructor(config: IFirebaseConfig = {}) {
     if (config.mocking) {
@@ -65,8 +68,17 @@ export default class DB {
       : DB.connection.ref(path) as firebase.database.Reference;
   }
 
+  /**
+   * Typically mocking functionality is disabled if mocking is not on
+   * but there are cases -- particular in testing against a real DB --
+   * where the mock functionality is still useful for building a base state.
+   */
+  public allowMocking() {
+    this._allowMocking = true;
+  }
+
   public get mock() {
-    if (!this._mocking) {
+    if (!this._mocking && !this._allowMocking) {
       throw new Error('You can not mock the database without setting mocking in the constructor');
     }
 
@@ -121,8 +133,10 @@ export default class DB {
       });
   }
 
-  public async getSnapshot(path: string): Promise<firebase.database.DataSnapshot> {
-    return this.ref(path).once('value');
+  public async getSnapshot(path: string | SerializedQuery): Promise<firebase.database.DataSnapshot> {
+    return typeof path === 'string'
+      ? this.ref(path).once('value')
+      : path.execute(this).once('value');
   }
 
   /** returns the value at the given path in the database */
@@ -136,7 +150,7 @@ export default class DB {
    * and converts it to a JS object where the snapshot's key
    * is included as part of the record (as 'id' by default)
    */
-  public async getRecord<T = any>(path: string, idProp = 'id'): Promise<T> {
+  public async getRecord<T = any>(path: string | SerializedQuery, idProp = 'id'): Promise<T> {
     return this.getSnapshot(path)
       .then(snap => {
         let object = snap.val();
@@ -149,8 +163,29 @@ export default class DB {
       });
   }
 
-  public async getList<T = any[]>(path: string, idProp = 'id'): Promise<T[]> {
+  /**
+   *
+   * @param path the path in the database to
+   * @param idProp
+   */
+  public async getList<T = any[]>(path: string | SerializedQuery, idProp = 'id'): Promise<T[]> {
     return this.getSnapshot(path)
+      .then(snap => {
+        return convert.snapshotToArray<T>(snap, idProp);
+      });
+  }
+
+  /**
+   * getSortedList() will return the sorting order that was defined in the Firebase
+   * Query. This _can_ be useful but often the sort orders
+   * really intended for the server only (so that filteration
+   * is done on the right set of data before sending to client).
+   *
+   * @param query Firebase "query ref"
+   * @param idProp what property name should the Firebase key be converted to (default is "id")
+   */
+  public async getSortedList<T = any[]>(query: any, idProp = 'id'): Promise<T[]> {
+    return this.getSnapshot(query)
       .then(snap => {
         return convert.snapshotToArray<T>(snap, idProp);
       });

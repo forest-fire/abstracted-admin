@@ -78,7 +78,26 @@ Now the type of the data you writing will be type-checked statically.
     console.log(user); // => [ {id: '-Kp23423ddkf', name: 'John' }, {...}, {...} ]
     ```
 
-## Events
+## Queries {#queries}
+
+All of the READ operations above used a simple DB path to query the database but of course Firebase provides many tools to fine tune what we want the server to return. All of these parameters we're used to having off the Firebase Query API are available from abstracted admin's `Query` class. You would use it like so:
+
+```ts
+const recentTransactionsEU = Query
+  .path('/transactions')
+  .orderByChild('date')
+  .limitToLast(20)
+  .equalTo('europe', 'region');
+```
+
+As you can see the Query class provides a _fluent_ interface that any firebase developer should feel right at home with. Once you've defined your query you can use any of the above READ operations and instead of passing in the path just pass in the query:
+
+```ts
+const db = new DB();
+const transactions = await db.getList<ITransaction>(recentTransactionsEU);
+```
+
+## Events {#events}
 
 When using **abstracted-admin** the following events are available for subscription:
 

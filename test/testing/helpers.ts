@@ -32,6 +32,11 @@ export function setupEnv() {
   if (! process.env.AWS_STAGE) {
     process.env.AWS_STAGE = 'test';
   }
+
+  if (process.env.MOCK === undefined) {
+    process.env.MOCK = true;
+  }
+
   const current = process.env;
   const yamlConfig = yaml.safeLoad(fs.readFileSync('./env.yml', 'utf8'));
   const combined = {

@@ -1,6 +1,6 @@
 [![Build Status](https://travis-ci.org/forest-fre/abstracted-admin.svg?branch=master)](https://travis-ci.org/forest-fre/abstracted-admin.svg?branch=master)
 [![Coverage Status](https://coveralls.io/repos/github/forest-fre/abstracted-admin/badge.svg?branch=master)](https://coveralls.io/github/forest-fre/abstracted-admin?branch=master)
-[![MIT license](http://img.shields.io/badge/license-MIT-brightgreen.svg)](http://opensource.org/licenses/MIT)
+[![MIT license](https://img.shields.io/badge/license-MIT-brightgreen.svg)](https://opensource.org/licenses/MIT)
 
 ![ ](./docs/images/abstracted-admin.jpg)
 > A minimal abstraction over the Firebase ADMIN API
