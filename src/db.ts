@@ -1,7 +1,8 @@
 import * as firebase from 'firebase-admin';
 import { IDictionary } from 'common-types';
 import * as convert from 'typed-conversions';
-import { Query as SerializedQuery } from './query';
+// import { Query as SerializedQuery } from './query';
+import { SerializedQuery } from 'serialized-query';
 import moment = require('moment');
 import * as process from 'process';
 import { Mock, Reference, resetDatabase } from 'firemock';
@@ -120,7 +121,7 @@ export default class DB {
     const ref = this.ref(path);
 
     return ref.remove()
-      .catch(e => {
+      .catch((e: any) => {
         if (ignoreMissing && e.message.indexOf('key is not defined') !== -1) {
           return Promise.resolve();
         }

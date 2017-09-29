@@ -1,6 +1,5 @@
 import DB from '../src/db';
 import * as chai from 'chai';
-import {Query} from '../src/query';
 import { SchemaCallback } from 'firemock';
 import * as helpers from './testing/helpers';
 

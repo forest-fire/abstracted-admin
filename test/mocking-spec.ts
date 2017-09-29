@@ -63,10 +63,10 @@ describe('Mocking', () => {
     expect(animal).to.have.property('age');
   });
 
-  it('getRecords() returns an array of records', async () => {
+  it('getList() returns an array of records', async () => {
     const db = new DB({ mocking: true });
     addAnimals(db, 10);
-    const animals = await db.getRecords('/animals');
+    const animals = await db.getList('/animals');
     expect(animals).to.be.an('array');
     expect(animals).has.lengthOf(10);
     expect(animals[0]).to.have.property('id');
@@ -74,10 +74,10 @@ describe('Mocking', () => {
     expect(animals[0]).to.have.property('age');
   });
 
-  it('getRecords() returns an array of records, with bespoke "id" property', async () => {
+  it('getList() returns an array of records, with bespoke "id" property', async () => {
     const db = new DB({ mocking: true });
     addAnimals(db, 10);
-    const animals = await db.getRecords('/animals', 'key');
+    const animals = await db.getList('/animals', 'key');
     expect(animals).to.be.an('array');
     expect(animals).has.lengthOf(10);
     expect(animals[0]).to.have.property('key');
@@ -123,7 +123,7 @@ describe('Mocking', () => {
       name: 'Frank Black',
       age: 45
     });
-    const people = await db.getRecords('/people');
+    const people = await db.getList('/people');
     expect(people).to.be.an('array');
     expect(people).has.lengthOf(1);
     expect(helpers.firstRecord(people)).to.have.property('id');

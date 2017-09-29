@@ -31,8 +31,9 @@
     "chance": "^1.0.10",
     "common-types": "^1.2.1",
     "faker": "^4.1.0",
-    "firebase-admin": "5.1.0",
+    "firebase-admin": "5.3.0",
     "moment": "^2.18.1",
+    "serialized-query": "^0.1.1",
     "typed-conversions": "^0.6.10"
   },
   "devDependencies": {
@@ -57,8 +58,8 @@
     "shelljs": "^0.7.8",
     "test-console": "^1.0.0",
     "ts-node": "^3.0.0",
-    "tslint": "^5.6.0",
-    "typescript": "^2.4.2"
+    "tslint": "^5.7.0",
+    "typescript": "^2.5.3"
   },
   "engines": {
     "node": ">=4.0.0"
