@@ -131,6 +131,24 @@ describe('Mocking', () => {
     expect(helpers.firstRecord(people)).to.have.property('age');
     expect(helpers.firstRecord(people).age).to.equal(45);
   });
+
+  it('read operations on mock with a schema prefix are offset correctly', async () => {
+    const db = new DB({ mocking: true });
+    db.mock
+      .addSchema('meal', (h) => () => ({
+        name: h.faker.random.arrayElement(['breakfast', 'lunch', 'dinner']),
+        datetime: h.faker.date.recent()
+      })).pathPrefix('authenticated')
+      ;
+    db.mock.queueSchema('meal', 10);
+    db.mock.generate();
+
+    expect(db.mock.db.authenticated).to.be.an('object');
+    expect(db.mock.db.authenticated.meals).to.be.an('object');
+    const list = await db.getList('/authenticated/meals');
+    expect(list.length).to.equal(10);
+  });
+
 });
 
 function addAnimals(db: DB, count: number) {

@@ -5,7 +5,9 @@ import * as convert from 'typed-conversions';
 import { SerializedQuery } from 'serialized-query';
 import moment = require('moment');
 import * as process from 'process';
+import { slashNotation } from './util';
 import { Mock, Reference, resetDatabase } from 'firemock';
+import './google-cloud';
 
 export enum FirebaseBoolean {
   true = 1,
@@ -136,7 +138,7 @@ export default class DB {
 
   public async getSnapshot(path: string | SerializedQuery): Promise<firebase.database.DataSnapshot> {
     return typeof path === 'string'
-      ? this.ref(path).once('value')
+      ? this.ref(slashNotation(path)).once('value')
       : path.execute(this).once('value');
   }
 

@@ -2,6 +2,7 @@ import * as firebase from 'firebase-admin';
 import { IDictionary } from 'common-types';
 import { SerializedQuery } from 'serialized-query';
 import { Mock } from 'firemock';
+import './google-cloud';
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0,
