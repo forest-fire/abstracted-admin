@@ -174,7 +174,9 @@ export default class DB {
   public async getList<T = any[]>(path: string | SerializedQuery, idProp = 'id'): Promise<T[]> {
     return this.getSnapshot(path)
       .then(snap => {
-        return convert.snapshotToArray<T>(snap, idProp);
+        return snap.val()
+          ? convert.snapshotToArray<T>(snap, idProp)
+          : [];
       });
   }
 
