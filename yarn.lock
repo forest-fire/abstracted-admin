@@ -416,7 +416,7 @@ chalk@^1.1.1, chalk@^1.1.3:
     strip-ansi "^3.0.0"
     supports-color "^2.0.0"
 
-chalk@^2.0.0:
+chalk@^2.0.0, chalk@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.1.0.tgz#ac5becf14fa21b99c6c92ca7a7d7cfd5b17e743e"
   dependencies:
@@ -478,7 +478,13 @@ commander@2.9.0, commander@^2.9.0:
   dependencies:
     graceful-readlink ">= 1.0.0"
 
-common-types@^1.1.0, common-types@^1.2.1, common-types@^1.2.3:
+common-types@1.3.0:
+  version "1.3.0"
+  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.3.0.tgz#b08b63ab4e89f8fbb7384629f8fd6821dc2896e6"
+  dependencies:
+    chalk "^2.1.0"
+
+common-types@^1.1.0, common-types@^1.2.1:
   version "1.2.3"
   resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.2.3.tgz#28d88522637d00c29f72b9ea0bf6155bc35e82f4"
 
@@ -1938,9 +1944,9 @@ safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
 
-serialized-query@^0.1.4:
-  version "0.1.4"
-  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.1.4.tgz#d079a731728866c781bf22cec9f35df3d075600a"
+serialized-query@0.2.1:
+  version "0.2.1"
+  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.2.1.tgz#134c6c04eaf588e924139de385c9cfe4de8dcfc0"
   dependencies:
     "@types/firebase" "^2.4.32"
     common-types "^1.1.0"
