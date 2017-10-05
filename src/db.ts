@@ -139,7 +139,7 @@ export default class DB {
   public async getSnapshot(path: string | SerializedQuery): Promise<firebase.database.DataSnapshot> {
     return typeof path === 'string'
       ? this.ref(slashNotation(path)).once('value')
-      : path.execute(this);
+      : path.setDB(this).execute();
   }
 
   /** returns the value at the given path in the database */

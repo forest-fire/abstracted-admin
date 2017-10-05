@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.1.4",
+  "version": "0.2.0",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/fireadmin",
@@ -33,8 +33,8 @@
     "faker": "^4.1.0",
     "firebase-admin": "5.3.0",
     "moment": "^2.18.1",
-    "serialized-query": "0.2.1",
-    "typed-conversions": "^0.6.10"
+    "serialized-query": "^0.2.6",
+    "typed-conversions": "^0.7.3"
   },
   "devDependencies": {
     "@types/chai": "^3.0.0",

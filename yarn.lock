@@ -1944,9 +1944,9 @@ safe-buffer@^5.0.1, safe-buffer@^5.1.1, safe-buffer@~5.1.0, safe-buffer@~5.1.1:
   version "5.4.1"
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.4.1.tgz#e059c09d8571f0540823733433505d3a2f00b18e"
 
-serialized-query@0.2.1:
-  version "0.2.1"
-  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.2.1.tgz#134c6c04eaf588e924139de385c9cfe4de8dcfc0"
+serialized-query@^0.2.6:
+  version "0.2.6"
+  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.2.6.tgz#82bc0e125f2ddc0bdcc5d3fb54dc8470d0a0db69"
   dependencies:
     "@types/firebase" "^2.4.32"
     common-types "^1.1.0"
@@ -2236,9 +2236,15 @@ type-detect@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-1.0.0.tgz#762217cc06db258ec48908a1298e8b95121e8ea2"
 
-typed-conversions@^0.6.10, typed-conversions@^0.6.2:
+typed-conversions@^0.6.2:
   version "0.6.10"
   resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.6.10.tgz#e25ab904310203a5ba15a4ff16d8d2d370291f39"
+  dependencies:
+    common-types "^1.1.0"
+
+typed-conversions@^0.7.3:
+  version "0.7.3"
+  resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.7.3.tgz#793f83124ec0cbae559bd7e585121db43c1005aa"
   dependencies:
     common-types "^1.1.0"
 
