@@ -1,5 +1,4 @@
 import * as firebase from 'firebase-admin';
-import { IDictionary } from 'common-types';
 import { SerializedQuery } from 'serialized-query';
 import { Mock } from 'firemock';
 import './google-cloud';
@@ -39,8 +38,8 @@ export default class DB {
     waitForConnection(): Promise<void | {}>;
     readonly isConnected: boolean;
     set<T = any>(path: string, value: T): Promise<void>;
-    update<T = IDictionary>(path: string, value: Partial<T>): Promise<void>;
-    remove(path: string, ignoreMissing?: boolean): Promise<void>;
+    update<T = any>(path: string, value: Partial<T>): Promise<void>;
+    remove<T = any>(path: string, ignoreMissing?: boolean): Promise<void>;
     getSnapshot(path: string | SerializedQuery): Promise<firebase.database.DataSnapshot>;
     getValue<T = any>(path: string): Promise<T>;
     getRecord<T = any>(path: string | SerializedQuery, idProp?: string): Promise<T>;

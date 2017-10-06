@@ -23,7 +23,8 @@ describe('Connecting to Database', () => {
 
   it('can get a value from database once waitForConnection() returns', async () => {
     const db = new DB();
-    const connected = await db.getValue<boolean>('.info/connected');
+    const connected = await db.getValue<boolean>('.info/connected') ? true : false;
+    await helpers.timeout(1);
     expect(connected).to.be.a('boolean');
     await db.waitForConnection();
     expect(db.isConnected).to.equal(true);
