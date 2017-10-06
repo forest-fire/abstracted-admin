@@ -202,7 +202,7 @@ export default class DB {
    * to ensure the value is placed into a Dictionary/Hash structure
    * of the form of "/{path}/{pushkey}/{value}"
    */
-  public async push<T = IDictionary<any>>(path: string, value: T) {
+  public async push<T = any>(path: string, value: T) {
     return this.ref(path).push(value);
   }
 

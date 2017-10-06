@@ -46,7 +46,7 @@ export default class DB {
     getRecord<T = any>(path: string | SerializedQuery, idProp?: string): Promise<T>;
     getList<T = any[]>(path: string | SerializedQuery, idProp?: string): Promise<T[]>;
     getSortedList<T = any[]>(query: any, idProp?: string): Promise<T[]>;
-    push<T = IDictionary<any>>(path: string, value: T): Promise<any>;
+    push<T = any>(path: string, value: T): Promise<any>;
     exists(path: string): Promise<boolean>;
     private handleError(e, name, message?);
     private connect(debugging?);
