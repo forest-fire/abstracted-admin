@@ -1,7 +1,7 @@
-import * as firebase from 'firebase-admin';
-import { SerializedQuery } from 'serialized-query';
-import { Mock } from 'firemock';
-import './google-cloud';
+import * as firebase from "firebase-admin";
+import { SerializedQuery } from "serialized-query";
+import { Mock } from "firemock";
+import "./google-cloud";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0,
@@ -35,6 +35,7 @@ export default class DB {
     ref(path: string): firebase.database.Reference;
     allowMocking(): void;
     readonly mock: Mock;
+    resetMockDb(): void;
     waitForConnection(): Promise<void | {}>;
     readonly isConnected: boolean;
     set<T = any>(path: string, value: T): Promise<void>;

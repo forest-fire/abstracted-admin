@@ -1,13 +1,13 @@
-import * as firebase from 'firebase-admin';
-import { IDictionary } from 'common-types';
-import * as convert from 'typed-conversions';
+import * as firebase from "firebase-admin";
+import { IDictionary } from "common-types";
+import * as convert from "typed-conversions";
 // import { Query as SerializedQuery } from './query';
-import { SerializedQuery } from 'serialized-query';
-import moment = require('moment');
-import * as process from 'process';
-import { slashNotation } from './util';
-import { Mock, Reference, resetDatabase } from 'firemock';
-import './google-cloud';
+import { SerializedQuery } from "serialized-query";
+import moment = require("moment");
+import * as process from "process";
+import { slashNotation } from "./util";
+import { Mock, Reference, resetDatabase } from "firemock";
+import "./google-cloud";
 
 export enum FirebaseBoolean {
   true = 1,
@@ -49,26 +49,29 @@ export default class DB {
       this.connect(config.debugging);
       DB.connection = firebase.database();
       firebase.database().goOnline();
-      firebase.database().ref('.info/connected').on('value', (snap) => {
-        DB.isConnected = snap.val();
-        // cycle through temporary clients
-        this._waitingForConnection.forEach(cb => cb());
-        this._waitingForConnection = [];
-        // call active listeners
-        if (DB.isConnected) {
-          this._onConnected.forEach(listener => listener.cb(this));
-        } else {
-          this._onDisconnected.forEach(listener => listener.cb(this));
-        }
-      });
+      firebase
+        .database()
+        .ref(".info/connected")
+        .on("value", snap => {
+          DB.isConnected = snap.val();
+          // cycle through temporary clients
+          this._waitingForConnection.forEach(cb => cb());
+          this._waitingForConnection = [];
+          // call active listeners
+          if (DB.isConnected) {
+            this._onConnected.forEach(listener => listener.cb(this));
+          } else {
+            this._onDisconnected.forEach(listener => listener.cb(this));
+          }
+        });
     }
   }
 
   /** Get a DB reference for a given path in Firebase */
   public ref(path: string) {
     return this._mocking
-      ? this.mock.ref(path) as Reference
-      : DB.connection.ref(path) as firebase.database.Reference;
+      ? (this.mock.ref(path) as Reference)
+      : (DB.connection.ref(path) as firebase.database.Reference);
   }
 
   /**
@@ -82,7 +85,9 @@ export default class DB {
 
   public get mock() {
     if (!this._mocking && !this._allowMocking) {
-      throw new Error('You can not mock the database without setting mocking in the constructor');
+      throw new Error(
+        "You can not mock the database without setting mocking in the constructor"
+      );
     }
 
     if (!this._mock) {
@@ -93,11 +98,16 @@ export default class DB {
     return this._mock;
   }
 
+  /** clears all "connections" and state from the database */
+  public resetMockDb() {
+    resetDatabase();
+  }
+
   public async waitForConnection() {
     if (DB.isConnected) {
       return Promise.resolve();
     }
-    return new Promise((resolve) => {
+    return new Promise(resolve => {
       const cb = () => {
         resolve();
       };
@@ -111,8 +121,9 @@ export default class DB {
 
   /** set a "value" in the database at a given path */
   public async set<T = any>(path: string, value: T) {
-    return this.ref(path).set(value)
-      .catch(e => this.handleError(e, 'set', `setting value @ "${path}"`));
+    return this.ref(path)
+      .set(value)
+      .catch(e => this.handleError(e, "set", `setting value @ "${path}"`));
   }
 
   public async update<T = any>(path: string, value: Partial<T>) {
@@ -122,23 +133,20 @@ export default class DB {
   public async remove<T = any>(path: string, ignoreMissing = false) {
     const ref = this.ref(path);
 
-    return ref.remove()
-      .catch((e: any) => {
-        if (ignoreMissing && e.message.indexOf('key is not defined') !== -1) {
-          return Promise.resolve();
-        }
+    return ref.remove().catch((e: any) => {
+      if (ignoreMissing && e.message.indexOf("key is not defined") !== -1) {
+        return Promise.resolve();
+      }
 
-        this.handleError(
-          e,
-          'remove',
-          `attempt to remove ${path} failed: `
-        );
-      });
+      this.handleError(e, "remove", `attempt to remove ${path} failed: `);
+    });
   }
 
-  public async getSnapshot(path: string | SerializedQuery): Promise<firebase.database.DataSnapshot> {
-    return typeof path === 'string'
-      ? this.ref(slashNotation(path)).once('value')
+  public async getSnapshot(
+    path: string | SerializedQuery
+  ): Promise<firebase.database.DataSnapshot> {
+    return typeof path === "string"
+      ? this.ref(slashNotation(path)).once("value")
       : path.setDB(this).execute();
   }
 
@@ -153,17 +161,19 @@ export default class DB {
    * and converts it to a JS object where the snapshot's key
    * is included as part of the record (as 'id' by default)
    */
-  public async getRecord<T = any>(path: string | SerializedQuery, idProp = 'id'): Promise<T> {
-    return this.getSnapshot(path)
-      .then(snap => {
-        let object = snap.val();
+  public async getRecord<T = any>(
+    path: string | SerializedQuery,
+    idProp = "id"
+  ): Promise<T> {
+    return this.getSnapshot(path).then(snap => {
+      let object = snap.val();
 
-        if (typeof object !== 'object') {
-          object = { value: snap.val() };
-        }
+      if (typeof object !== "object") {
+        object = { value: snap.val() };
+      }
 
-        return { ...object, ...{ [idProp]: snap.key } };
-      });
+      return { ...object, ...{ [idProp]: snap.key } };
+    });
   }
 
   /**
@@ -171,13 +181,13 @@ export default class DB {
    * @param path the path in the database to
    * @param idProp
    */
-  public async getList<T = any[]>(path: string | SerializedQuery, idProp = 'id'): Promise<T[]> {
-    return this.getSnapshot(path)
-      .then(snap => {
-        return snap.val()
-          ? convert.snapshotToArray<T>(snap, idProp)
-          : [];
-      });
+  public async getList<T = any[]>(
+    path: string | SerializedQuery,
+    idProp = "id"
+  ): Promise<T[]> {
+    return this.getSnapshot(path).then(snap => {
+      return snap.val() ? convert.snapshotToArray<T>(snap, idProp) : [];
+    });
   }
 
   /**
@@ -189,11 +199,13 @@ export default class DB {
    * @param query Firebase "query ref"
    * @param idProp what property name should the Firebase key be converted to (default is "id")
    */
-  public async getSortedList<T = any[]>(query: any, idProp = 'id'): Promise<T[]> {
-    return this.getSnapshot(query)
-      .then(snap => {
-        return convert.snapshotToArray<T>(snap, idProp);
-      });
+  public async getSortedList<T = any[]>(
+    query: any,
+    idProp = "id"
+  ): Promise<T[]> {
+    return this.getSnapshot(query).then(snap => {
+      return convert.snapshotToArray<T>(snap, idProp);
+    });
   }
 
   /**
@@ -208,57 +220,63 @@ export default class DB {
 
   /** validates the existance of a path in the database */
   public async exists(path: string): Promise<boolean> {
-    return this.getSnapshot(path)
-      .then(snap => snap.val() ? true : false);
+    return this.getSnapshot(path).then(snap => (snap.val() ? true : false));
   }
 
-  private handleError(e: any, name: string, message = '') {
-      console.error(`Error ${message}:`, e);
-      return Promise.reject({
-        code: `firebase/${name}`,
-        message: message + e.message || e
-      });
+  private handleError(e: any, name: string, message = "") {
+    console.error(`Error ${message}:`, e);
+    return Promise.reject({
+      code: `firebase/${name}`,
+      message: message + e.message || e
+    });
   }
 
   private connect(debugging: boolean | DebuggingCallback = false): void {
-
     if (!DB.isAuthorized) {
-      const serviceAcctEncoded = process.env['FIREBASE_SERVICE_ACCOUNT'];
+      const serviceAcctEncoded = process.env["FIREBASE_SERVICE_ACCOUNT"];
       if (!serviceAcctEncoded) {
-        throw new Error('Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key.');
+        throw new Error(
+          "Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key."
+        );
       }
 
       const serviceAccount: firebase.ServiceAccount = JSON.parse(
-        Buffer
-          .from(process.env['FIREBASE_SERVICE_ACCOUNT'], 'base64')
-          .toString()
+        Buffer.from(
+          process.env["FIREBASE_SERVICE_ACCOUNT"],
+          "base64"
+        ).toString()
       );
       console.log(
-        `Connecting to Firebase: [${process.env['FIREBASE_DATA_ROOT_URL']}]`
+        `Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`
       );
 
       try {
         firebase.initializeApp({
           credential: firebase.credential.cert(serviceAccount),
-          databaseURL: process.env['FIREBASE_DATA_ROOT_URL']
+          databaseURL: process.env["FIREBASE_DATA_ROOT_URL"]
         });
         DB.isAuthorized = true;
       } catch (err) {
-        if (err.message.indexOf('The default Firebase app already exists.') !== -1) {
-          console.warn('DB was already logged in, however flag had not been set!');
+        if (
+          err.message.indexOf("The default Firebase app already exists.") !== -1
+        ) {
+          console.warn(
+            "DB was already logged in, however flag had not been set!"
+          );
           DB.isConnected = true;
         } else {
           DB.isConnected = false;
-          console.warn('Problem connecting to Firebase', err);
+          console.warn("Problem connecting to Firebase", err);
           throw new Error(err);
         }
       }
     }
 
     if (debugging) {
-      firebase.database.enableLogging(typeof debugging === 'function'
-        ? (message: string) => debugging(message)
-        : (message: string) => console.log("[FIREBASE]", message)
+      firebase.database.enableLogging(
+        typeof debugging === "function"
+          ? (message: string) => debugging(message)
+          : (message: string) => console.log("[FIREBASE]", message)
       );
     }
   }
