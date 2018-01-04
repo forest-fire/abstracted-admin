@@ -1,7 +1,6 @@
 import * as firebase from "firebase-admin";
 import { SerializedQuery } from "serialized-query";
 import { Mock } from "firemock";
-import "./google-cloud";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0,
@@ -18,7 +17,7 @@ export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
 }
-export default class DB {
+export declare class DB {
     private static isConnected;
     private static isAuthorized;
     private static connection;

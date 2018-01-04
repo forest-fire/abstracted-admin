@@ -1,13 +1,12 @@
 import * as firebase from "firebase-admin";
 import { IDictionary } from "common-types";
 import * as convert from "typed-conversions";
-// import { Query as SerializedQuery } from './query';
 import { SerializedQuery } from "serialized-query";
 import moment = require("moment");
 import * as process from "process";
 import { slashNotation } from "./util";
 import { Mock, Reference, resetDatabase } from "firemock";
-import "./google-cloud";
+// import "./google-cloud";
 
 export enum FirebaseBoolean {
   true = 1,
@@ -28,7 +27,7 @@ export interface IFirebaseListener {
   cb: (db: DB) => void;
 }
 
-export default class DB {
+export class DB {
   private static isConnected: boolean = false;
   private static isAuthorized: boolean = false;
   private static connection: firebase.database.Database;
