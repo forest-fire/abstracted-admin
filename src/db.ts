@@ -2,11 +2,10 @@ import * as firebase from "firebase-admin";
 import { IDictionary } from "common-types";
 import * as convert from "typed-conversions";
 import { SerializedQuery } from "serialized-query";
-import moment = require("moment");
+import * as moment from "moment";
 import * as process from "process";
 import { slashNotation } from "./util";
 import { Mock, Reference, resetDatabase } from "firemock";
-// import "./google-cloud";
 
 export enum FirebaseBoolean {
   true = 1,

@@ -1002,9 +1002,9 @@ firebase-key@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-1.0.6.tgz#b579cac0662629b3403e6708158331e249a9c42f"
 
-firemock@^0.12.0:
-  version "0.12.0"
-  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.12.0.tgz#f339075017ac362d5eb7eb5003c5da6c43851b2e"
+firemock@^0.13.0:
+  version "0.13.0"
+  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.13.0.tgz#b71e0bd43131e5b7bf22fb92d32a0b034a95f957"
   dependencies:
     common-types "^1.3.10"
     firebase-admin "^5.6.0"
