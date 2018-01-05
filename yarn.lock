@@ -206,9 +206,15 @@
   version "3.9.1"
   resolved "https://registry.yarnpkg.com/@types/js-yaml/-/js-yaml-3.9.1.tgz#2f3c142771bb345829ce690c5838760b6b9ba553"
 
-"@types/lodash@^4.14.71":
-  version "4.14.77"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.77.tgz#0bc699413e84d6ed5d927ca30ea0f0a890b42d75"
+"@types/lodash-es@^4.17.0":
+  version "4.17.0"
+  resolved "https://registry.yarnpkg.com/@types/lodash-es/-/lodash-es-4.17.0.tgz#ed9044d62ee36a93e0650b112701986b1c74c766"
+  dependencies:
+    "@types/lodash" "*"
+
+"@types/lodash@*":
+  version "4.14.91"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.91.tgz#794611b28056d16b5436059c6d800b39d573cd3a"
 
 "@types/long@^3.0.31":
   version "3.0.32"
@@ -619,9 +625,13 @@ chalk@^2.0.0, chalk@^2.1.0:
     escape-string-regexp "^1.0.5"
     supports-color "^4.0.0"
 
-chance@^1.0.10:
-  version "1.0.11"
-  resolved "https://registry.yarnpkg.com/chance/-/chance-1.0.11.tgz#48e82f7583df356053e0ad122d4654c5066c570d"
+chalk@^2.3.0:
+  version "2.3.0"
+  resolved "https://registry.yarnpkg.com/chalk/-/chalk-2.3.0.tgz#b5ea48efc9c1793dccc9b4767c93914d3f2d52ba"
+  dependencies:
+    ansi-styles "^3.1.0"
+    escape-string-regexp "^1.0.5"
+    supports-color "^4.0.0"
 
 cliui@^2.1.0:
   version "2.1.0"
@@ -681,7 +691,7 @@ commander@^2.9.0:
   version "2.11.0"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.11.0.tgz#157152fd1e7a6c8d98a5b715cf376df928004563"
 
-common-types@^1.1.0, common-types@^1.3.2:
+common-types@^1.1.0:
   version "1.3.2"
   resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.3.2.tgz#6a734d67543fe71d65333edfde9e3fa80a9a3c69"
   dependencies:
@@ -692,6 +702,12 @@ common-types@^1.3.10:
   resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.3.10.tgz#222fa11e242dbaaeb83641eba82e44fd9d515b76"
   dependencies:
     chalk "^2.1.0"
+
+common-types@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.4.2.tgz#a8208bf80f28212694f9a56d39c1d70f1dd067a4"
+  dependencies:
+    chalk "^2.3.0"
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -935,10 +951,6 @@ extsprintf@1.3.0, extsprintf@^1.2.0:
   version "1.3.0"
   resolved "https://registry.yarnpkg.com/extsprintf/-/extsprintf-1.3.0.tgz#96918440e3041a7a414f8c52e3c574eb3c3e1e05"
 
-faker@^4.1.0:
-  version "4.1.0"
-  resolved "https://registry.yarnpkg.com/faker/-/faker-4.1.0.tgz#1e45bbbecc6774b3c195fad2835109c6d748cc3f"
-
 fast-deep-equal@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/fast-deep-equal/-/fast-deep-equal-1.0.0.tgz#96256a3bc975595eb36d82e9929d060d893439ff"
@@ -1002,15 +1014,15 @@ firebase-key@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-1.0.6.tgz#b579cac0662629b3403e6708158331e249a9c42f"
 
-firemock@^0.13.0:
-  version "0.13.0"
-  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.13.0.tgz#b71e0bd43131e5b7bf22fb92d32a0b034a95f957"
+firemock@^0.13.1:
+  version "0.13.1"
+  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.13.1.tgz#01babf4766da36815dbffb186e7509828a7c69c1"
   dependencies:
     common-types "^1.3.10"
     firebase-admin "^5.6.0"
     firebase-key "^1.0.6"
     gitbook-plugin-favicon "^0.0.2"
-    lodash "^4.17.4"
+    lodash-es "^4.17.4"
     moment "^2.20.0"
     typed-conversions "^0.7.3"
 
@@ -1783,6 +1795,10 @@ load-json-file@^1.0.0:
     pify "^2.0.0"
     pinkie-promise "^2.0.0"
     strip-bom "^2.0.0"
+
+lodash-es@^4.17.4:
+  version "4.17.4"
+  resolved "https://registry.yarnpkg.com/lodash-es/-/lodash-es-4.17.4.tgz#dcc1d7552e150a0640073ba9cb31d70f032950e7"
 
 lodash._baseassign@^3.0.0:
   version "3.2.0"
