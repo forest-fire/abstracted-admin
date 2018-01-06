@@ -1,4 +1,5 @@
-import * as chalk from "chalk";
+// tslint:disable:no-implicit-dependencies
+import chalk from "chalk";
 import { exec } from "shelljs";
 import * as rm from "rimraf";
 import * as process from "process";

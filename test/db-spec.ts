@@ -1,3 +1,4 @@
+// tslint:disable:no-implicit-dependencies
 import DB from "../src/index";
 import * as chai from "chai";
 import { SchemaCallback } from "firemock";
