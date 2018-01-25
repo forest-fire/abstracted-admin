@@ -1,6 +1,5 @@
 import * as firebase from "firebase-admin";
-import { SerializedQuery } from "serialized-query";
-import { Mock } from "firemock";
+import { RealTimeDB } from "abstracted-firebase";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0,
@@ -17,36 +16,10 @@ export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
 }
-export declare class DB {
-    private static isConnected;
-    private static isAuthorized;
-    private static connection;
+export declare class DB extends RealTimeDB {
     auth: firebase.auth.Auth;
-    private mocking;
-    private _mock;
-    private _waitingForConnection;
-    private _onConnected;
-    private _onDisconnected;
-    private _debugging;
-    private _mocking;
-    private _allowMocking;
     constructor(config?: IFirebaseConfig);
-    ref(path: string): firebase.database.Reference;
-    allowMocking(): void;
-    readonly mock: Mock;
-    resetMockDb(): void;
     waitForConnection(): Promise<void | {}>;
     readonly isConnected: boolean;
-    set<T = any>(path: string, value: T): Promise<void>;
-    update<T = any>(path: string, value: Partial<T>): Promise<void>;
-    remove<T = any>(path: string, ignoreMissing?: boolean): Promise<void>;
-    getSnapshot(path: string | SerializedQuery): Promise<firebase.database.DataSnapshot>;
-    getValue<T = any>(path: string): Promise<T>;
-    getRecord<T = any>(path: string | SerializedQuery, idProp?: string): Promise<T>;
-    getList<T = any[]>(path: string | SerializedQuery, idProp?: string): Promise<T[]>;
-    getSortedList<T = any[]>(query: any, idProp?: string): Promise<T[]>;
-    push<T = any>(path: string, value: T): Promise<any>;
-    exists(path: string): Promise<boolean>;
-    private handleError(e, name, message?);
     private connect(debugging?);
 }
