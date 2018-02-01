@@ -28,14 +28,7 @@ export interface IFirebaseListener {
 }
 
 export class DB extends RealTimeDB {
-  // protected static isConnected: boolean = false;
-  // protected static isAuthorized: boolean = false;
-  // protected static connection: firebase.database.Database;
   public auth: firebase.auth.Auth;
-  // protected _waitingForConnection: Array<() => void> = [];
-  // protected _onConnected: IFirebaseListener[] = [];
-  // protected _onDisconnected: IFirebaseListener[] = [];
-  // protected _debugging: boolean = false;
 
   constructor(config: IFirebaseConfig = {}) {
     super(config);
