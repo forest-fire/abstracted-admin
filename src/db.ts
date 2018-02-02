@@ -1,4 +1,5 @@
 import * as firebase from "firebase-admin";
+import { rtdb } from "firebase-api-surface";
 import { IDictionary } from "common-types";
 import * as convert from "typed-conversions";
 import { SerializedQuery } from "serialized-query";
@@ -13,9 +14,9 @@ export enum FirebaseBoolean {
   false = 0
 }
 
-export type Snapshot = firebase.database.DataSnapshot;
-export type Query = firebase.database.Query;
-export type Reference = firebase.database.Reference;
+export type Snapshot = rtdb.IDataSnapshot;
+export type Query = rtdb.IQuery;
+export type Reference = rtdb.IReference;
 export type DebuggingCallback = (message: string) => void;
 export interface IFirebaseConfig {
   debugging?: boolean | DebuggingCallback;
@@ -36,8 +37,7 @@ export class DB extends RealTimeDB {
       this._mocking = true;
     } else {
       this.connect(config.debugging);
-
-      RealTimeDB.connection = firebase.database();
+      RealTimeDB.connection = firebase.database() as rtdb.IFirebaseDatabase;
       firebase.database().goOnline();
 
       firebase
