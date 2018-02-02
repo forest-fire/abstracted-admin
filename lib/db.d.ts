@@ -1,12 +1,13 @@
 import * as firebase from "firebase-admin";
+import { rtdb } from "firebase-api-surface";
 import { RealTimeDB } from "abstracted-firebase";
 export declare enum FirebaseBoolean {
     true = 1,
     false = 0,
 }
-export declare type Snapshot = firebase.database.DataSnapshot;
-export declare type Query = firebase.database.Query;
-export declare type Reference = firebase.database.Reference;
+export declare type Snapshot = rtdb.IDataSnapshot;
+export declare type Query = rtdb.IQuery;
+export declare type Reference = rtdb.IReference;
 export declare type DebuggingCallback = (message: string) => void;
 export interface IFirebaseConfig {
     debugging?: boolean | DebuggingCallback;
