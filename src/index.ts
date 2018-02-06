@@ -9,3 +9,5 @@ export {
   Query,
   Reference
 } from "./db";
+
+export { RealTimeDB } from "abstracted-firebase";

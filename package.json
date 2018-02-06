@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.8.3",
+  "version": "0.8.4",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -57,7 +57,7 @@
     "mocha": "^3.0.0",
     "nyc": "^10.0.0",
     "rimraf": "^2.6.2",
-    "shelljs": "^0.7.8",
+    "async-shelljs": "^0.1.2",
     "test-console": "^1.0.0",
     "ts-node": "^4.1.0",
     "tslint": "^5.9.1",
