@@ -1,5 +1,6 @@
-import DB from "../src/index";
+// tslint:disable-next-line:no-implicit-dependencies
 import * as chai from "chai";
+import DB from "../src/index";
 import { SerializedQuery } from "serialized-query";
 import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
@@ -82,5 +83,14 @@ describe("Query based Read ops:", () => {
     data = await db.getList<IPerson>(q3);
     expect(data.length).to.equal(3);
     data.map(d => d.age).map(age => expect(age).to.equal(3));
+
+    // test serialized query can be built with DB's exposed API
+    const qPrime = db
+      .query("people")
+      .orderByChild("age")
+      .limitToFirst(4);
+    data = await db.getList<IPerson>(qPrime);
+    expect(data).to.have.lengthOf(4);
+    data.map(d => d.age).map(age => expect(age).to.equal(100));
   });
 });

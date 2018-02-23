@@ -1,4 +1,5 @@
 import { DB } from "./db";
+export { SerializedQuery } from "serialized-query";
 export default DB;
 export {
   DB,
