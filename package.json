@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.9.0",
+  "version": "0.9.1",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -21,7 +21,7 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "0.3.0",
+    "abstracted-firebase": "^0.3.1",
     "common-types": "^1.5.2",
     "firebase-admin": "^5.8.2",
     "firebase-api-surface": "^0.7.9",

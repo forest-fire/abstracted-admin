@@ -33,9 +33,7 @@ export class DB extends RealTimeDB {
 
   constructor(config: IFirebaseConfig = {}) {
     super(config);
-    if (config.mocking) {
-      this._mocking = true;
-    } else {
+    if (!config.mocking) {
       this.connect(config.debugging);
       RealTimeDB.connection = firebase.database() as rtdb.IFirebaseDatabase;
       firebase.database().goOnline();
@@ -84,14 +82,9 @@ export class DB extends RealTimeDB {
       }
 
       const serviceAccount: firebase.ServiceAccount = JSON.parse(
-        Buffer.from(
-          process.env["FIREBASE_SERVICE_ACCOUNT"],
-          "base64"
-        ).toString()
+        Buffer.from(process.env["FIREBASE_SERVICE_ACCOUNT"], "base64").toString()
       );
-      console.log(
-        `Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`
-      );
+      console.log(`Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`);
 
       try {
         firebase.initializeApp({
@@ -100,12 +93,8 @@ export class DB extends RealTimeDB {
         });
         DB.isAuthorized = true;
       } catch (err) {
-        if (
-          err.message.indexOf("The default Firebase app already exists.") !== -1
-        ) {
-          console.warn(
-            "DB was already logged in, however flag had not been set!"
-          );
+        if (err.message.indexOf("The default Firebase app already exists.") !== -1) {
+          console.warn("DB was already logged in, however flag had not been set!");
           DB.isConnected = true;
         } else {
           DB.isConnected = false;
