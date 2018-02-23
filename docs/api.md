@@ -103,13 +103,12 @@ const recentTransactionsEU = DB.query
   .equalTo("europe", "region");
 ```
 
-````
 As you can see the Query class provides a _fluent_ interface that any firebase developer should feel right at home with. Once you've defined your query you can use any of the above READ operations and instead of passing in the path just pass in the query:
 
 ```ts
 const db = new DB();
 const transactions = await db.getList<ITransaction>(recentTransactionsEU);
-````
+```
 
 ## Events {#events}
 
