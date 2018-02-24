@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.9.1",
+  "version": "0.9.2",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -28,7 +28,7 @@
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "moment": "^2.20.1",
-    "serialized-query": "^0.2.9",
+    "serialized-query": "^0.3.3",
     "typed-conversions": "^0.7.3"
   },
   "peerDependencies": {

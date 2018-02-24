@@ -2155,7 +2155,7 @@ modelo@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/modelo/-/modelo-4.2.3.tgz#b278588a4db87fc1e5107ae3a277c0876f38d894"
 
-moment@^2.0.0, moment@^2.20.1:
+moment@^2.0.0, moment@^2.20.0, moment@^2.20.1:
   version "2.20.1"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.20.1.tgz#d6eb1a46cbcc14a2b2f9434112c1ff8907f313fd"
 
@@ -2772,6 +2772,14 @@ serialized-query@^0.2.9:
   dependencies:
     common-types "^1.5.1"
     moment "^2.0.0"
+
+serialized-query@^0.3.3:
+  version "0.3.3"
+  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.3.3.tgz#1e56aa112b372943655e210a473a0bda78cc9546"
+  dependencies:
+    common-types "^1.5.4"
+    firebase-api-surface "^0.7.11"
+    moment "^2.20.0"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
