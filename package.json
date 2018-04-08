@@ -5,8 +5,16 @@
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
   "author": "Ken Snyder <ken@ken.net>",
-  "keywords": ["firebase", "typescript", "nodejs", "utility", "admin"],
-  "files": ["lib"],
+  "keywords": [
+    "firebase",
+    "typescript",
+    "nodejs",
+    "utility",
+    "admin"
+  ],
+  "files": [
+    "lib"
+  ],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
@@ -14,8 +22,7 @@
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "ts-node ./scripts/build.ts",
     "test": "ts-node ./scripts/test.ts",
-    "coverage":
-      "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
+    "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
     "watch": "npm run build -- --watch",
     "deploy": "ts-node ./scripts/deploy.ts ",
     "watch:test": "npm run test -- --watch"
@@ -65,10 +72,18 @@
     "node": ">=4.0.0"
   },
   "nyc": {
-    "include": ["src/**/*.ts"],
-    "exclude": ["lib"],
-    "extension": [".ts"],
-    "require": ["ts-node/register"],
+    "include": [
+      "src/**/*.ts"
+    ],
+    "exclude": [
+      "lib"
+    ],
+    "extension": [
+      ".ts"
+    ],
+    "require": [
+      "ts-node/register"
+    ],
     "reporter": [],
     "all": true
   }

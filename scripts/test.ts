@@ -6,6 +6,7 @@ import * as process from "process";
 import * as program from "commander";
 import "../test/testing/test-console";
 import { stdout, stderr } from "test-console";
+import { execSync } from "child_process";
 
 function getScope(files: string): string {
   let fileScope: string;
@@ -44,10 +45,10 @@ function cleanJSTests() {
   });
 }
 
-function executeTests(stg: string, fileScope: string): void {
+async function executeTests(stg: string, fileScope: string) {
   process.env.AWS_STAGE = stg;
   process.env.TS_NODE_COMPILER_OPTIONS = '{ "noImplicitAny": false }';
-  exec(`mocha --require ts-node/register ` + fileScope);
+  await exec(`mocha --exit --require ts-node/register ` + fileScope);
 }
 
 if (process.argv.length === 2) {
@@ -70,5 +71,6 @@ program
     console.log("scope:", scope);
 
     await executeTests(stage, scope);
+    console.log("tests complete");
   })
   .parse(process.argv);
