@@ -32,13 +32,11 @@ describe("CRUD Testing > ", () => {
           .add({ path: "foofoo", value: 2 });
         throw new Error("Duplicate path should have thrown error");
       } catch (e) {
-        console.log(e);
-
         expect(e.code).to.equal("duplicate-path");
       }
     });
 
-    it.only("Multipath set, sets value at all paths using mock DB", async () => {
+    it("Multipath set, sets value at all paths using mock DB", async () => {
       await db
         .multiPathSet()
         .add({ path: "foofoo", value: 1 })
