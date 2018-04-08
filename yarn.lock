@@ -271,15 +271,11 @@
   version "9.6.2"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-9.6.2.tgz#e49ac1adb458835e95ca6487bc20f916b37aff23"
 
-"@types/node@^6.0.0":
-  version "6.0.104"
-  resolved "https://registry.yarnpkg.com/@types/node/-/node-6.0.104.tgz#5a17c151c223041602f11a404db9a00e54250174"
-
-"@types/node@^8.0.53", "@types/node@^8.9.4":
+"@types/node@^8.0.0", "@types/node@^8.0.53", "@types/node@^8.9.4":
   version "8.10.3"
   resolved "https://registry.yarnpkg.com/@types/node/-/node-8.10.3.tgz#ee34a5c732703cf45d2fadc163a299a6b2f456c2"
 
-"@types/rimraf@^2.0.1":
+"@types/rimraf@^2.0.2":
   version "2.0.2"
   resolved "https://registry.yarnpkg.com/@types/rimraf/-/rimraf-2.0.2.tgz#7f0fc3cf0ff0ad2a99bb723ae1764f30acaf8b6e"
   dependencies:
@@ -1322,7 +1318,7 @@ find-up@^2.1.0:
   dependencies:
     locate-path "^2.0.0"
 
-firebase-admin@^5.9.0:
+firebase-admin@^5.12.0:
   version "5.12.0"
   resolved "https://registry.yarnpkg.com/firebase-admin/-/firebase-admin-5.12.0.tgz#3291b0466b4d161cb4135e83c97f9878e7768cac"
   dependencies:
@@ -1352,9 +1348,9 @@ firebase-key@^2.0.1:
   version "2.0.1"
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.1.tgz#5f1fe462c011c7f944f2f0f489c838dd1ed162ef"
 
-firemock@^0.15.9:
-  version "0.15.10"
-  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.15.10.tgz#a1135ecec6677a3de1cd64237f3853ae859209c5"
+firemock@^0.15.11:
+  version "0.15.11"
+  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.15.11.tgz#05c9288ddb095c5a616c86d621021b3033306b43"
   dependencies:
     common-types "^1.5.4"
     firebase-api-surface "^0.7.11"
@@ -2490,7 +2486,7 @@ modelo@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/modelo/-/modelo-4.2.3.tgz#b278588a4db87fc1e5107ae3a277c0876f38d894"
 
-moment@^2.20.0, moment@^2.20.1:
+moment@^2.20.0, moment@^2.20.1, moment@^2.22.0:
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
 
