@@ -852,7 +852,7 @@ commander@^2.12.1, commander@^2.9.0:
   version "2.15.1"
   resolved "https://registry.yarnpkg.com/commander/-/commander-2.15.1.tgz#df46e867d0fc2aec66a34662b406a9ccafff5b0f"
 
-common-types@^1.1.0, common-types@^1.5.4:
+common-types@^1.1.0, common-types@^1.5.4, common-types@^1.6.30:
   version "1.6.30"
   resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.6.30.tgz#efce7e17dcd978873667e9332e0547d8221b1d95"
 
@@ -907,8 +907,8 @@ copy-descriptor@^0.1.0:
   resolved "https://registry.yarnpkg.com/copy-descriptor/-/copy-descriptor-0.1.1.tgz#676f6eb3c39997c2ee1ac3a924fd6124748f578d"
 
 core-js@^2.0.0, core-js@^2.4.0:
-  version "2.5.4"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.4.tgz#f2c8bf181f2a80b92f360121429ce63a2f0aeae0"
+  version "2.5.5"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.5.5.tgz#b14dde936c640c0579a6b50cabcc132dd6127e3b"
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -1347,8 +1347,8 @@ firebase-key@^2.0.1:
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.1.tgz#5f1fe462c011c7f944f2f0f489c838dd1ed162ef"
 
 firemock@^0.15.11:
-  version "0.15.11"
-  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.15.11.tgz#05c9288ddb095c5a616c86d621021b3033306b43"
+  version "0.15.13"
+  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.15.13.tgz#e3f633b7e08472f485e13c96ab7d62bb89ac2ade"
   dependencies:
     common-types "^1.5.4"
     firebase-api-surface "^0.7.11"
@@ -2484,7 +2484,7 @@ modelo@^4.2.0:
   version "4.2.3"
   resolved "https://registry.yarnpkg.com/modelo/-/modelo-4.2.3.tgz#b278588a4db87fc1e5107ae3a277c0876f38d894"
 
-moment@^2.20.0, moment@^2.20.1, moment@^2.22.0:
+moment@^2.20.1, moment@^2.22.0:
   version "2.22.0"
   resolved "https://registry.yarnpkg.com/moment/-/moment-2.22.0.tgz#7921ade01017dd45186e7fee5f424f0b8663a730"
 
@@ -3203,12 +3203,11 @@ safe-regex@^1.1.0:
   resolved "https://registry.yarnpkg.com/semver/-/semver-5.5.0.tgz#dc4bbc7a6ca9d916dee5d43516f0092b58f7b8ab"
 
 serialized-query@^0.3.3:
-  version "0.3.3"
-  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.3.3.tgz#1e56aa112b372943655e210a473a0bda78cc9546"
+  version "0.3.8"
+  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.3.8.tgz#69478f56a4b9714bd7f33a76265e4355d78a31da"
   dependencies:
-    common-types "^1.5.4"
+    common-types "^1.6.30"
     firebase-api-surface "^0.7.11"
-    moment "^2.20.0"
 
 set-blocking@^2.0.0, set-blocking@~2.0.0:
   version "2.0.0"
