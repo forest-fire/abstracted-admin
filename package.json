@@ -1,14 +1,14 @@
 {
   "name": "abstracted-admin",
-  "version": "0.9.7",
+  "version": "0.9.8",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
   "author": "Ken Snyder <ken@ken.net>",
   "keywords": ["firebase", "typescript", "nodejs", "utility", "admin"],
-  "files": ["lib", "esm"],
+  "files": ["lib", "dist"],
   "main": "lib/index.js",
-  "module": "esm/index.js",
+  "module": "dist/abstracted-admin.es.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
@@ -22,14 +22,14 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "^0.5.0",
-    "common-types": "^1.5.4",
+    "abstracted-firebase": "^0.5.4",
+    "common-types": "^1.7.27",
     "firebase-admin": "^5.12.0",
     "firebase-api-surface": "^0.7.11",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "moment": "^2.22.0",
-    "serialized-query": "^0.3.3",
+    "serialized-query": "^0.3.8",
     "typed-conversions": "^0.7.3"
   },
   "peerDependencies": {
