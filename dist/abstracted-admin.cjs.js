@@ -1,30 +1,27 @@
-"use strict";
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
-Object.defineProperty(exports, "__esModule", { value: true });
-const firebase = require("firebase-admin");
-const process = require("process");
-const abstracted_firebase_1 = require("abstracted-firebase");
-class DB extends abstracted_firebase_1.RealTimeDB {
+'use strict';
+
+Object.defineProperty(exports, '__esModule', { value: true });
+
+var firebase = require('firebase-admin');
+var process = require('process');
+var abstractedFirebase = require('abstracted-firebase');
+var serializedQuery = require('serialized-query');
+
+class DB extends abstractedFirebase.RealTimeDB {
     constructor(config = {}) {
         super(config);
         if (!config.mocking) {
             this.connect(config.debugging);
-            abstracted_firebase_1.RealTimeDB.connection = firebase.database();
+            abstractedFirebase.RealTimeDB.connection = firebase.database();
             firebase.database().goOnline();
-            firebase
-                .database()
+            firebase.database()
                 .ref(".info/connected")
                 .on("value", snap => {
                 DB.isConnected = snap.val();
+                // cycle through temporary clients
                 this._waitingForConnection.forEach(cb => cb());
                 this._waitingForConnection = [];
+                // call active listeners
                 if (DB.isConnected) {
                     this._onConnected.forEach(listener => listener.cb(this));
                 }
@@ -34,17 +31,15 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             });
         }
     }
-    waitForConnection() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (DB.isConnected) {
-                return Promise.resolve();
-            }
-            return new Promise(resolve => {
-                const cb = () => {
-                    resolve();
-                };
-                this._waitingForConnection.push(cb);
-            });
+    async waitForConnection() {
+        if (DB.isConnected) {
+            return Promise.resolve();
+        }
+        return new Promise(resolve => {
+            const cb = () => {
+                resolve();
+            };
+            this._waitingForConnection.push(cb);
         });
     }
     get isConnected() {
@@ -84,4 +79,9 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         }
     }
 }
+
+exports.RealTimeDB = abstractedFirebase.RealTimeDB;
+exports.FirebaseBoolean = abstractedFirebase.FirebaseBoolean;
+exports.SerializedQuery = serializedQuery.SerializedQuery;
 exports.DB = DB;
+//# sourceMappingURL=abstracted-admin.cjs.js.map

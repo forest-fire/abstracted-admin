@@ -1,18 +1,8 @@
 import * as firebase from "firebase-admin";
 import { rtdb } from "firebase-api-surface";
-import { IDictionary } from "common-types";
-import * as convert from "typed-conversions";
-import { SerializedQuery } from "serialized-query";
-import * as moment from "moment";
 import * as process from "process";
-import { slashNotation } from "./util";
-import { Mock, Reference, resetDatabase } from "firemock";
+import { Reference } from "firemock";
 import { RealTimeDB } from "abstracted-firebase";
-
-export enum FirebaseBoolean {
-  true = 1,
-  false = 0
-}
 
 export type Snapshot = rtdb.IDataSnapshot;
 export type Query = rtdb.IQuery;

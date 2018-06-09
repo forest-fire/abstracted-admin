@@ -1,19 +1,6 @@
-var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
-    return new (P || (P = Promise))(function (resolve, reject) {
-        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
-        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
-        function step(result) { result.done ? resolve(result.value) : new P(function (resolve) { resolve(result.value); }).then(fulfilled, rejected); }
-        step((generator = generator.apply(thisArg, _arguments || [])).next());
-    });
-};
 import * as firebase from "firebase-admin";
 import * as process from "process";
 import { RealTimeDB } from "abstracted-firebase";
-export var FirebaseBoolean;
-(function (FirebaseBoolean) {
-    FirebaseBoolean[FirebaseBoolean["true"] = 1] = "true";
-    FirebaseBoolean[FirebaseBoolean["false"] = 0] = "false";
-})(FirebaseBoolean || (FirebaseBoolean = {}));
 export class DB extends RealTimeDB {
     constructor(config = {}) {
         super(config);
@@ -26,8 +13,10 @@ export class DB extends RealTimeDB {
                 .ref(".info/connected")
                 .on("value", snap => {
                 DB.isConnected = snap.val();
+                // cycle through temporary clients
                 this._waitingForConnection.forEach(cb => cb());
                 this._waitingForConnection = [];
+                // call active listeners
                 if (DB.isConnected) {
                     this._onConnected.forEach(listener => listener.cb(this));
                 }
@@ -37,17 +26,15 @@ export class DB extends RealTimeDB {
             });
         }
     }
-    waitForConnection() {
-        return __awaiter(this, void 0, void 0, function* () {
-            if (DB.isConnected) {
-                return Promise.resolve();
-            }
-            return new Promise(resolve => {
-                const cb = () => {
-                    resolve();
-                };
-                this._waitingForConnection.push(cb);
-            });
+    async waitForConnection() {
+        if (DB.isConnected) {
+            return Promise.resolve();
+        }
+        return new Promise(resolve => {
+            const cb = () => {
+                resolve();
+            };
+            this._waitingForConnection.push(cb);
         });
     }
     get isConnected() {
