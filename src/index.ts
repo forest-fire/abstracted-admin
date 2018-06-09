@@ -1,14 +1,6 @@
 import { DB } from "./db";
 export { SerializedQuery } from "serialized-query";
-export default DB;
-export {
-  DB,
-  IFirebaseConfig,
-  IFirebaseListener,
-  FirebaseBoolean,
-  Snapshot,
-  Query,
-  Reference
-} from "./db";
+export { DB, IFirebaseConfig, IFirebaseListener, Snapshot, Query, Reference } from "./db";
 
-export { RealTimeDB } from "abstracted-firebase";
+import { RealTimeDB, FirebaseBoolean } from "abstracted-firebase";
+export { RealTimeDB, FirebaseBoolean };
