@@ -1,6 +1,6 @@
 import * as firebase from "firebase-admin";
 import { rtdb } from "firebase-api-surface";
-import { RealTimeDB, IFirebaseConfig, IFirebaseAdminConfigProps } from "abstracted-firebase";
+import { RealTimeDB, IFirebaseAdminConfigProps, IFirebaseAdminConfig } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 export declare type Snapshot = rtdb.IDataSnapshot;
 export declare type Query = rtdb.IQuery;
@@ -17,7 +17,8 @@ export declare class DB extends RealTimeDB {
     protected _firestore: firebase.firestore.Firestore;
     protected _messaging: firebase.messaging.Messaging;
     protected _auth: firebase.auth.Auth;
-    constructor(config: IFirebaseConfig);
+    protected app: any;
+    constructor(config?: Partial<IFirebaseAdminConfig>);
     readonly auth: firebase.auth.Auth;
     readonly firestore: FirebaseFirestore.Firestore;
     readonly database: rtdb.IFirebaseDatabase;

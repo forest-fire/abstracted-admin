@@ -2,17 +2,37 @@
 
 Object.defineProperty(exports, '__esModule', { value: true });
 
+var events = require('events');
 var firebase = require('firebase-admin');
 var process = require('process');
 var abstractedFirebase = require('abstracted-firebase');
 var serializedQuery = require('serialized-query');
 
+class EventManager extends events.EventEmitter {
+    connection(state) {
+        this.emit("connection", state);
+    }
+}
+
 class DB extends abstractedFirebase.RealTimeDB {
     constructor(config) {
         super();
-        config = Object.assign({
-            name: "[default]"
-        }, config);
+        this._eventManager = new EventManager();
+        const defaults = {
+            name: "[DEFAULT]"
+        };
+        if (process.env["FIREBASE_SERVICE_ACCOUNT"]) {
+            defaults.serviceAccount = process.env["FIREBASE_SERVICE_ACCOUNT"];
+        }
+        if (process.env["FIREBASE_DATA_ROOT_URL"]) {
+            defaults.databaseUrl = process.env["FIREBASE_DATA_ROOT_URL"];
+        }
+        config = Object.assign({}, defaults, (config || {}));
+        if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
+            const e = new Error(`You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor`);
+            e.name = "AbstractedAdmin::InsufficientDetails";
+            throw e;
+        }
         this.initialize(config);
     }
     get auth() {
@@ -39,13 +59,20 @@ class DB extends abstractedFirebase.RealTimeDB {
             const serviceAccount = JSON.parse(Buffer.from(process.env["FIREBASE_SERVICE_ACCOUNT"], "base64").toString());
             console.log(`Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`);
             try {
-                firebase.initializeApp({
-                    credential: firebase.credential.cert(serviceAccount),
-                    databaseURL: config.databaseUrl || process.env["FIREBASE_DATA_ROOT_URL"]
-                });
+                const { name } = config;
+                const runningApps = new Set(firebase.apps.map(i => i.name));
+                this.app = runningApps.has(name)
+                    ? firebase.app()
+                    : firebase.initializeApp({
+                        credential: firebase.credential.cert(serviceAccount),
+                        databaseURL: config.databaseUrl
+                    });
                 this._isAuthorized = true;
                 this._database = firebase.database();
+                this.enableDatabaseLogging = firebase.database.enableLogging.bind(firebase.database);
+                this.app = firebase;
                 firebase.database().goOnline();
+                new EventManager().connection(true);
                 firebase.database()
                     .ref(".info/connected")
                     .on("value", snap => {
@@ -74,13 +101,11 @@ class DB extends abstractedFirebase.RealTimeDB {
                 }
             }
         }
-        // if (config.debugging) {
-        //   firebase.database.enableLogging(
-        //     typeof config.debugging === "function"
-        //       ? (message: string) => config.debugging(message)
-        //       : (message: string) => console.log("[FIREBASE]", message)
-        //   );
-        // }
+        if (config.debugging) {
+            this.enableDatabaseLogging(typeof config.debugging === "function"
+                ? (message) => config.debugging(message)
+                : (message) => console.log("[FIREBASE]", message));
+        }
     }
     /**
      * listenForConnectionStatus
