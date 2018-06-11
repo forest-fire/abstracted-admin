@@ -2,16 +2,18 @@ import * as firebase from "firebase-admin";
 import { rtdb } from "firebase-api-surface";
 import * as process from "process";
 import { Reference } from "firemock";
-import { RealTimeDB } from "abstracted-firebase";
+import {
+  RealTimeDB,
+  _getFirebaseType,
+  IFirebaseAdminConfigProps,
+  IFirebaseAdminConfig
+} from "abstracted-firebase";
+import { EventManager } from "./EventManager";
+import { IDictionary } from "common-types";
 
 export type Snapshot = rtdb.IDataSnapshot;
 export type Query = rtdb.IQuery;
 export type Reference = rtdb.IReference;
-export type DebuggingCallback = (message: string) => void;
-export interface IFirebaseConfig {
-  debugging?: boolean | DebuggingCallback;
-  mocking?: boolean;
-}
 
 export interface IFirebaseListener {
   id: string;
@@ -19,52 +21,68 @@ export interface IFirebaseListener {
 }
 
 export class DB extends RealTimeDB {
-  public auth: firebase.auth.Auth;
+  protected _eventManager: EventManager;
+  protected _isAuthorized: boolean;
+  protected _storage: firebase.storage.Storage;
+  protected _database: rtdb.IFirebaseDatabase;
+  protected _firestore: firebase.firestore.Firestore;
+  protected _messaging: firebase.messaging.Messaging;
+  protected _auth: firebase.auth.Auth;
+  protected app: any;
 
-  constructor(config: IFirebaseConfig = {}) {
-    super(config);
-    if (!config.mocking) {
-      this.connect(config.debugging);
-      RealTimeDB.connection = firebase.database() as rtdb.IFirebaseDatabase;
-      firebase.database().goOnline();
-
-      firebase
-        .database()
-        .ref(".info/connected")
-        .on("value", snap => {
-          DB.isConnected = snap.val();
-          // cycle through temporary clients
-          this._waitingForConnection.forEach(cb => cb());
-          this._waitingForConnection = [];
-          // call active listeners
-          if (DB.isConnected) {
-            this._onConnected.forEach(listener => listener.cb(this));
-          } else {
-            this._onDisconnected.forEach(listener => listener.cb(this));
-          }
-        });
+  constructor(config?: Partial<IFirebaseAdminConfig>) {
+    super();
+    this._eventManager = new EventManager();
+    const defaults: Partial<IFirebaseAdminConfig> = {
+      name: "[DEFAULT]"
+    };
+    if (process.env["FIREBASE_SERVICE_ACCOUNT"]) {
+      defaults.serviceAccount = process.env["FIREBASE_SERVICE_ACCOUNT"];
     }
-  }
-
-  public async waitForConnection() {
-    if (DB.isConnected) {
-      return Promise.resolve();
+    if (process.env["FIREBASE_DATA_ROOT_URL"]) {
+      defaults.databaseUrl = process.env["FIREBASE_DATA_ROOT_URL"];
     }
-    return new Promise(resolve => {
-      const cb = () => {
-        resolve();
-      };
-      this._waitingForConnection.push(cb);
-    });
+
+    config = {
+      ...defaults,
+      ...(config || {})
+    };
+
+    if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
+      const e = new Error(
+        `You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor`
+      );
+      e.name = "AbstractedAdmin::InsufficientDetails";
+      throw e;
+    }
+
+    this.initialize(config);
   }
 
-  public get isConnected() {
-    return DB.isConnected;
+  public get auth() {
+    return _getFirebaseType(this, "auth") as firebase.auth.Auth;
   }
 
-  private connect(debugging: boolean | DebuggingCallback = false): void {
-    if (!DB.isAuthorized) {
-      const serviceAcctEncoded = process.env["FIREBASE_SERVICE_ACCOUNT"];
+  public get firestore() {
+    return _getFirebaseType(this, "firestore") as firebase.firestore.Firestore;
+  }
+
+  public get database() {
+    return _getFirebaseType(this, "database") as rtdb.IFirebaseDatabase;
+  }
+
+  public get messaging() {
+    return _getFirebaseType(this, "messaging") as firebase.messaging.Messaging;
+  }
+
+  public get storage() {
+    return _getFirebaseType(this, "storage") as firebase.storage.Storage;
+  }
+
+  protected async connectToFirebase(config: IFirebaseAdminConfigProps) {
+    if (!this._isAuthorized) {
+      const serviceAcctEncoded =
+        config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
       if (!serviceAcctEncoded) {
         throw new Error(
           "Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key."
@@ -77,29 +95,72 @@ export class DB extends RealTimeDB {
       console.log(`Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`);
 
       try {
-        firebase.initializeApp({
-          credential: firebase.credential.cert(serviceAccount),
-          databaseURL: process.env["FIREBASE_DATA_ROOT_URL"]
-        });
-        DB.isAuthorized = true;
+        const { name } = config;
+        const runningApps = new Set(firebase.apps.map(i => i.name));
+        this.app = runningApps.has(name)
+          ? firebase.app()
+          : firebase.initializeApp({
+              credential: firebase.credential.cert(serviceAccount),
+              databaseURL: config.databaseUrl
+            });
+        this._isAuthorized = true;
+        this._database = firebase.database() as rtdb.IFirebaseDatabase;
+        this.enableDatabaseLogging = firebase.database.enableLogging.bind(
+          firebase.database
+        );
+        this.app = firebase;
+        firebase.database().goOnline();
+        new EventManager().connection(true);
+
+        firebase
+          .database()
+          .ref(".info/connected")
+          .on("value", snap => {
+            this._isConnected = snap.val();
+            // cycle through temporary clients
+            this._waitingForConnection.forEach(cb => cb());
+            this._waitingForConnection = [];
+            // call active listeners
+            if (this.isConnected) {
+              this._onConnected.forEach(listener => listener.cb(this));
+            } else {
+              this._onDisconnected.forEach(listener => listener.cb(this));
+            }
+          });
       } catch (err) {
         if (err.message.indexOf("The default Firebase app already exists.") !== -1) {
           console.warn("DB was already logged in, however flag had not been set!");
-          DB.isConnected = true;
+          this._isConnected = true;
         } else {
-          DB.isConnected = false;
+          this._isConnected = false;
           console.warn("Problem connecting to Firebase", err);
           throw new Error(err);
         }
       }
     }
 
-    if (debugging) {
-      firebase.database.enableLogging(
-        typeof debugging === "function"
-          ? (message: string) => debugging(message)
+    if (config.debugging) {
+      this.enableDatabaseLogging(
+        typeof config.debugging === "function"
+          ? (message: string) => (config.debugging as any)(message)
           : (message: string) => console.log("[FIREBASE]", message)
       );
     }
+  }
+
+  /**
+   * listenForConnectionStatus
+   *
+   * in the admin interface we assume that ONCE connected
+   * we remain connected; this is unlike the client API
+   * which provides an endpoint to lookup
+   */
+  protected async listenForConnectionStatus() {
+    return new Promise(resolve => {
+      const cb = () => {
+        resolve();
+      };
+      this._waitingForConnection.push(cb);
+    });
   }
 }

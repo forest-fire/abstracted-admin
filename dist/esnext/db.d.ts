@@ -1,22 +1,35 @@
 import * as firebase from "firebase-admin";
 import { rtdb } from "firebase-api-surface";
-import { RealTimeDB } from "abstracted-firebase";
+import { RealTimeDB, IFirebaseConfig, IFirebaseAdminConfigProps } from "abstracted-firebase";
+import { EventManager } from "./EventManager";
 export declare type Snapshot = rtdb.IDataSnapshot;
 export declare type Query = rtdb.IQuery;
 export declare type Reference = rtdb.IReference;
-export declare type DebuggingCallback = (message: string) => void;
-export interface IFirebaseConfig {
-    debugging?: boolean | DebuggingCallback;
-    mocking?: boolean;
-}
 export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
 }
 export declare class DB extends RealTimeDB {
-    auth: firebase.auth.Auth;
-    constructor(config?: IFirebaseConfig);
-    waitForConnection(): Promise<void | {}>;
-    readonly isConnected: boolean;
-    private connect;
+    protected _eventManager: EventManager;
+    protected _isAuthorized: boolean;
+    protected _storage: firebase.storage.Storage;
+    protected _database: rtdb.IFirebaseDatabase;
+    protected _firestore: firebase.firestore.Firestore;
+    protected _messaging: firebase.messaging.Messaging;
+    protected _auth: firebase.auth.Auth;
+    constructor(config: IFirebaseConfig);
+    readonly auth: firebase.auth.Auth;
+    readonly firestore: FirebaseFirestore.Firestore;
+    readonly database: rtdb.IFirebaseDatabase;
+    readonly messaging: firebase.messaging.Messaging;
+    readonly storage: firebase.storage.Storage;
+    protected connectToFirebase(config: IFirebaseAdminConfigProps): Promise<void>;
+    /**
+     * listenForConnectionStatus
+     *
+     * in the admin interface we assume that ONCE connected
+     * we remain connected; this is unlike the client API
+     * which provides an endpoint to lookup
+     */
+    protected listenForConnectionStatus(): Promise<{}>;
 }

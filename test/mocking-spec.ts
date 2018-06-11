@@ -1,6 +1,7 @@
-import DB from "../src/index";
+import { DB } from "../src/index";
+// tslint:disable-next-line:no-implicit-dependencies
 import * as chai from "chai";
-import Mock, { SchemaCallback, resetDatabase } from "firemock";
+import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
 const expect = chai.expect;
 helpers.setupEnv();
@@ -12,15 +13,18 @@ const animalMocker: SchemaCallback = h => () => ({
 });
 
 describe("Mocking", () => {
-  it("ref() returns a mock reference", () => {
+  it("ref() returns a mock reference", async () => {
     const db = new DB();
-    expect(db.ref("foo")).to.not.have.property("onceSync");
+    await db.waitForConnection();
+    expect(db.ref("foo")).to.have.property("once");
     const mockDb = new DB({ mocking: true });
-    expect(mockDb.ref("foo")).to.have.property("onceSync");
+    await mockDb.waitForConnection();
+    expect(mockDb.ref("foo")).to.have.property("once");
   });
 
   it("getSnapshot() returns a mock snapshot", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     addAnimals(db, 10);
     const animals = await db.getSnapshot("/animals");
     expect(animals.numChildren()).to.equal(10);
@@ -31,17 +35,19 @@ describe("Mocking", () => {
 
   it("getValue() returns a value from mock DB", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     addAnimals(db, 10);
     const animals = await db.getValue("/animals");
     expect(animals).to.be.an("object");
     expect(helpers.length(animals)).to.equal(10);
-    expect(helpers.firstRecord(animals)).to.not.have.property("id");
+    expect(helpers.firstRecord(animals)).to.have.property("id");
     expect(helpers.firstRecord(animals)).to.have.property("name");
     expect(helpers.firstRecord(animals)).to.have.property("age");
   });
 
   it("getRecord() returns a record from mock DB", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     addAnimals(db, 10);
     const firstKey = helpers.firstKey(db.mock.db.animals);
     const animal = await db.getRecord(`/animals/${firstKey}`);
@@ -53,6 +59,7 @@ describe("Mocking", () => {
 
   it("getRecord() returns a record from mock DB with bespoke id prop", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     addAnimals(db, 10);
     const firstKey = helpers.firstKey(db.mock.db.animals);
     const animal = await db.getRecord(`/animals/${firstKey}`, "key");
@@ -65,6 +72,7 @@ describe("Mocking", () => {
 
   it("getList() returns an array of records", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     addAnimals(db, 10);
     const animals = await db.getList("/animals");
     expect(animals).to.be.an("array");
@@ -76,6 +84,7 @@ describe("Mocking", () => {
 
   it('getList() returns an array of records, with bespoke "id" property', async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     addAnimals(db, 10);
     const animals = await db.getList("/animals", "key");
     expect(animals).to.be.an("array");
@@ -87,6 +96,7 @@ describe("Mocking", () => {
 
   it("set() sets to the mock DB", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     db.set("/people/abcd", {
       name: "Frank Black",
       age: 45
@@ -99,6 +109,7 @@ describe("Mocking", () => {
 
   it("update() updates the mock DB", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     db.mock.updateDB({
       people: {
         abcd: {
@@ -119,6 +130,7 @@ describe("Mocking", () => {
 
   it("push() pushes records into the mock DB", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     db.push("/people", {
       name: "Frank Black",
       age: 45
@@ -134,6 +146,7 @@ describe("Mocking", () => {
 
   it("read operations on mock with a schema prefix are offset correctly", async () => {
     const db = new DB({ mocking: true });
+    await db.waitForConnection();
     db.mock
       .addSchema("meal", h => () => ({
         name: h.faker.random.arrayElement(["breakfast", "lunch", "dinner"]),
