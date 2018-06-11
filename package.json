@@ -30,7 +30,7 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "abstracted-firebase": "^0.11.8",
+    "abstracted-firebase": "^0.11.9",
     "common-types": "^1.7.36",
     "firebase-admin": "^5.12.1",
     "firebase-api-surface": "^0.8.3",

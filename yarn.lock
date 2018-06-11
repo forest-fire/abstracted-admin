@@ -419,9 +419,9 @@ abbrev@1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/abbrev/-/abbrev-1.1.1.tgz#f8f2c887ad10bf67f634f005b6987fed3179aac8"
 
-abstracted-firebase@^0.11.8:
-  version "0.11.8"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.11.8.tgz#606d61ad4ab947fab2fb72397ff63958a1048bfd"
+abstracted-firebase@^0.11.9:
+  version "0.11.9"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.11.9.tgz#ee73d85180963eb61172cf078246b7eaf17ef0aa"
   dependencies:
     common-types "^1.7.36"
     firebase-api-surface "^0.8.3"
