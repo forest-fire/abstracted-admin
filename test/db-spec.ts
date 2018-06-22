@@ -1,5 +1,5 @@
 // tslint:disable:no-implicit-dependencies
-import DB from "../src/index";
+import { DB } from "../src";
 import * as chai from "chai";
 import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
@@ -24,75 +24,11 @@ describe("Connecting to Database", () => {
 
   it("can get a value from database once waitForConnection() returns", async () => {
     const db = new DB();
-    const connected = (await db.getValue<boolean>(".info/connected"))
-      ? true
-      : false;
-    await helpers.timeout(1);
-    expect(connected).to.be.a("boolean");
+    expect(db.isConnected).to.be.a("boolean");
     await db.waitForConnection();
     expect(db.isConnected).to.equal(true);
-  });
-});
-
-describe("Read operations: ", () => {
-  helpers.setupEnv();
-  const db = new DB();
-  const dbMock = new DB({ mocking: true });
-  const personMockGenerator: SchemaCallback = h => () => ({
-    name: h.faker.name.firstName() + " " + h.faker.name.lastName(),
-    age: h.faker.random.number({ min: 10, max: 99 })
-  });
-  dbMock.mock.addSchema("person", personMockGenerator);
-  before(async () => {
-    await db.set("test-data", {
-      one: "foo",
-      two: "bar",
-      three: "baz"
-    });
-    await db.set("test-records", {
-      123456: {
-        name: "Chris",
-        age: 50
-      },
-      654321: {
-        name: "Bob",
-        age: 68
-      }
-    });
-    await dbMock.mock.queueSchema("person", 20);
-  });
-
-  it("getSnapshot() gets statically set data in test DB", async () => {
-    const data = await db.getSnapshot("test-data");
-    expect(data.val()).to.be.an("object");
-    expect(data.val().one).to.be.equal("foo");
-    expect(data.val().two).to.be.equal("bar");
-    expect(data.val().three).to.be.equal("baz");
-    expect(data.key).to.equal("test-data");
-  });
-
-  it("getValue() gets statically set data in test DB", async () => {
-    const data = await db.getValue("test-data");
-    expect(data).to.be.an("object");
-    expect(data.one).to.be.equal("foo");
-    expect(data.two).to.be.equal("bar");
-    expect(data.three).to.be.equal("baz");
-  });
-
-  it("getRecord() gets statically set data in test DB", async () => {
-    interface ITest {
-      id: string;
-      age: number;
-      name: string;
-    }
-
-    const record = await db.getRecord<ITest>("/test-records/123456");
-    console.log(record);
-
-    expect(record).to.be.an("object");
-    expect(record.id).to.be.equal("123456");
-    expect(record.name).to.be.equal("Chris");
-    expect(record.age).to.be.equal(50);
+    const connected = await db.getValue<boolean>(".info/connected");
+    expect(connected).to.equal(true);
   });
 });
 

@@ -6,9 +6,9 @@ const expect = chai.expect;
 
 describe("CRUD Testing > ", () => {
   let db: DB;
-  beforeEach(() => {
+  beforeEach(async () => {
     db = new DB({ mocking: true });
-    db.resetMockDb();
+    await db.waitForConnection();
   });
 
   describe("Multi-path operations", () => {

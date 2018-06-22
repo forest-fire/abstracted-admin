@@ -1,6 +1,6 @@
+// tslint:disable:no-implicit-dependencies
 import { IDictionary } from "common-types";
-import first = require("lodash.first");
-import last = require("lodash.last");
+import { first, last } from "lodash";
 import * as fs from "fs";
 import * as yaml from "js-yaml";
 import * as process from "process";
@@ -10,7 +10,7 @@ import { stdout, stderr } from "test-console";
 // tslint:disable-next-line
 interface Console {
   _restored: boolean;
-  Console: typeof NodeJS.Console;
+  // Console: typeof NodeJS.Console;
   assert(value: any, message?: string, ...optionalParams: any[]): void;
   dir(
     obj: any,
@@ -41,7 +41,7 @@ export function setupEnv() {
   }
 
   if (process.env.MOCK === undefined) {
-    process.env.MOCK = true;
+    process.env.MOCK = "true";
   }
 
   const current = process.env;
