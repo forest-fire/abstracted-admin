@@ -15,6 +15,15 @@ class EventManager extends events.EventEmitter {
 }
 
 class DB extends abstractedFirebase.RealTimeDB {
+    /**
+     * Instantiates a DB and then waits for the connection
+     * to finish before resolving the promise.
+     */
+    static async connect(config) {
+        const obj = new DB(config);
+        await obj.waitForConnection();
+        return obj;
+    }
     constructor(config) {
         super();
         this._eventManager = new EventManager();
