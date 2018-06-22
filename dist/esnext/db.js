@@ -3,6 +3,15 @@ import * as process from "process";
 import { RealTimeDB, _getFirebaseType } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 export class DB extends RealTimeDB {
+    /**
+     * Instantiates a DB and then waits for the connection
+     * to finish before resolving the promise.
+     */
+    static async connect(config) {
+        const obj = new DB(config);
+        await obj.waitForConnection();
+        return obj;
+    }
     constructor(config) {
         super();
         this._eventManager = new EventManager();
