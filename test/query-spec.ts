@@ -20,7 +20,7 @@ describe("Query based Read ops:", () => {
     age: h.faker.random.number({ min: 10, max: 99 })
   });
   before(async () => {
-    db.mock.addSchema("person", personMockGenerator);
+    db.mock.addSchema("person", personMockGenerator as any);
     db.mock.queueSchema("person", 20);
     db.mock.queueSchema("person", 5, { age: 100 });
     db.mock.queueSchema("person", 5, { age: 1 });
