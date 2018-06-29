@@ -9,7 +9,6 @@ import {
   IFirebaseAdminConfig
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
-import { IDictionary } from "common-types";
 
 export type Snapshot = rtdb.IDataSnapshot;
 export type Query = rtdb.IQuery;

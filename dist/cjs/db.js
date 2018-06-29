@@ -1,20 +1,10 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var events = require('events');
-var firebase = require('firebase-admin');
-var process = require('process');
-var abstractedFirebase = require('abstracted-firebase');
-var serializedQuery = require('serialized-query');
-
-class EventManager extends events.EventEmitter {
-    connection(state) {
-        this.emit("connection", state);
-    }
-}
-
-class DB extends abstractedFirebase.RealTimeDB {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const firebase = require("firebase-admin");
+const process = require("process");
+const abstracted_firebase_1 = require("abstracted-firebase");
+const EventManager_1 = require("./EventManager");
+class DB extends abstracted_firebase_1.RealTimeDB {
     /**
      * Instantiates a DB and then waits for the connection
      * to finish before resolving the promise.
@@ -26,7 +16,7 @@ class DB extends abstractedFirebase.RealTimeDB {
     }
     constructor(config) {
         super();
-        this._eventManager = new EventManager();
+        this._eventManager = new EventManager_1.EventManager();
         const defaults = {
             name: "[DEFAULT]"
         };
@@ -45,19 +35,19 @@ class DB extends abstractedFirebase.RealTimeDB {
         this.initialize(config);
     }
     get auth() {
-        return abstractedFirebase._getFirebaseType(this, "auth");
+        return abstracted_firebase_1._getFirebaseType(this, "auth");
     }
     get firestore() {
-        return abstractedFirebase._getFirebaseType(this, "firestore");
+        return abstracted_firebase_1._getFirebaseType(this, "firestore");
     }
     get database() {
-        return abstractedFirebase._getFirebaseType(this, "database");
+        return abstracted_firebase_1._getFirebaseType(this, "database");
     }
     get messaging() {
-        return abstractedFirebase._getFirebaseType(this, "messaging");
+        return abstracted_firebase_1._getFirebaseType(this, "messaging");
     }
     get storage() {
-        return abstractedFirebase._getFirebaseType(this, "storage");
+        return abstracted_firebase_1._getFirebaseType(this, "storage");
     }
     async connectToFirebase(config) {
         if (!this._isAuthorized) {
@@ -81,8 +71,9 @@ class DB extends abstractedFirebase.RealTimeDB {
                 this.enableDatabaseLogging = firebase.database.enableLogging.bind(firebase.database);
                 this.app = firebase;
                 firebase.database().goOnline();
-                new EventManager().connection(true);
-                firebase.database()
+                new EventManager_1.EventManager().connection(true);
+                firebase
+                    .database()
                     .ref(".info/connected")
                     .on("value", snap => {
                     this._isConnected = snap.val();
@@ -132,9 +123,4 @@ class DB extends abstractedFirebase.RealTimeDB {
         });
     }
 }
-
-exports.RealTimeDB = abstractedFirebase.RealTimeDB;
-exports.FirebaseBoolean = abstractedFirebase.FirebaseBoolean;
-exports.SerializedQuery = serializedQuery.SerializedQuery;
 exports.DB = DB;
-//# sourceMappingURL=abstracted-admin.cjs.js.map
