@@ -92,4 +92,41 @@ describe("Query based Read ops:", () => {
     expect(data).to.have.lengthOf(4);
     data.map(d => d.age).map(age => expect(age).to.equal(100));
   });
+
+  /**
+   * hashLookups have a meaningful value as the value prop;
+   * this is in contrast to the "hashArray" where the value
+   * is set to TRUE only
+   */
+  it("getList() works with a hashLookup list", async () => {
+    db.mock.updateDB({
+      hash: {
+        "-LFsnvrP4aDu3wcbxfVk": 1529961496026,
+        "-LFsnvrvoavTDlWzdoPL": 1529961496059,
+        "-LFsnvsq2FDo48xxRzmO": 1529961496118,
+        "-LFsnvswzAKs8hgu6B7R": 1529961496124,
+        "-LFsnvt2hq28zZHeddyn": 1529961496131
+      }
+    });
+
+    const list = await db.getList("hash");
+    expect(list).to.have.lengthOf(5);
+    expect(list[0]).to.be.an("object");
+  });
+
+  it("getList() brings back a simple array when presented with a hashArray", async () => {
+    db.mock.updateDB({
+      hash: {
+        "-LFsnvrP4aDu3wcbxfVk": true,
+        "-LFsnvrvoavTDlWzdoPL": true,
+        "-LFsnvsq2FDo48xxRzmO": true,
+        "-LFsnvswzAKs8hgu6B7R": true,
+        "-LFsnvt2hq28zZHeddyn": true
+      }
+    });
+
+    const list = await db.getList("hash");
+    expect(list).to.have.length(5);
+    expect(list[0]).to.be.a("string");
+  });
 });

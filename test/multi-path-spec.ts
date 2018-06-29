@@ -19,8 +19,8 @@ describe("CRUD Testing > ", () => {
         .add({ path: "foobar", value: "bar" })
         .add({ path: "/foobaz", value: "baz" });
       expect(config.paths.length).is.equal(3);
-      expect(config.paths).contains("/foofoo");
-      expect(config.paths).contains("/foobar");
+      expect(config.paths).contains("foofoo");
+      expect(config.paths).contains("foobar");
       expect(config.paths).contains("/foobaz");
     });
 
@@ -65,7 +65,7 @@ describe("CRUD Testing > ", () => {
           .add({ path: "foofoo", value: 2 });
         throw new Error("Duplicate path should have thrown error");
       } catch (e) {
-        expect(e.code).to.equal("duplicate-path");
+        expect(e.name).to.equal("DuplicatePath");
       }
     });
 
@@ -81,9 +81,9 @@ describe("CRUD Testing > ", () => {
       const foobar = await db.getValue("foobar");
       const foobar2 = await db.getValue("/foo/bar");
 
-      expect(foobar2).to.equal(25);
       expect(foofoo).to.equal(1);
       expect(foobar).to.equal(2);
+      expect(foobar2).to.equal(25);
     });
 
     it("Multipath set, sets value at all paths using mock DB and basePath offset", async () => {
