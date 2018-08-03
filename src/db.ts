@@ -59,7 +59,7 @@ export class DB extends RealTimeDB {
 
     if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
       const e = new Error(
-        `You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor`
+        `You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor's configuration hash`
       );
       e.name = "AbstractedAdmin::InsufficientDetails";
       throw e;
