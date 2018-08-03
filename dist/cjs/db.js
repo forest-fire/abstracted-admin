@@ -4,6 +4,7 @@ const firebase = require("firebase-admin");
 const process = require("process");
 const abstracted_firebase_1 = require("abstracted-firebase");
 const EventManager_1 = require("./EventManager");
+const util_1 = require("util");
 class DB extends abstracted_firebase_1.RealTimeDB {
     /**
      * Instantiates a DB and then waits for the connection
@@ -28,7 +29,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         }
         config = Object.assign({}, defaults, (config || {}));
         if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
-            const e = new Error(`You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor`);
+            const e = new Error(`You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor's configuration hash`);
             e.name = "AbstractedAdmin::InsufficientDetails";
             throw e;
         }
@@ -60,6 +61,9 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             try {
                 const { name } = config;
                 const runningApps = new Set(firebase.apps.map(i => i.name));
+                util_1.debug(`AbstractedAdmin: the DB "${name}" ` + runningApps.has(name)
+                    ? "appears to be already connected"
+                    : "has not yet been connected");
                 this.app = runningApps.has(name)
                     ? firebase.app()
                     : firebase.initializeApp({
@@ -82,9 +86,11 @@ class DB extends abstracted_firebase_1.RealTimeDB {
                     this._waitingForConnection = [];
                     // call active listeners
                     if (this.isConnected) {
+                        util_1.debug(`AbstractedAdmin: connected to ${name}`);
                         this._onConnected.forEach(listener => listener.cb(this));
                     }
                     else {
+                        util_1.debug(`AbstractedAdmin: disconnected from ${name}`);
                         this._onDisconnected.forEach(listener => listener.cb(this));
                     }
                 });

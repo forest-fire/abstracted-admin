@@ -9,6 +9,7 @@ import {
   IFirebaseAdminConfig
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
+import { debug } from "util";
 
 export type Snapshot = rtdb.IDataSnapshot;
 export type Query = rtdb.IQuery;
@@ -106,6 +107,12 @@ export class DB extends RealTimeDB {
       try {
         const { name } = config;
         const runningApps = new Set(firebase.apps.map(i => i.name));
+        debug(
+          `AbstractedAdmin: the DB "${name}" ` + runningApps.has(name)
+            ? "appears to be already connected"
+            : "has not yet been connected"
+        );
+
         this.app = runningApps.has(name)
           ? firebase.app()
           : firebase.initializeApp({
@@ -131,8 +138,10 @@ export class DB extends RealTimeDB {
             this._waitingForConnection = [];
             // call active listeners
             if (this.isConnected) {
+              debug(`AbstractedAdmin: connected to ${name}`);
               this._onConnected.forEach(listener => listener.cb(this));
             } else {
+              debug(`AbstractedAdmin: disconnected from ${name}`);
               this._onDisconnected.forEach(listener => listener.cb(this));
             }
           });
