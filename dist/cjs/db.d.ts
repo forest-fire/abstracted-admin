@@ -29,6 +29,8 @@ export declare class DB extends RealTimeDB {
     readonly database: rtdb.IFirebaseDatabase;
     readonly messaging: firebase.messaging.Messaging;
     readonly storage: firebase.storage.Storage;
+    goOnline(): void;
+    goOffline(): void;
     protected connectToFirebase(config: IFirebaseAdminConfigProps): Promise<void>;
     /**
      * listenForConnectionStatus
