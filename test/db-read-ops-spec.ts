@@ -54,7 +54,6 @@ describe("DB Read operations: ", () => {
     }
 
     const record = await db.getRecord<ITest>("/test-records/123456");
-    console.log(record);
 
     expect(record).to.be.an("object");
     expect(record.id).to.be.equal("123456");

@@ -1,20 +1,14 @@
-'use strict';
-
-Object.defineProperty(exports, '__esModule', { value: true });
-
-var events = require('events');
-var firebase = require('firebase-admin');
-var process = require('process');
-var abstractedFirebase = require('abstracted-firebase');
-var serializedQuery = require('serialized-query');
-
-class EventManager extends events.EventEmitter {
-    connection(state) {
-        this.emit("connection", state);
-    }
-}
-
-class DB extends abstractedFirebase.RealTimeDB {
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+const firebase = require("firebase-admin");
+const process = require("process");
+const abstracted_firebase_1 = require("abstracted-firebase");
+const EventManager_1 = require("./EventManager");
+const util_1 = require("./util");
+const zlib_1 = require("zlib");
+const util_2 = require("util");
+const gunzipAsync = util_2.promisify(zlib_1.gunzip);
+class DB extends abstracted_firebase_1.RealTimeDB {
     /**
      * Instantiates a DB and then waits for the connection
      * to finish before resolving the promise.
@@ -26,7 +20,7 @@ class DB extends abstractedFirebase.RealTimeDB {
     }
     constructor(config) {
         super();
-        this._eventManager = new EventManager();
+        this._eventManager = new EventManager_1.EventManager();
         const defaults = {
             name: "[DEFAULT]"
         };
@@ -38,38 +32,59 @@ class DB extends abstractedFirebase.RealTimeDB {
         }
         config = Object.assign({}, defaults, (config || {}));
         if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
-            const e = new Error(`You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor`);
+            const e = new Error(`You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor's configuration hash`);
             e.name = "AbstractedAdmin::InsufficientDetails";
             throw e;
         }
         this.initialize(config);
     }
     get auth() {
-        return abstractedFirebase._getFirebaseType(this, "auth");
+        return abstracted_firebase_1._getFirebaseType(this, "auth");
     }
     get firestore() {
-        return abstractedFirebase._getFirebaseType(this, "firestore");
+        return abstracted_firebase_1._getFirebaseType(this, "firestore");
     }
     get database() {
-        return abstractedFirebase._getFirebaseType(this, "database");
+        return abstracted_firebase_1._getFirebaseType(this, "database");
     }
     get messaging() {
-        return abstractedFirebase._getFirebaseType(this, "messaging");
+        return abstracted_firebase_1._getFirebaseType(this, "messaging");
     }
     get storage() {
-        return abstractedFirebase._getFirebaseType(this, "storage");
+        return abstracted_firebase_1._getFirebaseType(this, "storage");
+    }
+    goOnline() {
+        try {
+            this._database.goOnline();
+        }
+        catch (e) {
+            util_1.debug("There was an error going online:" + e);
+        }
+    }
+    goOffline() {
+        this._database.goOffline();
     }
     async connectToFirebase(config) {
         if (!this._isAuthorized) {
-            const serviceAcctEncoded = config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
+            const serviceAcctEncoded = process.env.FIREBASE_SERVICE_ACCOUNT_COMPRESSED
+                ? (await gunzipAsync(Buffer.from(config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"]))).toString("utf-8")
+                : config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
             if (!serviceAcctEncoded) {
-                throw new Error("Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key.");
+                throw new Error("Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key or pass it in explicitly as part of the config object.");
             }
-            const serviceAccount = JSON.parse(Buffer.from(process.env["FIREBASE_SERVICE_ACCOUNT"], "base64").toString());
+            if (!config.serviceAccount && !process.env["FIREBASE_SERVICE_ACCOUNT"]) {
+                throw new Error(`Service account was not defined in passed in configuration nor the FIREBASE_SERVICE_ACCOUNT environment variable.`);
+            }
+            const serviceAccount = JSON.parse(Buffer.from(config.serviceAccount
+                ? config.serviceAccount
+                : process.env["FIREBASE_SERVICE_ACCOUNT"], "base64").toString());
             console.log(`Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`);
             try {
                 const { name } = config;
                 const runningApps = new Set(firebase.apps.map(i => i.name));
+                util_1.debug(`AbstractedAdmin: the DB "${name}" ` + runningApps.has(name)
+                    ? "appears to be already connected"
+                    : "has not yet been connected");
                 this.app = runningApps.has(name)
                     ? firebase.app()
                     : firebase.initializeApp({
@@ -80,20 +95,20 @@ class DB extends abstractedFirebase.RealTimeDB {
                 this._database = firebase.database();
                 this.enableDatabaseLogging = firebase.database.enableLogging.bind(firebase.database);
                 this.app = firebase;
-                firebase.database().goOnline();
-                new EventManager().connection(true);
-                firebase.database()
-                    .ref(".info/connected")
-                    .on("value", snap => {
+                this.goOnline();
+                new EventManager_1.EventManager().connection(true);
+                this._database.ref(".info/connected").on("value", snap => {
                     this._isConnected = snap.val();
                     // cycle through temporary clients
                     this._waitingForConnection.forEach(cb => cb());
                     this._waitingForConnection = [];
                     // call active listeners
                     if (this.isConnected) {
+                        util_1.debug(`AbstractedAdmin: connected to ${name}`);
                         this._onConnected.forEach(listener => listener.cb(this));
                     }
                     else {
+                        util_1.debug(`AbstractedAdmin: disconnected from ${name}`);
                         this._onDisconnected.forEach(listener => listener.cb(this));
                     }
                 });
@@ -132,9 +147,4 @@ class DB extends abstractedFirebase.RealTimeDB {
         });
     }
 }
-
-exports.RealTimeDB = abstractedFirebase.RealTimeDB;
-exports.FirebaseBoolean = abstractedFirebase.FirebaseBoolean;
-exports.SerializedQuery = serializedQuery.SerializedQuery;
 exports.DB = DB;
-//# sourceMappingURL=abstracted-admin.cjs.js.map

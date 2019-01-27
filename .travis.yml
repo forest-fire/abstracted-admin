@@ -3,4 +3,5 @@ node_js:
   - '10'
   - '8'
 script:
+  - npm i -g typescript ts-node
   - yarn test # build and test

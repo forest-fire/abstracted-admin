@@ -164,7 +164,7 @@ describe("Mocking", () => {
 });
 
 function addAnimals(db: DB, count: number) {
-  db.mock.addSchema("animal", animalMocker);
+  db.mock.addSchema("animal", animalMocker as any);
   db.mock.queueSchema("animal", count);
   db.mock.generate();
 }

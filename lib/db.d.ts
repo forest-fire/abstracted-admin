@@ -1,22 +1,32 @@
 import * as firebase from "firebase-admin";
 import { rtdb } from "firebase-api-surface";
-import { RealTimeDB } from "abstracted-firebase";
+import { RealTimeDB, IFirebaseAdminConfigProps, IFirebaseAdminConfig } from "abstracted-firebase";
+import { EventManager } from "./EventManager";
 export declare type Snapshot = rtdb.IDataSnapshot;
 export declare type Query = rtdb.IQuery;
 export declare type Reference = rtdb.IReference;
-export declare type DebuggingCallback = (message: string) => void;
-export interface IFirebaseConfig {
-    debugging?: boolean | DebuggingCallback;
-    mocking?: boolean;
-}
 export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
 }
 export declare class DB extends RealTimeDB {
-    auth: firebase.auth.Auth;
-    constructor(config?: IFirebaseConfig);
-    waitForConnection(): Promise<void | {}>;
-    readonly isConnected: boolean;
-    private connect;
+    static connect(config?: Partial<IFirebaseAdminConfig>): Promise<DB>;
+    protected _eventManager: EventManager;
+    protected _isAuthorized: boolean;
+    protected _storage: firebase.storage.Storage;
+    protected _database: rtdb.IFirebaseDatabase;
+    protected _firestore: firebase.firestore.Firestore;
+    protected _messaging: firebase.messaging.Messaging;
+    protected _auth: firebase.auth.Auth;
+    protected app: any;
+    constructor(config?: Partial<IFirebaseAdminConfig>);
+    readonly auth: firebase.auth.Auth;
+    readonly firestore: FirebaseFirestore.Firestore;
+    readonly database: rtdb.IFirebaseDatabase;
+    readonly messaging: firebase.messaging.Messaging;
+    readonly storage: firebase.storage.Storage;
+    goOnline(): void;
+    goOffline(): void;
+    protected connectToFirebase(config: IFirebaseAdminConfigProps): Promise<void>;
+    protected listenForConnectionStatus(): Promise<{}>;
 }
