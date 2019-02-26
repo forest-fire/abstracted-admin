@@ -1,7 +1,5 @@
 import * as firebase from "firebase-admin";
-import { rtdb } from "firebase-api-surface";
 import * as process from "process";
-import { Reference } from "firemock";
 import {
   RealTimeDB,
   _getFirebaseType,
@@ -14,9 +12,11 @@ import { gunzip } from "zlib";
 import { promisify } from "util";
 const gunzipAsync = promisify<Buffer, Buffer>(gunzip);
 
-export type Snapshot = rtdb.IDataSnapshot;
-export type Query = rtdb.IQuery;
-export type Reference = rtdb.IReference;
+export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
+export type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
+export type FirebaseMessaging = import("@firebase/messaging-types").FirebaseMessaging;
+export type FirebaseStorage = import("@firebase/storage-types").FirebaseStorage;
+export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 
 export interface IFirebaseListener {
   id: string;
@@ -36,11 +36,11 @@ export class DB extends RealTimeDB {
 
   protected _eventManager: EventManager;
   protected _isAuthorized: boolean;
-  protected _storage: firebase.storage.Storage;
-  protected _database: rtdb.IFirebaseDatabase;
-  protected _firestore: firebase.firestore.Firestore;
-  protected _messaging: firebase.messaging.Messaging;
-  protected _auth: firebase.auth.Auth;
+  protected _storage: FirebaseStorage;
+  protected _database: FirebaseDatabase;
+  protected _firestore: FirebaseFirestore;
+  protected _messaging: FirebaseMessaging;
+  protected _auth: FirebaseAuth;
   protected app: any;
 
   constructor(config?: Partial<IFirebaseAdminConfig>) {
@@ -76,20 +76,20 @@ export class DB extends RealTimeDB {
     return _getFirebaseType(this, "auth") as firebase.auth.Auth;
   }
 
-  public get firestore() {
-    return _getFirebaseType(this, "firestore") as firebase.firestore.Firestore;
+  public get firestore(): FirebaseFirestore {
+    return _getFirebaseType(this, "firestore");
   }
 
-  public get database() {
-    return _getFirebaseType(this, "database") as rtdb.IFirebaseDatabase;
+  public get database(): FirebaseDatabase {
+    return _getFirebaseType(this, "database");
   }
 
-  public get messaging() {
-    return _getFirebaseType(this, "messaging") as firebase.messaging.Messaging;
+  public get messaging(): FirebaseMessaging {
+    return _getFirebaseType(this, "messaging");
   }
 
-  public get storage() {
-    return _getFirebaseType(this, "storage") as firebase.storage.Storage;
+  public get storage(): FirebaseStorage {
+    return _getFirebaseType(this, "storage");
   }
 
   public goOnline() {
@@ -149,7 +149,7 @@ export class DB extends RealTimeDB {
               databaseURL: config.databaseUrl
             });
         this._isAuthorized = true;
-        this._database = firebase.database() as rtdb.IFirebaseDatabase;
+        this._database = firebase.database() as any;
         this.enableDatabaseLogging = firebase.database.enableLogging.bind(
           firebase.database
         );
