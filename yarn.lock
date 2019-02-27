@@ -457,6 +457,24 @@ abort-controller@^2.0.2:
   dependencies:
     event-target-shim "^5.0.0"
 
+abstracted-admin@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/abstracted-admin/-/abstracted-admin-0.15.1.tgz#6f894cfda16534ff302e757ac85fdab74182b668"
+  integrity sha512-RuxOsqOK8YlQZs1VopTLcBn0b0MCKVTx0r//kE5UqRq6bE20Ic623WLmqFVQVY/rbMiUd8DxUtx2O5oQm5a9hA==
+  dependencies:
+    "@firebase/auth-types" "^0.5.2"
+    "@firebase/database-types" "^0.3.5"
+    "@firebase/firestore-types" "^1.0.2"
+    "@firebase/messaging-types" "^0.2.5"
+    "@firebase/storage-types" "^0.2.5"
+    abstracted-firebase "^0.15.1"
+    common-types "^1.9.6"
+    firebase-admin "^6.1.0"
+    lodash.first "^3.0.0"
+    lodash.last "^3.0.0"
+    serialized-query "^0.4.5"
+    typed-conversions "^0.8.13"
+
 abstracted-firebase@^0.15.1:
   version "0.15.1"
   resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.15.1.tgz#6c58624de9f6c4dbc71db256a4720900eb37cf45"
