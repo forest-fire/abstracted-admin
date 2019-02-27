@@ -457,10 +457,10 @@ abort-controller@^2.0.2:
   dependencies:
     event-target-shim "^5.0.0"
 
-abstracted-firebase@^0.15.0:
-  version "0.15.0"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.15.0.tgz#6ec991ba64d8595285651087d668104d93673484"
-  integrity sha512-a7BvH8UEWEeOJhYp7cReXt3ZaLWeHmuVielnIopAPnE/nA5COU3dnkyM3BR8OJ4/kbU91OvxbWmmUIn1m0fnfA==
+abstracted-firebase@^0.15.1:
+  version "0.15.1"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.15.1.tgz#6c58624de9f6c4dbc71db256a4720900eb37cf45"
+  integrity sha512-yk3I7awrQuiGdoYsQGFfXG1nV76hvYCbICw5vzFod5cyxLMMkRle2FWwtoVBhFPuMoF3XTty7yE1I3EYwy0gBg==
   dependencies:
     "@firebase/database-types" "^0.3.5"
     common-types "^1.9.6"

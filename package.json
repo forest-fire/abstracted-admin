@@ -34,7 +34,7 @@
     "@firebase/firestore-types": "^1.0.2",
     "@firebase/messaging-types": "^0.2.5",
     "@firebase/storage-types": "^0.2.5",
-    "abstracted-firebase": "^0.15.0",
+    "abstracted-firebase": "^0.15.1",
     "common-types": "^1.9.6",
     "firebase-admin": "^6.1.0",
     "lodash.first": "^3.0.0",
