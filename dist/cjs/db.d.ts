@@ -40,5 +40,5 @@ export declare class DB extends RealTimeDB {
      * we remain connected; this is unlike the client API
      * which provides an endpoint to lookup
      */
-    protected listenForConnectionStatus(): Promise<{}>;
+    protected listenForConnectionStatus(): void;
 }

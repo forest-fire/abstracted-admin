@@ -95,21 +95,6 @@ export class DB extends RealTimeDB {
                 this.app = firebase;
                 this.goOnline();
                 new EventManager().connection(true);
-                this._database.ref(".info/connected").on("value", snap => {
-                    this._isConnected = snap.val();
-                    // cycle through temporary clients
-                    this._waitingForConnection.forEach(cb => cb());
-                    this._waitingForConnection = [];
-                    // call active listeners
-                    if (this.isConnected) {
-                        debug(`AbstractedAdmin: connected to ${name}`);
-                        this._onConnected.forEach(listener => listener.cb(this));
-                    }
-                    else {
-                        debug(`AbstractedAdmin: disconnected from ${name}`);
-                        this._onDisconnected.forEach(listener => listener.cb(this));
-                    }
-                });
             }
             catch (err) {
                 if (err.message.indexOf("The default Firebase app already exists.") !== -1) {
@@ -136,12 +121,8 @@ export class DB extends RealTimeDB {
      * we remain connected; this is unlike the client API
      * which provides an endpoint to lookup
      */
-    async listenForConnectionStatus() {
-        return new Promise(resolve => {
-            const cb = () => {
-                resolve();
-            };
-            this._waitingForConnection.push(cb);
-        });
+    listenForConnectionStatus() {
+        this._isConnected = true;
+        this._eventManager.connection(true);
     }
 }
