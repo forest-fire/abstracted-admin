@@ -6,11 +6,11 @@ const expect = chai.expect;
 helpers.setupEnv();
 
 describe("Debugging: ", () => {
-  it('debugging set to "true" results in logging to STDOUT', async () => {
+  it.only('debugging set to "true" results in logging to STDOUT', async () => {
     const restore = helpers.captureStdout();
     const db = new DB({ debugging: true });
     await db.waitForConnection();
-    db.getValue("foo");
+    await db.getValue("foo");
     const output: string[] = restore();
     expect(output).to.be.an("array");
 
