@@ -3736,13 +3736,21 @@ type-detect@^4.0.0, type-detect@^4.0.5:
   resolved "https://registry.yarnpkg.com/type-detect/-/type-detect-4.0.8.tgz#7646fb5f18871cfbb7749e69bd39a6388eb7450c"
   integrity sha512-0fr/mIH1dlO+x7TlcMy+bIDqKPsw/70tVyeHW787goQjhmqaZe10uwLujubK9q9Lg6Fiho1KUKDYz0Z7k7g5/g==
 
-typed-conversions@^0.8.13, typed-conversions@^0.8.9:
+typed-conversions@^0.8.9:
   version "0.8.13"
   resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.8.13.tgz#715772bf7bb51758767560989a0b2fb6579f884c"
   integrity sha512-QScfNw4FS7H5qsleIWCWnyrnstpnb2B8tmS2OUDFPCFrdGEfR3HwEQ47l6I/j8FJbnkDJV863uIHE1fGBe6QQA==
   dependencies:
     common-types "^1.7.36"
     lodash.get "^4.4.2"
+
+typed-conversions@^0.9.6:
+  version "0.9.6"
+  resolved "https://registry.yarnpkg.com/typed-conversions/-/typed-conversions-0.9.6.tgz#47e357dc7d08ef614b9e66adb90f0e9f15d1f12c"
+  integrity sha512-E6seGEXXG0OEGt755sj/8vyboPF4iKZwthx8/iUA2hrfQZ4NuCE2ikRt//ryXH6ljh2Vl7wCSFQw3XukyOJVTg==
+  dependencies:
+    common-types "^1.7.36"
+    lodash "^4.17.11"
 
 typedarray@^0.0.6:
   version "0.0.6"
