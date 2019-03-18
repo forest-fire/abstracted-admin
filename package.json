@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.16.2",
+  "version": "0.16.3",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -29,18 +29,18 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "@firebase/auth-types": "^0.5.3",
-    "@firebase/database-types": "^0.3.6",
-    "@firebase/firestore-types": "^1.0.3",
-    "@firebase/messaging-types": "^0.2.6",
-    "@firebase/storage-types": "^0.2.6",
-    "abstracted-firebase": "^0.16.0",
+    "@firebase/auth-types": "^0.5.4",
+    "@firebase/database-types": "^0.3.7",
+    "@firebase/firestore-types": "^1.1.0",
+    "@firebase/messaging-types": "^0.2.7",
+    "@firebase/storage-types": "^0.2.7",
+    "abstracted-firebase": "^0.16.2",
     "common-types": "^1.9.7",
     "firebase-admin": "^7.0.0",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "serialized-query": "^0.5.0",
-    "typed-conversions": "^0.9.6"
+    "typed-conversions": "^0.10.1"
   },
   "peerDependencies": {
     "faker": "^4.1.0",
@@ -68,8 +68,8 @@
     "rimraf": "^2.6.3",
     "rollup": "^1.2.3",
     "test-console": "^1.1.0",
-    "ts-node": "^8.0.2",
-    "tslint": "^5.13.0",
+    "ts-node": "^8.0.3",
+    "tslint": "^5.14.0",
     "typescript": "^3.3.3"
   },
   "engines": {
