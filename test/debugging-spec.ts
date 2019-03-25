@@ -6,7 +6,7 @@ const expect = chai.expect;
 helpers.setupEnv();
 
 describe("Debugging: ", () => {
-  it.only('debugging set to "true" results in logging to STDOUT', async () => {
+  it('debugging set to "true" results in logging to STDOUT', async () => {
     const restore = helpers.captureStdout();
     const db = new DB({ debugging: true });
     await db.waitForConnection();

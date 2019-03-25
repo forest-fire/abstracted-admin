@@ -12,15 +12,20 @@ interface IPerson {
   age: number;
 }
 
-describe("Query based Read ops:", () => {
+describe("Query based Read ops:", async () => {
   helpers.setupEnv();
-  const db = new DB({ mocking: true });
-  const personMockGenerator: SchemaCallback = h => () => ({
-    name: h.faker.name.firstName() + " " + h.faker.name.lastName(),
-    age: h.faker.random.number({ min: 10, max: 99 })
-  });
+  let db: DB;
   before(async () => {
-    db.mock.addSchema("person", personMockGenerator as any);
+    db = await DB.connect({ mocking: true });
+    const personMockGenerator: SchemaCallback = h => () => {
+      console.log("CONTEXT", h);
+
+      return {
+        name: h.faker.name.firstName() + " " + h.faker.name.lastName(),
+        age: h.faker.random.number({ min: 10, max: 99 })
+      };
+    };
+    db.mock.addSchema("person", personMockGenerator);
     db.mock.queueSchema("person", 20);
     db.mock.queueSchema("person", 5, { age: 100 });
     db.mock.queueSchema("person", 5, { age: 1 });
