@@ -12,18 +12,18 @@ const animalMocker: SchemaCallback = h => () => ({
   age: h.faker.random.number({ min: 1, max: 15 })
 });
 
-describe("Mocking", () => {
+describe("Mocking", async () => {
   it("ref() returns a mock reference", async () => {
     const db = new DB();
     await db.waitForConnection();
     expect(db.ref("foo")).to.have.property("once");
-    const mockDb = new DB({ mocking: true });
+    const mockDb = await DB.connect({ mocking: true });
     await mockDb.waitForConnection();
     expect(mockDb.ref("foo")).to.have.property("once");
   });
 
   it("getSnapshot() returns a mock snapshot", async () => {
-    const db = new DB({ mocking: true });
+    const db = await DB.connect({ mocking: true });
     await db.waitForConnection();
     addAnimals(db, 10);
     const animals = await db.getSnapshot("/animals");
@@ -34,7 +34,7 @@ describe("Mocking", () => {
   });
 
   it("getValue() returns a value from mock DB", async () => {
-    const db = new DB({ mocking: true });
+    const db = await DB.connect({ mocking: true });
     await db.waitForConnection();
     addAnimals(db, 10);
     const animals = await db.getValue("/animals");
@@ -46,8 +46,7 @@ describe("Mocking", () => {
   });
 
   it("getRecord() returns a record from mock DB", async () => {
-    const db = new DB({ mocking: true });
-    await db.waitForConnection();
+    const db = await DB.connect({ mocking: true });
     addAnimals(db, 10);
     const firstKey = helpers.firstKey(db.mock.db.animals);
     const animal = await db.getRecord(`/animals/${firstKey}`);
@@ -58,8 +57,7 @@ describe("Mocking", () => {
   });
 
   it("getRecord() returns a record from mock DB with bespoke id prop", async () => {
-    const db = new DB({ mocking: true });
-    await db.waitForConnection();
+    const db = await DB.connect({ mocking: true });
     addAnimals(db, 10);
     const firstKey = helpers.firstKey(db.mock.db.animals);
     const animal = await db.getRecord(`/animals/${firstKey}`, "key");
@@ -71,8 +69,7 @@ describe("Mocking", () => {
   });
 
   it("getList() returns an array of records", async () => {
-    const db = new DB({ mocking: true });
-    await db.waitForConnection();
+    const db = await DB.connect({ mocking: true });
     addAnimals(db, 10);
     const animals = await db.getList("/animals");
     expect(animals).to.be.an("array");
