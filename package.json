@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.25.0",
+  "version": "0.25.1",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -44,7 +44,7 @@
   },
   "peerDependencies": {
     "faker": "^4.1.0",
-    "firemock": "^0.24.101"
+    "firemock": "^0.24.102"
   },
   "devDependencies": {
     "@types/chai": "^4.1.7",
