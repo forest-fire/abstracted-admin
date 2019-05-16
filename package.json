@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.25.2",
+  "version": "0.25.3",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -20,6 +20,7 @@
   "typings": "dist/esnext/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
+    "clean:nuclear": "rimraf lib node_modules && yarn cache clean && yarn && yarn upgrade",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "rm -rf lib && tslint src/**/*.ts && tsc -P tsconfig.esnext.json && tsc -P tsconfig.cjs.json",
     "test": "ts-node ./scripts/test.ts",
@@ -60,7 +61,7 @@
     "chalk": "^2.4.1",
     "chance": "^1.0.13",
     "coveralls": "^3.0.3",
-    "firemock": "^0.24.101",
+    "firemock": "^0.24.103",
     "js-yaml": "^3.13.1",
     "mocha": "^6.1.4",
     "nyc": "^13.3.0",
