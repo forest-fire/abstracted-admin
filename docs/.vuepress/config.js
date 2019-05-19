@@ -148,15 +148,19 @@ module.exports = {
     nav: [
       {
         text: "Read",
-        link: "/read-api/"
+        link: "/read/"
       },
       {
         text: "Write",
-        link: "/write-api/"
+        link: "/write/"
       },
       {
         text: "Query",
-        link: "/query-api/"
+        link: "/query/"
+      },
+      {
+        text: "Events",
+        link: "/events/"
       },
       {
         text: "Mock",
