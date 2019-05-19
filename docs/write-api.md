@@ -7,6 +7,8 @@ All of the write operations are effectively just simple shorthands that allow fo
 * `update`
 * `remove`
 
+## push( _obj_ )
+
 So, for instance, the **push** method would be used like so:
 
 ```js
