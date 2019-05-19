@@ -24,6 +24,8 @@
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "rm -rf lib && tslint src/**/*.ts && tsc -P tsconfig.esnext.json && tsc -P tsconfig.cjs.json",
     "test": "ts-node ./scripts/test.ts",
+    "docs": "vuepress dev docs",
+    "build:docs": "vuepress build docs",
     "coverage": "nyc --include='src/**/*.ts' --reporter=text --reporter=html --reporter=lcov mocha --compilers ts:ts-node/register --recursive 'test/**/*.test.ts'",
     "watch": "npm run build -- --watch",
     "deploy": "ts-node ./scripts/deploy.ts ",
@@ -70,7 +72,12 @@
     "test-console": "^1.1.0",
     "ts-node": "^8.1.0",
     "tslint": "^5.16.0",
-    "typescript": "^3.4.5"
+    "typescript": "^3.4.5",
+    "vuepress": "^1.0.0-alpha.48",
+    "@vuepress/plugin-back-to-top": "^1.0.0-alpha.48",
+    "@vuepress/plugin-last-updated": "^1.0.0-alpha.48",
+    "@vuepress/plugin-medium-zoom": "^1.0.0-alpha.48",
+    "@vuepress/plugin-pwa": "^1.0.0-alpha.48"
   },
   "engines": {
     "node": ">=4.0.0"
