@@ -1,2 +1,0 @@
-# Abstracted Admin: Examples
-

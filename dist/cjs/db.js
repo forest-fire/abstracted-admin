@@ -7,6 +7,7 @@ const EventManager_1 = require("./EventManager");
 const util_1 = require("./util");
 const zlib_1 = require("zlib");
 const util_2 = require("util");
+const AbstractedAdminError_1 = require("./errors/AbstractedAdminError");
 const gunzipAsync = util_2.promisify(zlib_1.gunzip);
 class DB extends abstracted_firebase_1.RealTimeDB {
     /**
@@ -32,9 +33,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         }
         config = Object.assign({}, defaults, (config || {}));
         if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
-            const e = new Error(`You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor's configuration hash`);
-            e.name = "AbstractedAdmin::InsufficientDetails";
-            throw e;
+            throw new AbstractedAdminError_1.AbstractedAdminError(`You must have both the "serviceAccount" and "databaseUrl" set if you are starting a non-mocking database. You can include these as ENV variables (FIREBASE_SERVICE_ACCOUNT and FIREBASE_DATA_ROOT_URL) or pass them with the constructor's configuration hash`, "abstracted-admin/bad-configuration");
         }
         this.initialize(config);
     }
