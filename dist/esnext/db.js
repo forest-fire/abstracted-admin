@@ -5,6 +5,7 @@ import { EventManager } from "./EventManager";
 import { debug } from "./util";
 import { gunzip } from "zlib";
 import { promisify } from "util";
+import { AbstractedAdminError } from "./errors/AbstractedAdminError";
 const gunzipAsync = promisify(gunzip);
 export class DB extends RealTimeDB {
     /**
@@ -30,9 +31,7 @@ export class DB extends RealTimeDB {
         }
         config = Object.assign({}, defaults, (config || {}));
         if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
-            const e = new Error(`You must have both the serviceAccount and databaseUrl set if you are starting a non-mocking database. You can include these as ENV variables or pass them with the constructor's configuration hash`);
-            e.name = "AbstractedAdmin::InsufficientDetails";
-            throw e;
+            throw new AbstractedAdminError(`You must have both the "serviceAccount" and "databaseUrl" set if you are starting a non-mocking database. You can include these as ENV variables (FIREBASE_SERVICE_ACCOUNT and FIREBASE_DATA_ROOT_URL) or pass them with the constructor's configuration hash`, "abstracted-admin/bad-configuration");
         }
         this.initialize(config);
     }

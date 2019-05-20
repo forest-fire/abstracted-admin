@@ -144,7 +144,9 @@ module.exports = {
     ]
   ],
   themeConfig: {
+    repo: "forest-fire/abstracted-admin",
     editLinks: true,
+    docsDir: "docs",
     nav: [
       {
         text: "Read",
@@ -166,22 +168,7 @@ module.exports = {
         text: "Mock",
         link: "/mocking/"
       }
-    ]
-    // sidebar: {
-    //   "/": [
-    //     {
-    //       title: "Abstracted Firebase",
-    //       children: [
-    //         "/modeling/",
-    //         "first-model",
-    //         "model-constraints",
-    //         "property-constraints",
-    //         "relationships",
-    //         "security-constraints",
-    //         "the-model-class"
-    //       ]
-    //     }
-    //   ]
-    // }
+    ],
+    sidebar: "auto"
   }
 };
