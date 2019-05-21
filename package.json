@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.26.0",
+  "version": "0.26.1",
   "description": "Helpful abstraction on the firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
