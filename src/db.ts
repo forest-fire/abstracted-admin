@@ -5,7 +5,9 @@ import {
   _getFirebaseType,
   IFirebaseAdminConfigProps,
   IFirebaseAdminConfig,
-  isMockConfig
+  isMockConfig,
+  IFirebaseConfig,
+  IFirebaseConfigMocked
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { debug } from "./util";
@@ -106,66 +108,76 @@ export class DB extends RealTimeDB {
     this._database.goOffline();
   }
 
-  protected async connectToFirebase(config: IFirebaseAdminConfigProps) {
-    if (!this._isAuthorized) {
-      const serviceAcctEncoded = process.env.FIREBASE_SERVICE_ACCOUNT_COMPRESSED
-        ? (await gunzipAsync(
-            Buffer.from(config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"])
-          )).toString("utf-8")
-        : config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
+  protected async connectToFirebase(config: IFirebaseConfig) {
+    if (isMockConfig(config)) {
+      // MOCK DB
+      config = config as IFirebaseConfigMocked;
+      await this.getFireMock({ db: config.mockData || {}, auth: config.mockAuth || {} });
+      this._isConnected = true;
+    } else {
+      config = config as IFirebaseAdminConfigProps;
+      if (!this._isAuthorized) {
+        const serviceAcctEncoded = process.env.FIREBASE_SERVICE_ACCOUNT_COMPRESSED
+          ? (await gunzipAsync(
+              Buffer.from(
+                config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"]
+              )
+            )).toString("utf-8")
+          : config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
 
-      if (!serviceAcctEncoded) {
-        throw new Error(
-          "Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key or pass it in explicitly as part of the config object."
-        );
-      }
-      if (!config.serviceAccount && !process.env["FIREBASE_SERVICE_ACCOUNT"]) {
-        throw new Error(
-          `Service account was not defined in passed in configuration nor the FIREBASE_SERVICE_ACCOUNT environment variable.`
-        );
-      }
+        if (!serviceAcctEncoded) {
+          throw new Error(
+            "Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key or pass it in explicitly as part of the config object."
+          );
+        }
+        if (!config.serviceAccount && !process.env["FIREBASE_SERVICE_ACCOUNT"]) {
+          throw new Error(
+            `Service account was not defined in passed in configuration nor the FIREBASE_SERVICE_ACCOUNT environment variable.`
+          );
+        }
 
-      const serviceAccount: firebase.ServiceAccount = JSON.parse(
-        Buffer.from(
-          config.serviceAccount
-            ? config.serviceAccount
-            : process.env["FIREBASE_SERVICE_ACCOUNT"],
-          "base64"
-        ).toString()
-      );
-      console.log(`Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`);
-
-      try {
-        const { name } = config;
-        const runningApps = new Set(firebase.apps.map(i => i.name));
-        debug(
-          `AbstractedAdmin: the DB "${name}" ` + runningApps.has(name)
-            ? "appears to be already connected"
-            : "has not yet been connected"
+        const serviceAccount: firebase.ServiceAccount = JSON.parse(
+          Buffer.from(
+            config.serviceAccount
+              ? config.serviceAccount
+              : process.env["FIREBASE_SERVICE_ACCOUNT"],
+            "base64"
+          ).toString()
         );
+        console.log(`Connecting to Firebase: [${process.env["FIREBASE_DATA_ROOT_URL"]}]`);
 
-        this.app = runningApps.has(name)
-          ? firebase.app()
-          : firebase.initializeApp({
-              credential: firebase.credential.cert(serviceAccount),
-              databaseURL: config.databaseUrl
-            });
-        this._isAuthorized = true;
-        this._database = firebase.database() as any;
-        this.enableDatabaseLogging = firebase.database.enableLogging.bind(
-          firebase.database
-        );
-        this.app = firebase;
-        this.goOnline();
-        new EventManager().connection(true);
-      } catch (err) {
-        if (err.message.indexOf("The default Firebase app already exists.") !== -1) {
-          console.warn("DB was already logged in, however flag had not been set!");
-          this._isConnected = true;
-        } else {
-          this._isConnected = false;
-          console.warn("Problem connecting to Firebase", err);
-          throw new Error(err);
+        try {
+          const { name } = config;
+          const runningApps = new Set(firebase.apps.map(i => i.name));
+          debug(
+            `AbstractedAdmin: the DB "${name}" ` + runningApps.has(name)
+              ? "appears to be already connected"
+              : "has not yet been connected"
+          );
+
+          this.app = runningApps.has(name)
+            ? firebase.app()
+            : firebase.initializeApp({
+                credential: firebase.credential.cert(serviceAccount),
+                databaseURL: config.databaseUrl
+              });
+          this._isAuthorized = true;
+          this._database = firebase.database() as any;
+          this.enableDatabaseLogging = firebase.database.enableLogging.bind(
+            firebase.database
+          );
+          this.app = firebase;
+          this.goOnline();
+          new EventManager().connection(true);
+        } catch (err) {
+          if (err.message.indexOf("The default Firebase app already exists.") !== -1) {
+            console.warn("DB was already logged in, however flag had not been set!");
+            this._isConnected = true;
+          } else {
+            this._isConnected = false;
+            console.warn("Problem connecting to Firebase", err);
+            throw new Error(err);
+          }
         }
       }
     }

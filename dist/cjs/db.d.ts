@@ -1,5 +1,5 @@
 import * as firebase from "firebase-admin";
-import { RealTimeDB, IFirebaseAdminConfigProps, IFirebaseAdminConfig } from "abstracted-firebase";
+import { RealTimeDB, IFirebaseAdminConfig, IFirebaseConfig } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
 export declare type FirebaseFirestore = import("@firebase/firestore-types").FirebaseFirestore;
@@ -15,8 +15,9 @@ export declare class DB extends RealTimeDB {
      * Instantiates a DB and then waits for the connection
      * to finish before resolving the promise.
      */
-    static connect(config?: Partial<IFirebaseAdminConfig>): Promise<DB>;
+    static connect(config?: IFirebaseAdminConfig): Promise<DB>;
     protected _eventManager: EventManager;
+    protected _clientType: "client" | "admin";
     protected _isAuthorized: boolean;
     protected _storage: FirebaseStorage;
     protected _database: FirebaseDatabase;
@@ -24,7 +25,7 @@ export declare class DB extends RealTimeDB {
     protected _messaging: FirebaseMessaging;
     protected _auth: FirebaseAuth;
     protected app: any;
-    constructor(config?: Partial<IFirebaseAdminConfig>);
+    constructor(config?: IFirebaseAdminConfig);
     readonly auth: firebase.auth.Auth;
     readonly firestore: FirebaseFirestore;
     readonly database: FirebaseDatabase;
@@ -32,7 +33,7 @@ export declare class DB extends RealTimeDB {
     readonly storage: FirebaseStorage;
     goOnline(): void;
     goOffline(): void;
-    protected connectToFirebase(config: IFirebaseAdminConfigProps): Promise<void>;
+    protected connectToFirebase(config: IFirebaseConfig): Promise<void>;
     /**
      * listenForConnectionStatus
      *
