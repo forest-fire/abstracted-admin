@@ -966,9 +966,9 @@
     "@types/lodash" "*"
 
 "@types/lodash@*":
-  version "4.14.129"
-  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.129.tgz#9aaca391db126802482655c48dd79a814488202f"
-  integrity sha512-oYaV0eSlnOacOr7i4X1FFdH8ttSlb57gu3I9MuStIv2CYkISEY84dNHYsC3bF6sNH7qYcu1BtVrCtQ8Q4KPTfQ==
+  version "4.14.130"
+  resolved "https://registry.yarnpkg.com/@types/lodash/-/lodash-4.14.130.tgz#04b3a690d5f4fc34579963c99adae067b8c8eb5a"
+  integrity sha512-H++wk0tbneBsRVfLkgAAd0IIpmpVr2Bj4T0HncoOsQf3/xrJexRYQK2Tqo0Ej3pFslM8GkMgdis9bu6xIb1ycw==
 
 "@types/long@^4.0.0":
   version "4.0.0"
@@ -1458,14 +1458,14 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-abstracted-firebase@^0.25.8:
-  version "0.25.8"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.25.8.tgz#474df957b8779b18b7ecfa232a59c0750106ab18"
-  integrity sha512-wk6CHJLjkWmTxEm9buvhghx87FaOwf1MeB5PII6mMXG96cssojot/4RePBGOQd5w0uGFI6cMIhSQC7VNINsIUA==
+abstracted-firebase@^0.26.1:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.26.1.tgz#73620cd76ca01889d46d12d396fc83775c161529"
+  integrity sha512-z40Fu+86b9LHijt1amnWMPoCORwQlfSUV7u9rKMll6CC8JJoroU3hukHY+Pfhl7zDtVpdCeoYUmJxSMdOiQECQ==
   dependencies:
     "@firebase/auth-types" "^0.7.0"
     "@firebase/database-types" "^0.4.0"
-    common-types "^1.10.20"
+    common-types "^1.10.22"
     firemock "^0.25.1"
     serialized-query "^0.6.0"
     typed-conversions "^0.10.1"
@@ -2478,10 +2478,10 @@ common-tags@^1.4.0:
   resolved "https://registry.yarnpkg.com/common-tags/-/common-tags-1.8.0.tgz#8e3153e542d4a39e9b10554434afaaf98956a937"
   integrity sha512-6P6g0uetGpW/sdyUy/iQQCbFF0kWVMSIVSyYz7Zgjcgh8mgw8PQzDNZeyZ5DQ2gM7LBoZPHmnjz8rUthkBG5tw==
 
-common-types@^1.10.20, common-types@^1.9.7:
-  version "1.10.20"
-  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.10.20.tgz#a27fbebacd5ae8f698133cfc51911032956199c7"
-  integrity sha512-QdGpQnermauNEth43IlvPy6dmCjbNSPt/q3F/ZT/sGuFzpLrChboToTI8pgHw/uTTYaDUKchNOKBs8yEEirGsw==
+common-types@^1.10.20, common-types@^1.10.22, common-types@^1.9.7:
+  version "1.10.22"
+  resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.10.22.tgz#3f28d8ef1ce492326a3c2f6b7d3b9062323aa269"
+  integrity sha512-UqHjHRru1NsL5jm5RWLz8LEvtnGoc8u7i8sP1KmxS8W9hG0L7XXd4J4eLDm8MVxnWvT9hjquCJhg64XZ1EnofQ==
 
 commondir@^1.0.1:
   version "1.0.1"
@@ -2649,9 +2649,9 @@ copy-webpack-plugin@^5.0.2:
     webpack-log "^2.0.0"
 
 core-js@^2.4.0, core-js@^2.6.5:
-  version "2.6.6"
-  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.6.tgz#00eb6d6bf815471cc16d8563edd7d38786dec50b"
-  integrity sha512-Mt/LaAym54NXnrjEMdo918cT2h70tqb/Yl7T3uPHQHRm5SxVoqlKmerUy4mL11k8saSBDWQ7ULIHxmeFyT3pfg==
+  version "2.6.7"
+  resolved "https://registry.yarnpkg.com/core-js/-/core-js-2.6.7.tgz#c2b19af9b50ec49c356ee087d6155632a889e968"
+  integrity sha512-ydmsQxDVH7lDpYoirXft8S83ddKKfdsrsmWhtyj7xafXVLbLhKOyfD7kAi2ueFfeP7m9rNavjW59O3hLLzzC5A==
 
 core-util-is@1.0.2, core-util-is@~1.0.0:
   version "1.0.2"
@@ -8832,9 +8832,9 @@ webpack-sources@^1.1.0, webpack-sources@^1.3.0:
     source-map "~0.6.1"
 
 webpack@^4.8.1:
-  version "4.31.0"
-  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.31.0.tgz#ae201d45f0571336e42d1c2b5c8ab56c4d3b0c63"
-  integrity sha512-n6RVO3X0LbbipoE62akME9K/JI7qYrwwufs20VvgNNpqUoH4860KkaxJTbGq5bgkVZF9FqyyTG/0WPLH3PVNJA==
+  version "4.32.0"
+  resolved "https://registry.yarnpkg.com/webpack/-/webpack-4.32.0.tgz#d8726fe73bb362e0e48171990f362df5e747747b"
+  integrity sha512-ofFq9jjAn4HRzlmkcZZrjijbRZcqDw+mM9KrjKd0r6lS0qxyZ7jzICzhphGafXL62dGdjP7TgMK9mZeMLUgZgw==
   dependencies:
     "@webassemblyjs/ast" "1.8.5"
     "@webassemblyjs/helper-module-context" "1.8.5"

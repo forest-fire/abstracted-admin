@@ -4,7 +4,8 @@ import {
   RealTimeDB,
   _getFirebaseType,
   IFirebaseAdminConfigProps,
-  IFirebaseAdminConfig
+  IFirebaseAdminConfig,
+  isMockConfig
 } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
 import { debug } from "./util";
@@ -29,13 +30,14 @@ export class DB extends RealTimeDB {
    * Instantiates a DB and then waits for the connection
    * to finish before resolving the promise.
    */
-  public static async connect(config?: Partial<IFirebaseAdminConfig>) {
+  public static async connect(config?: IFirebaseAdminConfig) {
     const obj = new DB(config);
     await obj.waitForConnection();
     return obj;
   }
 
   protected _eventManager: EventManager;
+  protected _clientType: "client" | "admin" = "admin";
   protected _isAuthorized: boolean;
   protected _storage: FirebaseStorage;
   protected _database: FirebaseDatabase;
@@ -44,10 +46,10 @@ export class DB extends RealTimeDB {
   protected _auth: FirebaseAuth;
   protected app: any;
 
-  constructor(config?: Partial<IFirebaseAdminConfig>) {
-    super();
+  constructor(config?: IFirebaseAdminConfig) {
+    super(config);
     this._eventManager = new EventManager();
-    const defaults: Partial<IFirebaseAdminConfig> = {
+    const defaults: IFirebaseAdminConfig = {
       name: "[DEFAULT]"
     };
     if (process.env["FIREBASE_SERVICE_ACCOUNT"]) {
@@ -62,7 +64,7 @@ export class DB extends RealTimeDB {
       ...(config || {})
     };
 
-    if (!config.mocking && (!config.serviceAccount || !config.databaseUrl)) {
+    if (!isMockConfig(config) && (!config.serviceAccount || !config.databaseUrl)) {
       throw new AbstractedAdminError(
         `You must have both the "serviceAccount" and "databaseUrl" set if you are starting a non-mocking database. You can include these as ENV variables (FIREBASE_SERVICE_ACCOUNT and FIREBASE_DATA_ROOT_URL) or pass them with the constructor's configuration hash`,
         "abstracted-admin/bad-configuration"
