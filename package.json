@@ -20,7 +20,7 @@
   "typings": "dist/esnext/index.d.ts",
   "scripts": {
     "clean": "rimraf lib",
-    "clean:nuclear": "rimraf lib node_modules && yarn cache clean && yarn && yarn upgrade",
+    "clean:nuclear": "rimraf lib node_modules && rm yarn.lock && yarn cache clean && yarn && yarn upgrade",
     "lint": "tslint --force --format verbose \"src/**/*.ts\"",
     "build": "rm -rf lib && tslint src/**/*.ts && tsc -P tsconfig.esnext.json && tsc -P tsconfig.cjs.json",
     "test": "ts-node ./scripts/test.ts",
