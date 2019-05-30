@@ -1462,15 +1462,15 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-abstracted-firebase@^0.27.5:
-  version "0.27.5"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.27.5.tgz#a45fe8a79832b14aa33f19ad20072815331e0fb6"
-  integrity sha512-2x/KJnHQou/5X76TrN/l1YGSTKGpFcHYRAY4sAwUkuImNfk5p0a4JSZhKoXWQH3dFQ3NtBsEpkNUGo/MY+l1GQ==
+abstracted-firebase@^0.27.6:
+  version "0.27.6"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.27.6.tgz#6e08208b01718041dcd57a8fcecf8584a6e77491"
+  integrity sha512-J5Cd0nfkVLzZ+qBkY9d+55BddfgEb19ekLs5udQGAgWFgbzMMpqsPZ/0sMRhkpHOddzUJVzr/OmVtOQKYm8quQ==
   dependencies:
     "@firebase/auth-types" "^0.7.0"
     "@firebase/database-types" "^0.4.0"
     common-types "^1.11.10"
-    serialized-query "^0.7.1"
+    serialized-query "^0.8.0"
     typed-conversions "^0.10.1"
 
 accepts@~1.3.4, accepts@~1.3.5, accepts@~1.3.7:
@@ -2447,7 +2447,7 @@ common-tags@^1.4.0:
   resolved "https://registry.yarnpkg.com/common-tags/-/common-tags-1.8.0.tgz#8e3153e542d4a39e9b10554434afaaf98956a937"
   integrity sha512-6P6g0uetGpW/sdyUy/iQQCbFF0kWVMSIVSyYz7Zgjcgh8mgw8PQzDNZeyZ5DQ2gM7LBoZPHmnjz8rUthkBG5tw==
 
-common-types@^1.10.26, common-types@^1.11.10, common-types@^1.9.7:
+common-types@^1.11.10, common-types@^1.9.7:
   version "1.11.10"
   resolved "https://registry.yarnpkg.com/common-types/-/common-types-1.11.10.tgz#d9f4ef1dcba50232ddb76aa9254da8a5efc31fd8"
   integrity sha512-CSD6GVggCQYZHnFteC2jy8xzwMxP4oMD4PjgLFMVWvmv5r66nWsXvYt9M9K6RigRgCAtUdR+dFbkEWPsWvWKIA==
@@ -7462,12 +7462,12 @@ serialize-javascript@^1.3.0, serialize-javascript@^1.7.0:
   resolved "https://registry.yarnpkg.com/serialize-javascript/-/serialize-javascript-1.7.0.tgz#d6e0dfb2a3832a8c94468e6eb1db97e55a192a65"
   integrity sha512-ke8UG8ulpFOxO8f8gRYabHQe/ZntKlcig2Mp+8+URDP1D8vJZ0KUt7LYo07q25Z/+JVSgpr/cui9PIp5H6/+nA==
 
-serialized-query@^0.7.1:
-  version "0.7.1"
-  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.7.1.tgz#c150602a73907011ec7f21b0ccbb472ba2c5040b"
-  integrity sha512-KFpC6YZ+Jy91iF5GUwT8MtgUo4/8aSHO2bYFn+YuDSsV2ltTnhM4IaIf3IXBZmIWWKEn2f4ex4OuwomHytYC1Q==
+serialized-query@^0.8.0:
+  version "0.8.0"
+  resolved "https://registry.yarnpkg.com/serialized-query/-/serialized-query-0.8.0.tgz#88603b5da609c6e91a4b9cb29290f0aa63cc23a2"
+  integrity sha512-PxK0OjBHQKTbSyCo677j1D4n5Hv4a3UMYpaBKxqOlIB034JUWKcX/2vH5j6Dd+PqCGf+0Crl159sZdUgHtLeeA==
   dependencies:
-    common-types "^1.10.26"
+    common-types "^1.11.10"
 
 serve-index@^1.9.1:
   version "1.9.1"
