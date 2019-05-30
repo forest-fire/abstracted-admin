@@ -1462,10 +1462,10 @@ abort-controller@^3.0.0:
   dependencies:
     event-target-shim "^5.0.0"
 
-abstracted-firebase@^0.27.6:
-  version "0.27.6"
-  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.27.6.tgz#6e08208b01718041dcd57a8fcecf8584a6e77491"
-  integrity sha512-J5Cd0nfkVLzZ+qBkY9d+55BddfgEb19ekLs5udQGAgWFgbzMMpqsPZ/0sMRhkpHOddzUJVzr/OmVtOQKYm8quQ==
+abstracted-firebase@^0.27.7:
+  version "0.27.7"
+  resolved "https://registry.yarnpkg.com/abstracted-firebase/-/abstracted-firebase-0.27.7.tgz#e053e3b40ff7b9d21c4bcb722b689fd78caa5905"
+  integrity sha512-r85LPnFpjYAx7bdhmi9sItu8tzD9g6lEdg+1cCrDUJMD3OvZ7A9gjW9+blna4b6xGKo4/78BN0NAw66qZXNpag==
   dependencies:
     "@firebase/auth-types" "^0.7.0"
     "@firebase/database-types" "^0.4.0"
@@ -3720,10 +3720,10 @@ firebase-key@^2.0.2:
   resolved "https://registry.yarnpkg.com/firebase-key/-/firebase-key-2.0.2.tgz#44ffdc460faeb774ef95e04a43027042974cfe5c"
   integrity sha512-gH0u6apANQsqHUqcf+Yd49VaUQyKNCLxofwYx0gqUGcymeLs5HWg/3tXroGheYYH8+ynxbrnP/Z4F/FEqNy9Ow==
 
-firemock@^0.27.2:
-  version "0.27.2"
-  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.27.2.tgz#ece1b7a2cead9de3ff5dac679a5c77dcaf38b669"
-  integrity sha512-rXasHkL/dUY7czV1bkgaOZ5Zn7GfvPwp0qVTwWn9yR4WQrONt1eWY8yrj6MnWNc4IGJ/2mcGeWbiuNoXAyj+wg==
+firemock@^0.27.5:
+  version "0.27.5"
+  resolved "https://registry.yarnpkg.com/firemock/-/firemock-0.27.5.tgz#eb089ddedd9f4c0a91b635b1fd5acb506a70b550"
+  integrity sha512-ZttaQu9Wn31JJCbE9W3z5xKeGix/umRJa0AVHtdIt5lGAmlHDJIy3Yg44EAibvorrj45uUeDuOE+FgocvG4hUQ==
   dependencies:
     "@firebase/app-types" "^0.4.0"
     "@firebase/auth-types" "^0.7.0"
