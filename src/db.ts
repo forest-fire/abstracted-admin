@@ -76,6 +76,13 @@ export class DB extends RealTimeDB {
     this.initialize(config);
   }
 
+  /**
+   * Provides access to the Firebase Admin Auth API.
+   *
+   * References:
+   * - [Introduction](https://firebase.google.com/docs/auth/admin)
+   * - [API](https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth)
+   */
   public get auth() {
     return _getFirebaseType(this, "auth") as firebase.auth.Auth;
   }
@@ -115,6 +122,13 @@ export class DB extends RealTimeDB {
       await this.getFireMock({ db: config.mockData || {}, auth: config.mockAuth || {} });
       this._isConnected = true;
     } else {
+      if (this._isConnected && this.app) {
+        // note: next two lines may not be necessary but better safe than sorry
+        this.goOnline();
+        new EventManager().connection(true);
+        return;
+      }
+
       config = config as IFirebaseAdminConfigProps;
       if (!this._isAuthorized) {
         const serviceAcctEncoded = process.env.FIREBASE_SERVICE_ACCOUNT_COMPRESSED
@@ -150,7 +164,7 @@ export class DB extends RealTimeDB {
           const { name } = config;
           const runningApps = new Set(firebase.apps.map(i => i.name));
           debug(
-            `AbstractedAdmin: the DB "${name}" ` + runningApps.has(name)
+            `abstracted-admin: the DB "${name}" ` + runningApps.has(name)
               ? "appears to be already connected"
               : "has not yet been connected"
           );

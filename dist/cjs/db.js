@@ -38,6 +38,13 @@ class DB extends abstracted_firebase_1.RealTimeDB {
         await obj.waitForConnection();
         return obj;
     }
+    /**
+     * Provides access to the Firebase Admin Auth API.
+     *
+     * References:
+     * - [Introduction](https://firebase.google.com/docs/auth/admin)
+     * - [API](https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth)
+     */
     get auth() {
         return abstracted_firebase_1._getFirebaseType(this, "auth");
     }
@@ -72,6 +79,12 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             this._isConnected = true;
         }
         else {
+            if (this._isConnected && this.app) {
+                // note: next two lines may not be necessary but better safe than sorry
+                this.goOnline();
+                new EventManager_1.EventManager().connection(true);
+                return;
+            }
             config = config;
             if (!this._isAuthorized) {
                 const serviceAcctEncoded = process.env.FIREBASE_SERVICE_ACCOUNT_COMPRESSED
@@ -90,7 +103,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
                 try {
                     const { name } = config;
                     const runningApps = new Set(firebase.apps.map(i => i.name));
-                    util_1.debug(`AbstractedAdmin: the DB "${name}" ` + runningApps.has(name)
+                    util_1.debug(`abstracted-admin: the DB "${name}" ` + runningApps.has(name)
                         ? "appears to be already connected"
                         : "has not yet been connected");
                     this.app = runningApps.has(name)
