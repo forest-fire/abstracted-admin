@@ -26,6 +26,13 @@ export declare class DB extends RealTimeDB {
     protected _auth: FirebaseAuth;
     protected app: any;
     constructor(config?: IFirebaseAdminConfig);
+    /**
+     * Provides access to the Firebase Admin Auth API.
+     *
+     * References:
+     * - [Introduction](https://firebase.google.com/docs/auth/admin)
+     * - [API](https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth)
+     */
     readonly auth: firebase.auth.Auth;
     readonly firestore: FirebaseFirestore;
     readonly database: FirebaseDatabase;
