@@ -113,7 +113,7 @@ describe("Write Operations", () => {
     await db.remove("scratch/removal/user");
     user = await db.getValue<INameAndAge>("scratch/removal/user");
     expect(user).to.equal(null);
-  });
+  }).timeout(5000);
 });
 
 describe("Other Operations", () => {

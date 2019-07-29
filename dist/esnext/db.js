@@ -22,7 +22,8 @@ export class DB extends RealTimeDB {
             defaults.databaseUrl = process.env["FIREBASE_DATA_ROOT_URL"];
         }
         config = Object.assign({}, defaults, (config || {}));
-        if (!isMockConfig(config) && (!config.serviceAccount || !config.databaseUrl)) {
+        if (!isMockConfig(config) &&
+            (!config.serviceAccount || !config.databaseUrl)) {
             throw new AbstractedAdminError(`You must have both the "serviceAccount" and "databaseUrl" set if you are starting a non-mocking database. You can include these as ENV variables (FIREBASE_SERVICE_ACCOUNT and FIREBASE_DATA_ROOT_URL) or pass them with the constructor's configuration hash`, "abstracted-admin/bad-configuration");
         }
         this.initialize(config);
@@ -46,18 +47,6 @@ export class DB extends RealTimeDB {
     get auth() {
         return _getFirebaseType(this, "auth");
     }
-    get firestore() {
-        return _getFirebaseType(this, "firestore");
-    }
-    get database() {
-        return _getFirebaseType(this, "database");
-    }
-    get messaging() {
-        return _getFirebaseType(this, "messaging");
-    }
-    get storage() {
-        return _getFirebaseType(this, "storage");
-    }
     goOnline() {
         try {
             this._database.goOnline();
@@ -73,7 +62,10 @@ export class DB extends RealTimeDB {
         if (isMockConfig(config)) {
             // MOCK DB
             config = config;
-            await this.getFireMock({ db: config.mockData || {}, auth: config.mockAuth || {} });
+            await this.getFireMock({
+                db: config.mockData || {},
+                auth: config.mockAuth || {}
+            });
             this._isConnected = true;
         }
         else {
@@ -85,13 +77,15 @@ export class DB extends RealTimeDB {
             }
             config = config;
             if (!this._isAuthorized) {
-                const serviceAcctEncoded = process.env.FIREBASE_SERVICE_ACCOUNT_COMPRESSED
+                const serviceAcctEncoded = process.env
+                    .FIREBASE_SERVICE_ACCOUNT_COMPRESSED
                     ? (await gunzipAsync(Buffer.from(config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"]))).toString("utf-8")
                     : config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
                 if (!serviceAcctEncoded) {
                     throw new Error("Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key or pass it in explicitly as part of the config object.");
                 }
-                if (!config.serviceAccount && !process.env["FIREBASE_SERVICE_ACCOUNT"]) {
+                if (!config.serviceAccount &&
+                    !process.env["FIREBASE_SERVICE_ACCOUNT"]) {
                     throw new Error(`Service account was not defined in passed in configuration nor the FIREBASE_SERVICE_ACCOUNT environment variable.`);
                 }
                 const serviceAccount = JSON.parse(Buffer.from(config.serviceAccount
@@ -118,7 +112,8 @@ export class DB extends RealTimeDB {
                     new EventManager().connection(true);
                 }
                 catch (err) {
-                    if (err.message.indexOf("The default Firebase app already exists.") !== -1) {
+                    if (err.message.indexOf("The default Firebase app already exists.") !==
+                        -1) {
                         console.warn("DB was already logged in, however flag had not been set!");
                         this._isConnected = true;
                     }
