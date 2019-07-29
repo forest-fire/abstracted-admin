@@ -7,7 +7,7 @@ export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;
 }
-export declare class DB extends RealTimeDB {
+export declare class DB extends RealTimeDB<firebase.auth.Auth> {
     /**
      * Instantiates a DB and then waits for the connection
      * to finish before resolving the promise.
@@ -27,7 +27,7 @@ export declare class DB extends RealTimeDB {
      * - [Introduction](https://firebase.google.com/docs/auth/admin)
      * - [API](https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth)
      */
-    readonly auth: firebase.auth.Auth;
+    auth(): Promise<firebase.auth.Auth>;
     goOnline(): void;
     goOffline(): void;
     protected connectToFirebase(config: IFirebaseConfig): Promise<void>;

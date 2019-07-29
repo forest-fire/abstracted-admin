@@ -44,7 +44,7 @@ export class DB extends RealTimeDB {
      * - [Introduction](https://firebase.google.com/docs/auth/admin)
      * - [API](https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth)
      */
-    get auth() {
+    async auth() {
         return _getFirebaseType(this, "auth");
     }
     goOnline() {

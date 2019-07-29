@@ -24,7 +24,7 @@ export interface IFirebaseListener {
   cb: (db: DB) => void;
 }
 
-export class DB extends RealTimeDB {
+export class DB extends RealTimeDB<firebase.auth.Auth> {
   /**
    * Instantiates a DB and then waits for the connection
    * to finish before resolving the promise.
@@ -80,7 +80,7 @@ export class DB extends RealTimeDB {
    * - [Introduction](https://firebase.google.com/docs/auth/admin)
    * - [API](https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth)
    */
-  public get auth() {
+  public async auth(): Promise<firebase.auth.Auth> {
     return _getFirebaseType(this, "auth") as firebase.auth.Auth;
   }
 

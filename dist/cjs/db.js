@@ -46,7 +46,7 @@ class DB extends abstracted_firebase_1.RealTimeDB {
      * - [Introduction](https://firebase.google.com/docs/auth/admin)
      * - [API](https://firebase.google.com/docs/reference/admin/node/admin.auth.Auth)
      */
-    get auth() {
+    async auth() {
         return abstracted_firebase_1._getFirebaseType(this, "auth");
     }
     goOnline() {
