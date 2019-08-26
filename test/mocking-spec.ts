@@ -1,10 +1,10 @@
 import { DB } from "../src/index";
 // tslint:disable-next-line:no-implicit-dependencies
 import * as chai from "chai";
-import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
 const expect = chai.expect;
 helpers.setupEnv();
+type SchemaCallback = import("firemock").SchemaCallback;
 
 const animalMocker: SchemaCallback = h => () => ({
   type: h.faker.random.arrayElement(["cat", "dog", "parrot"]),
