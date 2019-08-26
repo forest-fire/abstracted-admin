@@ -1,7 +1,6 @@
 // tslint:disable:no-implicit-dependencies
 import { DB } from "../src";
 import * as chai from "chai";
-import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
 
 const expect = chai.expect;

@@ -2,8 +2,8 @@
 import * as chai from "chai";
 import { DB } from "../src/index";
 import { SerializedQuery } from "serialized-query";
-import { SchemaCallback } from "firemock";
 import * as helpers from "./testing/helpers";
+type SchemaCallback = import("firemock").SchemaCallback;
 
 const expect = chai.expect;
 
