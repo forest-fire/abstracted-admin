@@ -21,7 +21,7 @@ export class DB extends RealTimeDB {
         if (process.env["FIREBASE_DATA_ROOT_URL"]) {
             defaults.databaseUrl = process.env["FIREBASE_DATA_ROOT_URL"];
         }
-        config = Object.assign({}, defaults, (config || {}));
+        config = Object.assign(Object.assign({}, defaults), (config || {}));
         if (!isMockConfig(config) &&
             (!config.serviceAccount || !config.databaseUrl)) {
             throw new AbstractedAdminError(`You must have both the "serviceAccount" and "databaseUrl" set if you are starting a non-mocking database. You can include these as ENV variables (FIREBASE_SERVICE_ACCOUNT and FIREBASE_DATA_ROOT_URL) or pass them with the constructor's configuration hash`, "abstracted-admin/bad-configuration");
