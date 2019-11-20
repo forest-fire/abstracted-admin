@@ -1,19 +1,19 @@
 // tslint:disable:no-implicit-dependencies
-import chalk from "chalk";
+import * as chalk from "chalk";
 import { exec } from "shelljs";
 import * as rm from "rimraf";
 import * as process from "process";
 import * as program from "commander";
 import "../test/testing/test-console";
-import { stdout, stderr } from "test-console";
-import { execSync } from "child_process";
 
 function getScope(files: string): string {
   let fileScope: string;
 
   if (!files || files === "all") {
     console.log(
-      chalk.white("no specific files specified so all files being tested, use -h for more help")
+      chalk.white(
+        "no specific files specified so all files being tested, use -h for more help"
+      )
     );
     fileScope = "--recursive test/**/*-spec.ts";
   } else {
@@ -23,7 +23,11 @@ function getScope(files: string): string {
     fileScope = prefix + files + postfix + ".ts";
   }
 
-  console.log(chalk.green(`${chalk.bold("mocha")} --compilers ts:ts-node/register  ${fileScope}`));
+  console.log(
+    chalk.green(
+      `${chalk.bold("mocha")} --compilers ts:ts-node/register  ${fileScope}`
+    )
+  );
 
   return fileScope;
 }
@@ -58,7 +62,12 @@ if (process.argv.length === 2) {
 
 program
   .arguments("[files]")
-  .option("-s, --stage [env]", "Environment to use", /^(dev|test|stage|prod)^/, "test")
+  .option(
+    "-s, --stage [env]",
+    "Environment to use",
+    /^(dev|test|stage|prod)^/,
+    "test"
+  )
   .option(
     "-f, --files",
     "an alternative syntax to just specifying files as first argument on command line"

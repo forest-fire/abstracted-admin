@@ -117,11 +117,14 @@ export class DB extends RealTimeDB<firebase.auth.Auth> {
       if (!this._isAuthorized) {
         const serviceAcctEncoded = process.env
           .FIREBASE_SERVICE_ACCOUNT_COMPRESSED
-          ? (await gunzipAsync(
-              Buffer.from(
-                config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"]
+          ? (
+              await gunzipAsync(
+                Buffer.from(
+                  config.serviceAccount ||
+                    process.env["FIREBASE_SERVICE_ACCOUNT"]
+                )
               )
-            )).toString("utf-8")
+            ).toString("utf-8")
           : config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
 
         if (!serviceAcctEncoded) {
