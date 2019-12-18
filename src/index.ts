@@ -1,9 +1,7 @@
 export { SerializedQuery } from "serialized-query";
-export { DB, IFirebaseListener } from "./db";
+export { DB, IFirebaseListener, FirebaseDatabase, FirebaseAuth } from "./db";
 export {
   RealTimeDB,
   FirebaseBoolean,
-  IFirebaseConfig,
-  FirebaseDatabase,
-  FirebaseAuth
+  IFirebaseConfig
 } from "abstracted-firebase";

@@ -7,5 +7,3 @@ exports.DB = db_1.DB;
 var abstracted_firebase_1 = require("abstracted-firebase");
 exports.RealTimeDB = abstracted_firebase_1.RealTimeDB;
 exports.FirebaseBoolean = abstracted_firebase_1.FirebaseBoolean;
-exports.FirebaseDatabase = abstracted_firebase_1.FirebaseDatabase;
-exports.FirebaseAuth = abstracted_firebase_1.FirebaseAuth;

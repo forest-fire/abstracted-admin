@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.35.1",
+  "version": "0.36.0",
   "description": "Helpful abstraction on the Firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -33,17 +33,18 @@
     "watch:test": "npm run test -- --watch"
   },
   "dependencies": {
-    "@firebase/app": "0.4.24",
-    "abstracted-firebase": "^0.35.6",
+    "@firebase/app": "^0.5.0",
+    "@firebase/database-types": "^0.4.10",
+    "abstracted-firebase": "^0.36.0",
     "common-types": "^1.12.15",
-    "firebase-admin": "8.8.0",
+    "firebase-admin": "^8.8.0",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
-    "serialized-query": "^0.9.8",
+    "serialized-query": "^0.10.0",
     "typed-conversions": "^0.10.1"
   },
   "peerDependencies": {
-    "firemock": "^0.35.11"
+    "firemock": "^0.36.0"
   },
   "devDependencies": {
     "@types/chai": "^4.2.5",
@@ -53,7 +54,7 @@
     "@types/lodash.last": "^3.0.6",
     "@types/mocha": "^5.2.7",
     "@types/node": "^10.0.0",
-    "@types/rimraf": "^2.0.2",
+    "@types/rimraf": "^2.0.3",
     "@vuepress/plugin-back-to-top": "^1.2.0",
     "@vuepress/plugin-last-updated": "^1.2.0",
     "@vuepress/plugin-medium-zoom": "^1.2.0",
@@ -61,14 +62,14 @@
     "async-shelljs": "^0.1.4",
     "chai": "^4.2.0",
     "chalk": "3.0.0",
-    "firemock": "^0.35.11",
+    "firemock": "^0.36.0",
     "js-yaml": "^3.13.1",
-    "mocha": "^6.2.0",
+    "mocha": "^6.2.2",
     "rimraf": "^3.0.0",
     "test-console": "^1.1.0",
-    "ts-node": "^8.5.2",
+    "ts-node": "^8.5.4",
     "tslint": "^5.20.1",
-    "typescript": "^3.7.2",
+    "typescript": "^3.7.3",
     "vuepress": "^1.2.0"
   },
   "engines": {

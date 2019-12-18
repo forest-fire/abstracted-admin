@@ -16,8 +16,8 @@ import { promisify } from "util";
 import { AbstractedAdminError } from "./errors/AbstractedAdminError";
 const gunzipAsync = promisify<Buffer, Buffer>(gunzip);
 
-export type FirebaseDatabase = import("abstracted-firebase").FirebaseDatabase;
-export type FirebaseAuth = import("abstracted-firebase").FirebaseAuth;
+export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
+export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 
 export interface IFirebaseListener {
   id: string;
