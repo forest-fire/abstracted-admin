@@ -1,4 +1,3 @@
 export { SerializedQuery } from "serialized-query";
 export { DB } from "./db";
-export { RealTimeDB, FirebaseBoolean } from "abstracted-firebase";
-// export { DataSnapshot, Query, Reference } from "@firebase/database-types";
+export { RealTimeDB, FirebaseBoolean, FirebaseDatabase, FirebaseAuth } from "abstracted-firebase";
