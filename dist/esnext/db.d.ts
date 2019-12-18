@@ -1,8 +1,8 @@
 import * as firebase from "firebase-admin";
 import { RealTimeDB, IFirebaseAdminConfig, IFirebaseConfig } from "abstracted-firebase";
 import { EventManager } from "./EventManager";
-export declare type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
-export declare type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
+export declare type FirebaseDatabase = import("abstracted-firebase").FirebaseDatabase;
+export declare type FirebaseAuth = import("abstracted-firebase").FirebaseAuth;
 export interface IFirebaseListener {
     id: string;
     cb: (db: DB) => void;

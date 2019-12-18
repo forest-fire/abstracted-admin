@@ -81,7 +81,8 @@ class DB extends abstracted_firebase_1.RealTimeDB {
             if (!this._isAuthorized) {
                 const serviceAcctEncoded = process.env
                     .FIREBASE_SERVICE_ACCOUNT_COMPRESSED
-                    ? (await gunzipAsync(Buffer.from(config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"]))).toString("utf-8")
+                    ? (await gunzipAsync(Buffer.from(config.serviceAccount ||
+                        process.env["FIREBASE_SERVICE_ACCOUNT"]))).toString("utf-8")
                     : config.serviceAccount || process.env["FIREBASE_SERVICE_ACCOUNT"];
                 if (!serviceAcctEncoded) {
                     throw new Error("Problem loading the credientials for Firebase admin API. Please ensure FIREBASE_SERVICE_ACCOUNT is set with base64 encoded version of Firebase private key or pass it in explicitly as part of the config object.");
