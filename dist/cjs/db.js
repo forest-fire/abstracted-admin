@@ -12,6 +12,7 @@ const gunzipAsync = util_2.promisify(zlib_1.gunzip);
 class DB extends abstracted_firebase_1.RealTimeDB {
     constructor(config) {
         super(config);
+        this._isAdminApi = true;
         this._clientType = "admin";
         this._eventManager = new EventManager_1.EventManager();
         const defaults = {

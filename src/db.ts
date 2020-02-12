@@ -17,6 +17,7 @@ import { AbstractedAdminError } from "./errors/AbstractedAdminError";
 const gunzipAsync = promisify<Buffer, Buffer>(gunzip);
 
 export type FirebaseDatabase = import("@firebase/database-types").FirebaseDatabase;
+// tslint:disable-next-line: no-implicit-dependencies
 export type FirebaseAuth = import("@firebase/auth-types").FirebaseAuth;
 
 export interface IFirebaseListener {
@@ -25,6 +26,7 @@ export interface IFirebaseListener {
 }
 
 export class DB extends RealTimeDB<firebase.auth.Auth> {
+  protected _isAdminApi = true;
   /**
    * Instantiates a DB and then waits for the connection
    * to finish before resolving the promise.

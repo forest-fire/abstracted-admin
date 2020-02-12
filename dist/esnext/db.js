@@ -10,6 +10,7 @@ const gunzipAsync = promisify(gunzip);
 export class DB extends RealTimeDB {
     constructor(config) {
         super(config);
+        this._isAdminApi = true;
         this._clientType = "admin";
         this._eventManager = new EventManager();
         const defaults = {

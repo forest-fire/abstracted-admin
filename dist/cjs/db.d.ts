@@ -8,6 +8,7 @@ export interface IFirebaseListener {
     cb: (db: DB) => void;
 }
 export declare class DB extends RealTimeDB<firebase.auth.Auth> {
+    protected _isAdminApi: boolean;
     /**
      * Instantiates a DB and then waits for the connection
      * to finish before resolving the promise.
