@@ -1,6 +1,6 @@
 {
   "name": "abstracted-admin",
-  "version": "0.38.2",
+  "version": "0.38.3",
   "description": "Helpful abstraction on the Firebase admin API",
   "license": "MIT",
   "repository": "https://github.com/forest-fire/abstracted-admin",
@@ -35,16 +35,13 @@
   "dependencies": {
     "@firebase/app": "^0.6.2",
     "@firebase/database-types": "^0.5.0",
-    "abstracted-firebase": "^0.38.8",
-    "common-types": "^1.14.2",
-    "firebase-admin": "^8.10.0",
+    "abstracted-firebase": "^0.38.9",
+    "common-types": "^1.14.3",
+    "firebase-admin": "^8.11.0",
     "lodash.first": "^3.0.0",
     "lodash.last": "^3.0.0",
     "serialized-query": "^0.11.2",
     "typed-conversions": "^0.10.2"
-  },
-  "peerDependencies": {
-    "firemock": "^0.38.6"
   },
   "devDependencies": {
     "@types/chai": "^4.2.5",
@@ -62,7 +59,7 @@
     "async-shelljs": "^0.1.4",
     "chai": "^4.2.0",
     "chalk": "3.0.0",
-    "firemock": "^0.38.6",
+    "firemock": "^0.38.9",
     "js-yaml": "^3.13.1",
     "mocha": "^6.2.2",
     "rimraf": "^3.0.0",
